@@ -1,3 +1,5 @@
+# test content to ensure rails is able to work with render services
+
 class BirdsController < ApplicationController
 
   # GET /birds
