@@ -1,10 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
 
 puts "Seeding book test data 📔"
 
@@ -16,7 +9,7 @@ Book.create!(title: "Test Title 5", author: "Test Author 5", length: 500, genre:
 
 puts "Finished seeding book test data 📔✨"
 
-puts "Seeding user test data 📔"
+puts "Seeding user test data 👤"
 
 User.create!(username: "adam_user_test", password: "testing1", screenname: "Adam", avatar_img: "https://picsum.photos/200/300?blur=2")
 User.create!(username: "beth_user_test", password: "testing2", screenname: "Beth", avatar_img: "https://picsum.photos/200/300?blur=2")
@@ -24,4 +17,15 @@ User.create!(username: "cleo_user_test", password: "testing3", screenname: "Cleo
 User.create!(username: "david_user_test", password: "testing4", screenname: "David", avatar_img: "https://picsum.photos/200/300?blur=2")
 User.create!(username: "elaine_user_test", password: "testing5", screenname: "Elaine", avatar_img: "https://picsum.photos/200/300?blur=2")
 
-puts "Finished seeding user test data 📔✨"
+puts "Finished seeding user test data 👤✨"
+
+puts "Seeding collection test data 📚"
+
+user_ids = User.all.ids
+Collection.create!(name: "Test Collection 1", description: "test description of collection 1", user_id: user_ids.sample)
+Collection.create!(name: "Test Collection 2", description: "test description of collection 2", user_id: user_ids.sample)
+Collection.create!(name: "Test Collection 3", description: "test description of collection 3", user_id: user_ids.sample)
+Collection.create!(name: "Test Collection 4", description: "test description of collection 4", user_id: user_ids.sample)
+Collection.create!(name: "Test Collection 5", description: "test description of collection 5", user_id: user_ids.sample)
+
+puts "Finished seeding collection test data 📚✨"
