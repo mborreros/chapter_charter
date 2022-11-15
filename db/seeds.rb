@@ -29,3 +29,16 @@ Collection.create!(name: "Test Collection 4", description: "test description of 
 Collection.create!(name: "Test Collection 5", description: "test description of collection 5", user_id: user_ids.sample)
 
 puts "Finished seeding collection test data 📚✨"
+
+puts "Seeding collection entries test data 📋"
+
+book_ids = Book.all.ids
+collection_ids = Collection.all.ids
+
+CollectionEntry.create!(collection_id: collection_ids.sample, book_id: book_ids.sample)
+CollectionEntry.create!(collection_id: collection_ids.sample, book_id: book_ids.sample)
+CollectionEntry.create!(collection_id: collection_ids.sample, book_id: book_ids.sample)
+CollectionEntry.create!(collection_id: collection_ids.sample, book_id: book_ids.sample)
+CollectionEntry.create!(collection_id: collection_ids.sample, book_id: book_ids.sample)
+
+puts "Finished seeding collection entries test data 📋✨"
