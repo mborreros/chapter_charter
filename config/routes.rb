@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   resources :books, only: [:index, :show, :create, :destroy]
 
   resources :collections, only: [:index, :show, :create, :update, :destroy]
-
   resources :collection_entries, only: [:index, :show, :create, :update, :destroy]
+
+  resources :journeys, only: [:index, :show, :create, :update, :destroy]
 
 end

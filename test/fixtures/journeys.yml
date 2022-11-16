@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  book_id: 1
+  user_id: 1
+  start_date: 2022-11-16
+  end_date: 2022-11-16
+  completed: false
+
+two:
+  book_id: 1
+  user_id: 1
+  start_date: 2022-11-16
+  end_date: 2022-11-16
+  completed: false
