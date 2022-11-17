@@ -39,23 +39,23 @@ puts "Finished seeding collection entries test data 📋✨"
 
 puts "Seeding journey test data 🌐"
 
-random_date = Date.new(2022, rand(12), rand(27))
+random_date = Date.new(2022, 9, 27)
 completion_date = random_date.next_month
 
   # creating active journeys
-  Journey.create!(book_id: book_ids.sample, user_id: 1, start_date: Date.new(2022, 10, 01).to_fs(:db), end_date: nil, completed: false)
-  Journey.create!(book_id: book_ids.sample, user_id: 2, start_date: Date.new(2022, 10, 30).to_fs(:db), end_date: nil, completed: false)
-  Journey.create!(book_id: book_ids.sample, user_id: 3, start_date: Date.new(2022, 11, 01).to_fs(:db), end_date: nil, completed: false)
+  Journey.create!(book_id: book_ids.sample, user_id: 1, start_date: Date.new(2022, 10, 01).to_fs(:db), end_date: nil, manually_completed: false)
+  Journey.create!(book_id: book_ids.sample, user_id: 2, start_date: Date.new(2022, 10, 30).to_fs(:db), end_date: nil, manually_completed: false)
+  Journey.create!(book_id: book_ids.sample, user_id: 3, start_date: Date.new(2022, 11, 01).to_fs(:db), end_date: nil, manually_completed: false)
 
   # creating 2 completed journeys
-  Journey.create!(book_id: book_ids.sample, user_id: 4, start_date: random_date.to_fs(:db), end_date: completion_date.to_fs(:db), completed: true)
-  Journey.create!(book_id: book_ids.sample, user_id: 5, start_date: random_date.to_fs(:db), end_date: completion_date.to_fs(:db), completed: true)
+  Journey.create!(book_id: book_ids.sample, user_id: 4, start_date: random_date.to_fs(:db), end_date: completion_date.to_fs(:db), manually_completed: true)
+  Journey.create!(book_id: book_ids.sample, user_id: 5, start_date: random_date.to_fs(:db), end_date: completion_date.to_fs(:db), manually_completed: true)
 puts "Finished journey test data 🌐✨"
 
 puts "Seeding journey test data 📍"
 
   JourneyEntry.create!(journey_id: 1, date: Date.new(2022, 10, 03).to_fs(:db), progress: 10)
-  JourneyEntry.create!(journey_id: 1, date: Date.new(2022, 10, 04).to_fs(:db), progress: 20)
+  JourneyEntry.create!(journey_id: 1, date: Date.new(2022, 10, 04).to_fs(:db), progress: 25)
   JourneyEntry.create!(journey_id: 2, date: Date.new(2022, 11, 02).to_fs(:db), progress: 30)
   JourneyEntry.create!(journey_id: 3, date: Date.new(2022, 11, 05).to_fs(:db), progress: 40)
   JourneyEntry.create!(journey_id: 3, date: Date.new(2022, 11, 05).to_fs(:db), progress: 50)

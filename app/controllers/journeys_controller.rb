@@ -19,9 +19,16 @@ class JourneysController < ApplicationController
   end
 
   def update
-    journey = Journey.find(params[:id])
-    journey.update!(journey_params)
-    render json: journey, status: :ok
+    # if statement updates the Jouney to completed=true and fills in the end date based on the appropriate Journey Entry if that entry is progress=100
+    if params[:journey_entry_id] && JourneyEntry.find(params[:journey_entry_id]).progress == 100 
+      journey = Journey.find(params[:id])
+      completed_entry = JourneyEntry.find(params[:journey_entry_id])
+      journey.update!(end_date: completed_entry.date, completed: true)
+    else journey = Journey.find(params[:id])
+      journey.update!(journey_params)
+    end
+      render json: journey, status: :ok
+    
   end
 
   def destroy
@@ -33,7 +40,7 @@ class JourneysController < ApplicationController
   private
 
   def journey_params
-    params.permit(:book_id, :user_id, :start_date, :end_date, :completed)
+    params.permit(:book_id, :user_id, :start_date, :end_date, :manually_completed)
   end
 
   def render_unprocessable_entity_response(invalid)
