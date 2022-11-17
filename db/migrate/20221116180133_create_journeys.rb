@@ -5,7 +5,7 @@ class CreateJourneys < ActiveRecord::Migration[7.0]
       t.integer :user_id
       t.date :start_date
       t.date :end_date
-      t.boolean :manually_completed
+      t.boolean :completed
 
       t.timestamps
     end
