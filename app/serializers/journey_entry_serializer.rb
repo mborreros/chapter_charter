@@ -1,5 +1,5 @@
 class JourneyEntrySerializer < ActiveModel::Serializer
-  attributes :id, :journey_id, :date, :progress
+  attributes :id, :date, :progress
 
   belongs_to :journey
   has_one :user, through: :journey

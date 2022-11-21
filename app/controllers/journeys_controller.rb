@@ -19,16 +19,9 @@ class JourneysController < ApplicationController
   end
 
   def update
-    # if statement updates the Jouney to completed=true and fills in the end date based on the appropriate Journey Entry if that entry is progress=100
-    if params[:journey_entry_id] && JourneyEntry.find(params[:journey_entry_id]).progress == 100 
-      journey = Journey.find(params[:id])
-      completed_entry = JourneyEntry.find(params[:journey_entry_id])
-      journey.update!(end_date: completed_entry.date, completed: true)
-    else journey = Journey.find(params[:id])
-      journey.update!(journey_params)
-    end
-      render json: journey, status: :ok
-    
+    journey = Journey.find(params[:id])
+    journey.update!(journey_params)
+    render json: journey, status: :ok
   end
 
   def destroy

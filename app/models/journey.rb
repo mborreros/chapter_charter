@@ -14,10 +14,11 @@ class Journey < ApplicationRecord
 
   validate :is_user_already_reading, on: :create
 
+  private
+  
   # validates if a user is already reading a book, they cannot create another journey with that same book
   def is_user_already_reading
-    if User.find(user_id).books.ids.include? book_id || 
-      User.find(user_id).books.ids.each do |book|
+    if User.find(user_id).books.ids.include? book_id || User.find(user_id).books.ids.each do |book|
         User.find(user_id).journeys.find_by(book_id: book).manually_completed == false 
       end
       errors.add(:user, "is already reading this book right now")

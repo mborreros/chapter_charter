@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_17_191804) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_21_183808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_191804) do
     t.string "cover_img"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "challenges", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "user_id"
+    t.integer "goal_number"
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "goal_type"
+    t.string "category_identifier"
+    t.boolean "successful"
+    t.boolean "active", default: true
   end
 
   create_table "collection_entries", force: :cascade do |t|
