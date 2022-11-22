@@ -1,10 +1,15 @@
 class JourneyEntry < ApplicationRecord
 
   after_create :update_journey_completion
+  after_create :create_challenge_entries_for_duration_challenges
+  after_create :create_challenge_entries_for_author_interest_challenges
+  after_create :create_challenge_entries_for_genre_interest_challenges
+  after_create :create_challenge_entries_for_collection_interest_challenges
 
   belongs_to :journey
   has_one :user, through: :journey
   has_one :book, through: :journey
+  has_many :challenge_entries, dependent: :destroy
 
   validates :journey_id, presence: true
   validates :date, presence: true
@@ -32,4 +37,43 @@ class JourneyEntry < ApplicationRecord
     end
   end
 
+  def create_challenge_entries_for_duration_challenges
+    if self.progress == 100 && self.user.challenges.where(active: true, goal_type: "duration").count >0
+      self.user.challenges.where(active: true, goal_type: "duration").ids.each do |challenge_id|
+      ChallengeEntry.create!(book_id: self.book.id, challenge_id: challenge_id, journey_entry_id: self.id)
+      end
+    end
+  end
+
+  def create_challenge_entries_for_author_interest_challenges
+    if self.progress == 100 && self.user.challenges.where(active: true, goal_type: "interest", category: "author").count >0
+      self.user.challenges.where(active: true, goal_type: "interest", category: "author").pluck(:id, :category_identifier).each do |author_challenge|
+        if self.book.author == author_challenge[1] 
+          ChallengeEntry.create!(book_id: self.book.id, challenge_id: author_challenge[0], journey_entry_id: self.id)
+        end
+      end
+    end
+  end
+
+  def create_challenge_entries_for_genre_interest_challenges
+    if self.progress == 100 && self.user.challenges.where(active: true, goal_type: "interest", category: "genre").count >0
+      self.user.challenges.where(active: true, goal_type: "interest", category: "genre").pluck(:id, :category_identifier).each do |genre_challenge|
+        if self.book.genre == genre_challenge[1] 
+          ChallengeEntry.create!(book_id: self.book.id, challenge_id: genre_challenge[0], journey_entry_id: self.id)
+        end
+      end
+    end
+  end
+
+  def create_challenge_entries_for_collection_interest_challenges
+    if self.progress == 100 && self.user.challenges.where(active: true, goal_type: "interest", category: "collection_id").count >0
+      self.user.challenges.where(active: true, goal_type: "interest", category: "collection_id").pluck(:id, :category_identifier).each do |collection_challenge|
+        if CollectionEntry.where(book_id: self.book.id).pluck(:collection_id)[0] == collection_challenge[1]
+          ChallengeEntry.create!(book_id: self.book.id, challenge_id: collection_challenge[0], journey_entry_id: self.id)
+        end
+      end
+    end
+  end
+
 end
+

@@ -4,5 +4,6 @@ class UserSerializer < ActiveModel::Serializer
 
   has_many :collections
   has_many :journeys
+  has_many :challenges
   
 end

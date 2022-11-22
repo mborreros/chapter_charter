@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :journeys
   has_many :books, through: :journeys
   has_many :challenges
+  has_many :challenge_entries, through: :challenges
 
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true, uniqueness: true

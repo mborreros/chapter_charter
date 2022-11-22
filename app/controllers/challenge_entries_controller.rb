@@ -33,7 +33,7 @@ class ChallengeEntriesController < ApplicationController
   private
 
   def challenge_entry_params
-    params.permit(:book_id, :challenge_id)
+    params.permit(:book_id, :challenge_id, :journey_entry_id)
   end
 
   def render_not_found_response

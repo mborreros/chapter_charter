@@ -3,5 +3,6 @@ class ChallengeEntrySerializer < ActiveModel::Serializer
 
   belongs_to :book
   belongs_to :challenge
+  belongs_to :journey_entry
   has_one :user, through: :challenge
 end
