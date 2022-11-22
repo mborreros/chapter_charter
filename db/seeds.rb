@@ -93,3 +93,14 @@ Challenge.create!(name: "Test Challenge 6", description: "read 2 books from a pa
 Challenge.create!(name: "Test Challenge 7", description: "read 2 books from a particular collection with end date inactive", start_date: Date.new(2022, 10, 5).to_fs(:db), end_date: Date.new(2022, 11, 1).to_fs(:db), user_id: 5, goal_number: 2, goal_type: "interest", category: "collection_id", category_identifier: "4", active: false, successful: nil)
 
 puts "Finished challenge test data 🧩✨"
+
+
+puts "Seeding challenge entry test data 🔰✨"
+
+ChallengeEntry.create!(book_id: 2, challenge_id: 1)
+ChallengeEntry.create!(book_id: 4, challenge_id: 1)
+ChallengeEntry.create!(book_id: 1, challenge_id: 4)
+ChallengeEntry.create!(book_id: 5, challenge_id: 3)
+ChallengeEntry.create!(book_id: 3, challenge_id: 1)
+
+puts "Finished challenge entry test data 🔰✨"
