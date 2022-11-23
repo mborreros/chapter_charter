@@ -1,10 +1,12 @@
 class JourneyEntry < ApplicationRecord
 
   after_create :update_journey_completion
-  after_create :create_challenge_entries_for_duration_challenges
-  after_create :create_challenge_entries_for_author_interest_challenges
-  after_create :create_challenge_entries_for_genre_interest_challenges
-  after_create :create_challenge_entries_for_collection_interest_challenges
+  # after_create :create_challenge_entries_for_duration_challenges
+  # after_create :create_challenge_entries_for_author_interest_challenges
+  # after_create :create_challenge_entries_for_genre_interest_challenges
+  # after_create :create_challenge_entries_for_collection_interest_challenges
+
+  after_create :check_challenges
 
   belongs_to :journey
   has_one :user, through: :journey
@@ -37,40 +39,24 @@ class JourneyEntry < ApplicationRecord
     end
   end
 
-  def create_challenge_entries_for_duration_challenges
-    if self.progress == 100 && self.user.challenges.where(active: true, goal_type: "duration").count >0
-      self.user.challenges.where(active: true, goal_type: "duration").ids.each do |challenge_id|
-      ChallengeEntry.create!(book_id: self.book.id, challenge_id: challenge_id, journey_entry_id: self.id)
+  def check_challenges
+    @all_active_challenges = self.user.challenges.where(active: true)
+    if self.progress == 100 && @all_active_challenges.count >0
+      @all_active_challenges.each do |active_challenge|
+        create_appropriate_challenge_entries(active_challenge.id, active_challenge.goal_type, active_challenge.category, active_challenge.category_identifier)
       end
     end
   end
 
-  def create_challenge_entries_for_author_interest_challenges
-    if self.progress == 100 && self.user.challenges.where(active: true, goal_type: "interest", category: "author").count >0
-      self.user.challenges.where(active: true, goal_type: "interest", category: "author").pluck(:id, :category_identifier).each do |author_challenge|
-        if self.book.author == author_challenge[1] 
-          ChallengeEntry.create!(book_id: self.book.id, challenge_id: author_challenge[0], journey_entry_id: self.id)
-        end
-      end
-    end
-  end
-
-  def create_challenge_entries_for_genre_interest_challenges
-    if self.progress == 100 && self.user.challenges.where(active: true, goal_type: "interest", category: "genre").count >0
-      self.user.challenges.where(active: true, goal_type: "interest", category: "genre").pluck(:id, :category_identifier).each do |genre_challenge|
-        if self.book.genre == genre_challenge[1] 
-          ChallengeEntry.create!(book_id: self.book.id, challenge_id: genre_challenge[0], journey_entry_id: self.id)
-        end
-      end
-    end
-  end
-
-  def create_challenge_entries_for_collection_interest_challenges
-    if self.progress == 100 && self.user.challenges.where(active: true, goal_type: "interest", category: "collection_id").count >0
-      self.user.challenges.where(active: true, goal_type: "interest", category: "collection_id").pluck(:id, :category_identifier).each do |collection_challenge|
-        if CollectionEntry.where(book_id: self.book.id, collection_id: collection_challenge[1].to_i)
-          ChallengeEntry.create!(book_id: self.book.id, challenge_id: collection_challenge[0], journey_entry_id: self.id)
-        end
+  def create_appropriate_challenge_entries(challenge_id, goal_type, category = nil, category_identifier = nil)
+    if goal_type == "duration" || # duration challenge
+      (goal_type == "interest" && category == "author" && self.book.author == category_identifier) || # author challenge
+      (goal_type == "interest" && category == "genre" && self.book.genre == category_identifier) || # genre challenge 
+      (category == "collection_id" && CollectionEntry.where(book_id: self.book.id, collection_id: category_identifier.to_i).exists?) # collection challenge 
+      begin
+        ChallengeEntry.create!(book_id: self.book.id, challenge_id: challenge_id, journey_entry_id: self.id)
+      rescue
+        puts "One of the challenge entry's was unable to be created because it has already counted towards that challenge's progress, all other applicable challenge entries have been created and the challenge progress has been updated."
       end
     end
   end
