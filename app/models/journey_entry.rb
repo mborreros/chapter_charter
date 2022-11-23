@@ -68,12 +68,12 @@ class JourneyEntry < ApplicationRecord
   def create_challenge_entries_for_collection_interest_challenges
     if self.progress == 100 && self.user.challenges.where(active: true, goal_type: "interest", category: "collection_id").count >0
       self.user.challenges.where(active: true, goal_type: "interest", category: "collection_id").pluck(:id, :category_identifier).each do |collection_challenge|
-        if CollectionEntry.where(book_id: self.book.id).pluck(:collection_id)[0] == collection_challenge[1]
+        if CollectionEntry.where(book_id: self.book.id, collection_id: collection_challenge[1].to_i)
           ChallengeEntry.create!(book_id: self.book.id, challenge_id: collection_challenge[0], journey_entry_id: self.id)
         end
       end
     end
   end
-
+  
 end
 

@@ -1,7 +1,7 @@
 class Challenge < ApplicationRecord
 
   belongs_to :user
-  has_many :challenge_entries
+  has_many :challenge_entries, dependent: :destroy
   has_many :books, through: :challenge_entries
 
   validates :name, presence: true

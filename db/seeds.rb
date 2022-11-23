@@ -12,17 +12,19 @@ puts "Seeding user test data 👤"
   User.create!(username: "cleo_user_test", password: "testing3", screenname: "Cleo", avatar_img: "https://picsum.photos/200/300?blur=2")
   User.create!(username: "david_user_test", password: "testing4", screenname: "David", avatar_img: "https://picsum.photos/200/300?blur=2")
   User.create!(username: "elaine_user_test", password: "testing5", screenname: "Elaine", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "testing", password: "testing_password", screenname: "Test User", avatar_img: "https://picsum.photos/200/300?blur=2")
+
 puts "Finished seeding user test data 👤✨"
 
 puts "Seeding collection test data 📚"
 
 user_ids = User.all.ids
 
-  Collection.create!(name: "Test Collection 1", description: "test description of collection 1", user_id: user_ids.sample)
-  Collection.create!(name: "Test Collection 2", description: "test description of collection 2", user_id: user_ids.sample)
-  Collection.create!(name: "Test Collection 3", description: "test description of collection 3", user_id: user_ids.sample)
-  Collection.create!(name: "Test Collection 4", description: "test description of collection 4", user_id: user_ids.sample)
-  Collection.create!(name: "Test Collection 5", description: "test description of collection 5", user_id: user_ids.sample)
+  Collection.create!(name: "Test Collection 1", description: "test description of collection 1", user_id: 1)
+  Collection.create!(name: "Test Collection 2", description: "test description of collection 2", user_id: 2)
+  Collection.create!(name: "Test Collection 3", description: "test description of collection 3", user_id: 3)
+  Collection.create!(name: "Test Collection 4", description: "test description of collection 4", user_id: 4)
+  Collection.create!(name: "Test Collection 5", description: "test description of collection 5", user_id: 5)
 puts "Finished seeding collection test data 📚✨"
 
 puts "Seeding collection entries test data 📋"
@@ -50,6 +52,7 @@ completion_date = random_date.next_month
   # creating 2 completed journeys
   Journey.create!(book_id: book_ids.sample, user_id: 4, start_date: random_date.to_fs(:db), end_date: completion_date.to_fs(:db), manually_completed: true)
   Journey.create!(book_id: book_ids.sample, user_id: 5, start_date: random_date.to_fs(:db), end_date: completion_date.to_fs(:db), manually_completed: true)
+
   
 puts "Finished journey test data 🌐✨"
 
@@ -78,29 +81,34 @@ Challenge.create!(name: "Test Challenge 2", description: "read 5 books within a 
 Challenge.create!(name: "Test Challenge 3", description: "read 3 books by an author with no end date active", start_date: Date.new(2022, 9, 30).to_fs(:db), end_date: nil, user_id: 3, goal_number: 3, goal_type: "interest", category: "author", category_identifier: "Test Author 1", active: true, successful: nil)
 
 # read 2 books by an author with endate inactive
-Challenge.create!(name: "Test Challenge 3", description: "read 2 books by an author with endate inactive", start_date: Date.new(2022, 9, 30).to_fs(:db), end_date: Date.new(2022, 9, 30).to_fs(:db), user_id: 5, goal_number: 2, goal_type: "interest", category: "author", category_identifier: "Test Author 3", active: false, successful: nil)
+Challenge.create!(name: "Test Challenge 4", description: "read 2 books by an author with endate inactive", start_date: Date.new(2022, 9, 30).to_fs(:db), end_date: Date.new(2022, 9, 30).to_fs(:db), user_id: 5, goal_number: 2, goal_type: "interest", category: "author", category_identifier: "Test Author 3", active: false, successful: nil)
 
 # read 10 books within a particular genre with end date active
-Challenge.create!(name: "Test Challenge 4", description: "read 10 books within a particular genre with end date active", start_date: Date.new(2022, 8, 1).to_fs(:db), end_date: Date.new(2022, 12, 31).to_fs(:db), user_id: 4, goal_number: 10, goal_type: "interest", category: "genre", category_identifier: "test genre 4", active: true, successful: nil)
+Challenge.create!(name: "Test Challenge 5", description: "read 10 books within a particular genre with end date active", start_date: Date.new(2022, 8, 1).to_fs(:db), end_date: Date.new(2022, 12, 31).to_fs(:db), user_id: 4, goal_number: 10, goal_type: "interest", category: "genre", category_identifier: "test genre 4", active: true, successful: nil)
 
 # read 4 books within a particular genre with end date inactive
-Challenge.create!(name: "Test Challenge 5", description: "read 4 books within a particular genre with end date inactive", start_date: Date.new(2022, 8, 1).to_fs(:db), end_date: Date.new(2022, 11, 1).to_fs(:db), user_id: 4, goal_number: 4, goal_type: "interest", category: "genre", category_identifier: "test genre 3", active: false, successful: nil)
+Challenge.create!(name: "Test Challenge 6", description: "read 4 books within a particular genre with end date inactive", start_date: Date.new(2022, 8, 1).to_fs(:db), end_date: Date.new(2022, 11, 1).to_fs(:db), user_id: 4, goal_number: 4, goal_type: "interest", category: "genre", category_identifier: "test genre 3", active: false, successful: nil)
 
 # read 2 books from a particular collection without end date active
-Challenge.create!(name: "Test Challenge 6", description: "read 2 books from a particular collection without end date active", start_date: Date.new(2022, 10, 5).to_fs(:db), end_date: nil, user_id: 4, goal_number: 4, goal_type: "interest", category: "collection_id", category_identifier: "2", active: true, successful: nil)
+Challenge.create!(name: "Test Challenge 7", description: "read 2 books from a particular collection without end date active", start_date: Date.new(2022, 10, 5).to_fs(:db), end_date: nil, user_id: 4, goal_number: 4, goal_type: "interest", category: "collection_id", category_identifier: "2", active: true, successful: nil)
 
 # read 2 books from a particular collection with end date inactive
-Challenge.create!(name: "Test Challenge 7", description: "read 2 books from a particular collection with end date inactive", start_date: Date.new(2022, 10, 5).to_fs(:db), end_date: Date.new(2022, 11, 1).to_fs(:db), user_id: 5, goal_number: 2, goal_type: "interest", category: "collection_id", category_identifier: "4", active: false, successful: nil)
+Challenge.create!(name: "Test Challenge 8", description: "read 2 books from a particular collection with end date inactive", start_date: Date.new(2022, 10, 5).to_fs(:db), end_date: Date.new(2022, 11, 1).to_fs(:db), user_id: 5, goal_number: 2, goal_type: "interest", category: "collection_id", category_identifier: "4", active: false, successful: nil)
+
+
+# 
+# challenge for journey/challenge entry creation testing
+Challenge.create!(name: "Challenge", description: "read 10 books within a month, active, for test user 6", start_date: Date.new(2022, 11, 15).to_fs(:db), end_date: Date.new(2022, 12, 15).to_fs(:db), user_id: 6, goal_number: 10, goal_type: "duration", category: nil, category_identifier: nil, active: true, successful: nil)
 
 puts "Finished challenge test data 🧩✨"
 
 
 puts "Seeding challenge entry test data 🔰✨"
 
-ChallengeEntry.create!(book_id: 2, challenge_id: 1)
-ChallengeEntry.create!(book_id: 4, challenge_id: 1)
-ChallengeEntry.create!(book_id: 1, challenge_id: 4)
-ChallengeEntry.create!(book_id: 5, challenge_id: 3)
-ChallengeEntry.create!(book_id: 3, challenge_id: 1)
+# ChallengeEntry.create!(book_id: 2, challenge_id: 1)
+# ChallengeEntry.create!(book_id: 4, challenge_id: 1)
+# ChallengeEntry.create!(book_id: 1, challenge_id: 4)
+# ChallengeEntry.create!(book_id: 5, challenge_id: 3)
+# ChallengeEntry.create!(book_id: 3, challenge_id: 1)
 
 puts "Finished challenge entry test data 🔰✨"
