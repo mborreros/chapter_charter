@@ -1,11 +1,6 @@
 class JourneyEntry < ApplicationRecord
 
   after_create :update_journey_completion
-  # after_create :create_challenge_entries_for_duration_challenges
-  # after_create :create_challenge_entries_for_author_interest_challenges
-  # after_create :create_challenge_entries_for_genre_interest_challenges
-  # after_create :create_challenge_entries_for_collection_interest_challenges
-
   after_create :check_challenges
 
   belongs_to :journey
