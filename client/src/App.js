@@ -1,24 +1,42 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
+import { useState, useEffect } from "react";
+
+import Home from './home';
+import UserAuthForm from './user_auth_form';
+import Collections from './collections';
+import Journeys from './journeys';
+import Challenges from './challenges';
+import Statistics from './statistics';
+import { Routes, Route } from "react-router-dom";
+
 function App() {
+
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    fetch("/me").then((response) => {
+      if (response.ok) {
+        response.json().then((user) => setUser(user));
+      }
+    })
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      
+      {/* today's focus -> page for user login */}
+      <Route exact path="/" element={ <Home user={user} onLogout={setUser}/> } />
+      <Route exact path="/login" element={ <UserAuthForm onLogin={setUser} /> } />
+      <Route exact path="/signup" element={ <UserAuthForm  /> } />
+
+      {/* dummy pages */}
+      <Route path="/collections" element={ <Collections /> } />
+      <Route path="/journeys" element={ <Journeys /> } />
+      <Route path="/challenges" element={ <Challenges /> } />
+      <Route path="/statistics" element={ <Statistics /> } />
+    </Routes>
   );
 }
 

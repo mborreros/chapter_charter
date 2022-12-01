@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
-  namespace :api do
+  # handles api routes
+  scope "/api" do
     resources :users, only: [:index, :show, :create, :update, :destroy]
     resources :books, only: [:index, :show, :create, :destroy]
 
@@ -14,6 +15,11 @@ Rails.application.routes.draw do
     resources :challenge_entries, only: [:index, :show, :create, :update, :destroy]
   end
 
+  post "/login", to: "sessions#create"
+  get "/me", to: "users#show"
+  delete "/logout", to: "sessions#destroy"
+
+  # handles react routes unrelated to the backend
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html } 
   
 end

@@ -35,5 +35,11 @@ module ChapterCharter
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # configuring site cookies
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    # ensuring site cookies are protected against CSRF
+    config.action_dispatch.cookies_same_site_protection = :strict
   end
 end
