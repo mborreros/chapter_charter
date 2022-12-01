@@ -7,11 +7,11 @@ puts "Seeding book test data 📔"
 puts "Finished seeding book test data 📔✨"
 
 puts "Seeding user test data 👤"
-  User.create!(username: "adam_user_test", password: "testing1", screenname: "Adam", avatar_img: "https://picsum.photos/200/300?blur=2")
-  User.create!(username: "beth_user_test", password: "testing2", screenname: "Beth", avatar_img: "https://picsum.photos/200/300?blur=2")
-  User.create!(username: "cleo_user_test", password: "testing3", screenname: "Cleo", avatar_img: "https://picsum.photos/200/300?blur=2")
-  User.create!(username: "david_user_test", password: "testing4", screenname: "David", avatar_img: "https://picsum.photos/200/300?blur=2")
-  User.create!(username: "elaine_user_test", password: "testing5", screenname: "Elaine", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "adam_user_test", password_digest: BCrypt::Password.create("password"), screenname: "Adam", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "beth_user_test", password_digest: BCrypt::Password.create("password"), screenname: "Beth", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "cleo_user_test", password_digest: BCrypt::Password.create("password"), screenname: "Cleo", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "david_user_test", password_digest: BCrypt::Password.create("password"), screenname: "David", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "elaine_user_test", password_digest: BCrypt::Password.create("password"), screenname: "Elaine", avatar_img: "https://picsum.photos/200/300?blur=2")
 puts "Finished seeding user test data 👤✨"
 
 puts "Seeding collection test data 📚"

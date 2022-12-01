@@ -9,6 +9,8 @@ function Home( { user, onLogout } ) {
     }).then(() => onLogout())
   }
 
+  console.log(user)
+
   return(
     <>
       <h1>home page content</h1>
@@ -21,7 +23,7 @@ function Home( { user, onLogout } ) {
       </>
       :
       <>
-        <p>this is the home page for {user.screenname} now that they are logged in</p>
+        <p>this is the home page for <b>{user.username}</b> now that they are logged in</p>
         <Button onClick={handleUserLogout}>Logout</Button>
       </>
     } 

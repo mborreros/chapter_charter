@@ -16,7 +16,7 @@ function App() {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    fetch("/me").then((response) => {
+    fetch("/auth").then((response) => {
       if (response.ok) {
         response.json().then((user) => setUser(user));
       }
@@ -29,7 +29,7 @@ function App() {
       {/* today's focus -> page for user login */}
       <Route exact path="/" element={ <Home user={user} onLogout={setUser}/> } />
       <Route exact path="/login" element={ <UserAuthForm onLogin={setUser} /> } />
-      <Route exact path="/signup" element={ <UserAuthForm  /> } />
+      <Route exact path="/signup" element={ <UserAuthForm  onSignup={setUser} /> } />
 
       {/* dummy pages */}
       <Route path="/collections" element={ <Collections /> } />

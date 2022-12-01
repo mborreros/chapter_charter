@@ -71,6 +71,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    bcrypt (3.1.18)
     builder (3.2.4)
     case_transform (0.2)
       activesupport
@@ -168,6 +169,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  bcrypt
   debug
   pg (~> 1.1)
   pry

@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
 
   post "/login", to: "sessions#create"
-  get "/me", to: "users#show"
+  get "/auth", to: "users#show"
   delete "/logout", to: "sessions#destroy"
 
   # handles react routes unrelated to the backend
