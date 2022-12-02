@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.card.card-flush {
+  background-color: #F1416C;
+}
+
+.card.card-flush .bg-white {
+  width: 72%;
+}

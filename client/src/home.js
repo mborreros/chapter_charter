@@ -19,7 +19,7 @@ function Home( { user, onLogout } ) {
         <p>this is the page before the user logs into their account</p> 
           <Button as={Link} to="/login" >Login</Button>
           <br></br>
-          <Button as={Link} to="signup" >Sign up</Button>
+          <Button as={Link} to="/signup" >Sign up</Button>
       </>
       :
       <>
