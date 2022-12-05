@@ -4,7 +4,12 @@ class ChallengesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
   def index 
-    challenges = Challenge.all
+    if params[:user_id]
+      this_user = User.find(params[:user_id])
+      challenges = this_user.challenges
+    else 
+      challenges = Challenge.all
+    end
     render json: challenges, status: :ok
   end
 

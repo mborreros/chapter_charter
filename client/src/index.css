@@ -14,14 +14,62 @@ code {
     monospace;
 }
 
-.card.card-flush {
-  background-color: #F1416C;
+/* start card colors based on journey progress */
+.card.card-flush-in-progress {
+  background-color: #FFEEAF;
 }
 
-.card.card-flush .bg-white {
-  width: 72%;
+.card.card-flush-unstarted {
+  background-color: #AEC6CF;
 }
 
+.card.card-flush-completed {
+  background-color: #B2AC88;
+}
+/* end card colors based on journey progress */
+
+/* start card colors based on challenge progress */
+.card.card-flush-current {
+  background-color: #e49550b4;
+}
+
+.card.card-flush-finished {
+  background-color: #B2AC88;
+}
+/* end card colors based on challenge progress */
+
+.card.card-flush-collection {
+  background-color: #edadb6bd;
+}
+
+/* journey card book cover image sizing */
+.card-title.book-cover-image img {
+  width: 100px;
+}
+
+/* collection card book cover image sizing */
+.collections-card-body img {
+  width: 100px;
+}
+
+/* collection card cover image horizontal scrolling */
+.scroll-collection-books {
+  overflow: auto;
+  white-space: nowrap;
+  --kt-scrollbar-color: auto;
+}
+
+/* challenge card height */
+.challenge-card {
+  height: 100%;
+}
+
+/* makes card header and bodt flush with each other */
+.card .card-header {
+  border-bottom: none;
+}
+
+/* custom google font for site use, matches logo */
 .custom-cc-logo-font {
   font-family: 'Chewy', cursive;
   font-size: 18px;

@@ -13,6 +13,19 @@ Rails.application.routes.draw do
 
     resources :challenges, only: [:index, :show, :create, :update, :destroy]
     resources :challenge_entries, only: [:index, :show, :create, :update, :destroy]
+
+    resources :users, only: [:show] do
+      resources :journeys, only: [:index]
+    end
+
+    resources :users, only: [:show] do
+      resources :collections, only: [:index]
+    end
+
+    resources :users, only: [:show] do
+      resources :challenges, only: [:index]
+    end
+
   end
 
   post "/login", to: "sessions#create"

@@ -4,7 +4,12 @@ class JourneysController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
   def index
-    journeys = Journey.all
+    if params[:user_id]
+      this_user = User.find(params[:user_id])
+      journeys = this_user.journeys
+    else 
+      journeys = Journey.all
+    end
     render json: journeys, status: :ok
   end
 

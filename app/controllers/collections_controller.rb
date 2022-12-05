@@ -4,7 +4,12 @@ class CollectionsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
   def index
-    collections = Collection.all
+    if params[:user_id]
+      this_user = User.find(params[:user_id])
+      collections = this_user.collections
+    else
+      collections = Collection.all
+    end
     render json: collections, status: :ok
   end
 

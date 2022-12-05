@@ -5,7 +5,6 @@ import textLogo from "./imgs/logo_text.png";
 
 function Navigation({ currentUser }) {
 
-  console.log(currentUser)
 
   return(
     <div id="kt_app_header" className="app-header">

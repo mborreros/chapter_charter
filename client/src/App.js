@@ -1,10 +1,11 @@
+
 import { useState, useEffect } from "react";
 
 import Home from './home';
 import UserAuthForm from './user_auth_form';
-import Collections from './collections';
-import Journeys from './journeys';
-import Challenges from './challenges';
+// import Collections from './collections';
+import ListPage from './list_page';
+// import Challenges from './challenges';
 import Statistics from './statistics';
 import Navigation from './navigation';
 import Account from './user_account';
@@ -12,15 +13,48 @@ import { Routes, Route } from "react-router-dom";
 
 function App() {
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
+  const [journeys, setJourneys] = useState(null);
+  const [collections, setCollections] = useState(null);
+  const [challenges, setChallenges] = useState(null);
 
   useEffect(() => {
     fetch("/auth").then((response) => {
       if (response.ok) {
-        response.json().then((user) => setUser(user));
+        response.json().then((user) => setUser(user))
       }
     })
   }, []);
+
+  // get user's journeys
+  useEffect(() => {
+    if (user){
+      fetch(`api/users/${user?.id}/journeys`).then((response) => {
+        if (response.ok) {
+          response.json().then((user_journeys) => setJourneys(user_journeys))
+        }
+      })
+    }}, [user]);
+
+    // get user's collections
+    useEffect(() => {
+      if (user){
+        fetch(`api/users/${user?.id}/collections`).then((response) => {
+          if (response.ok) {
+            response.json().then((user_collections) => setCollections(user_collections))
+          }
+        })
+      }}, [user]);
+    
+    // get user's challenges
+    useEffect(() => {
+      if (user){
+        fetch(`api/users/${user?.id}/challenges`).then((response) => {
+          if (response.ok) {
+            response.json().then((user_challenges) => setChallenges(user_challenges))
+          }
+        })
+      }}, [user]);
 
   return (
     <>
@@ -33,9 +67,9 @@ function App() {
       <Route exact path="/signup" element={ <UserAuthForm  onSignup={setUser} /> } />
 
       {/* dummy pages */}
-      <Route path="/collections" element={ <Collections /> } />
-      <Route path="/journeys" element={ <Journeys /> } />
-      <Route path="/challenges" element={ <Challenges /> } />
+      <Route path="/collections" element={ <ListPage collections={collections} /> } />
+      <Route path="/journeys" element={ <ListPage journeys={journeys} /> } />
+      <Route path="/challenges" element={ <ListPage challenges={challenges}/> } />
       <Route path="/statistics" element={ <Statistics /> } />
       <Route path="/account" element={ <Account /> } />
     </Routes>
@@ -132,9 +166,9 @@ function App() {
       </div>
     </div>
   </div>
-</div>
+</div> */}
 
-<div id="kt_scrolltop" className="scrolltop">
+{/* <div id="kt_scrolltop" className="scrolltop">
   <span className="svg-icon">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect opacity="0.5" x="13" y="6" width="13" height="2" rx="1" transform="rotate(90 13 6)" fill="currentColor" />

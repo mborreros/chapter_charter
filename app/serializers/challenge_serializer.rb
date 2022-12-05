@@ -2,7 +2,7 @@ class ChallengeSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :description, :start_date, :end_date, :goal_number, :goal_type, :category, :category_identifier, :challenge_progress, :active, :successful
 
-  belongs_to :user
+  # belongs_to :user
   has_many :books
 
   # shows current progress on challenge based on how many challenge entries
