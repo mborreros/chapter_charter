@@ -1,6 +1,3 @@
-// import logo from './logo.svg';
-import './App.css';
-
 import { useState, useEffect } from "react";
 
 import Home from './home';
@@ -10,6 +7,7 @@ import Journeys from './journeys';
 import Challenges from './challenges';
 import Statistics from './statistics';
 import Navigation from './navigation';
+import Account from './user_account';
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -26,7 +24,7 @@ function App() {
 
   return (
     <>
-    <Navigation/>
+    <Navigation currentUser={user}/>
     <Routes>
       
       {/* today's focus -> page for user login */}
@@ -39,10 +37,11 @@ function App() {
       <Route path="/journeys" element={ <Journeys /> } />
       <Route path="/challenges" element={ <Challenges /> } />
       <Route path="/statistics" element={ <Statistics /> } />
+      <Route path="/account" element={ <Account /> } />
     </Routes>
 
 
-	<div className="d-flex flex-column flex-root app-root" id="kt_app_root">
+	{/* <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
   <div className="app-page flex-column flex-column-fluid" id="kt_app_page">
     
     <div className="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
@@ -144,7 +143,7 @@ function App() {
         fill="currentColor" />
     </svg>
   </span>
-</div>
+</div> */}
 </>
 
   );
