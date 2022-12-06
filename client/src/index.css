@@ -81,3 +81,19 @@ code {
   font-size: 18px;
   color: #B2AC88;
 }
+
+/* sized book cover search result image */
+.book-image-search-result {
+  width: 90px;
+}
+
+/* sets color on book search result cards */
+.search-book-card {
+  background-color: rgba(243, 246, 249);  
+}
+
+/* makes book search results scrollable */
+.book-results-list {
+  overflow: auto;
+  max-height: 325px;
+}

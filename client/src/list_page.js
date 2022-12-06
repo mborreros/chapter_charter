@@ -6,6 +6,7 @@ import CollectionCards from "./collection_cards";
 import ChallengeCards from "./challenge_cards";
 
 import CollectionModal from "./collection_modal";
+import JourneyModal from "./journey_modal";
 
 function ListPage({ journeys, collections, setCollections, challenges, user }) {
   // getting pathname to determine which page to show
@@ -64,6 +65,7 @@ function ListPage({ journeys, collections, setCollections, challenges, user }) {
           </div>
 
       { this_page_title === "Collections" ? <CollectionModal show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} user={user} /> : null } 
+      { this_page_title === "Journeys" ? <JourneyModal show={show} handleClose={handleClose} user={user} /> : null } 
 
       </div>
   );
