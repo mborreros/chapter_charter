@@ -3,8 +3,6 @@ function ChallengeCards({ challenges }){
 
 
     return (challenges?.map((challenge) => {
-
-    console.log(challenge.books.length)
       
     // establishes class to define card color based on journey progress
     let card_progress_color 
@@ -17,7 +15,7 @@ function ChallengeCards({ challenges }){
     
     return(
       <div className="col-md-4 mb-md-5 mb-xl-10" key={challenge.id}>
-        <div className={'card challenge-card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10 ' + card_progress_color}>
+        <div className={'card challenge-card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color}>
 
           {/* start challenge header content */}
           <div className="card-header pt-5 align-items-start">

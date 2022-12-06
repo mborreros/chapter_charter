@@ -1,11 +1,8 @@
-
 import { useState, useEffect } from "react";
 
 import Home from './home';
 import UserAuthForm from './user_auth_form';
-// import Collections from './collections';
 import ListPage from './list_page';
-// import Challenges from './challenges';
 import Statistics from './statistics';
 import Navigation from './navigation';
 import Account from './user_account';
@@ -67,7 +64,7 @@ function App() {
       <Route exact path="/signup" element={ <UserAuthForm  onSignup={setUser} /> } />
 
       {/* dummy pages */}
-      <Route path="/collections" element={ <ListPage collections={collections} /> } />
+      <Route path="/collections" element={ <ListPage collections={collections} setCollections={setCollections} user={user} /> } />
       <Route path="/journeys" element={ <ListPage journeys={journeys} /> } />
       <Route path="/challenges" element={ <ListPage challenges={challenges}/> } />
       <Route path="/statistics" element={ <Statistics /> } />

@@ -17,12 +17,10 @@ function UserAuthForm( { onLogin, onSignup } ) {
   function handleUserLogin(e){
     e.preventDefault()
 
-    // const user = { username, password }
-
     fetch("/login", {
       method: "POST",
       headers: { "Content-Type" : "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password })
     })
     .then(response => {
       if (response.ok){
@@ -39,8 +37,6 @@ function UserAuthForm( { onLogin, onSignup } ) {
 
   function handleUserSignup(e){
     e.preventDefault()
-
-    // const user = { username, password }
 
     fetch("/api/users", {
       method: "POST",

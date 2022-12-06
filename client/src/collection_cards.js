@@ -11,7 +11,7 @@ function CollectionCards({ collections }){
     
     return(
       <div className="col-md-6 mb-md-5 mb-xl-10" key={collection.id}>
-        <div className='card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10 card-flush-collection'>
+        <div className='card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 card-flush-collection'>
           <div className="card-header pt-5">
             {/* start collections name and details */}
             <div className="card-title flex-column justify-content-start">

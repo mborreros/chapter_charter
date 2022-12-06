@@ -17,7 +17,7 @@ return (journeys?.map((journey) => {
   
   return(
     <div className="col-md-6 mb-md-5 mb-xl-10" key={journey.id}>
-      <div className={'card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10 ' + card_progress_color}>
+      <div className={'card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color}>
         <div className="card-header pt-5 align-items-start">
           {/* book cover */}
           <div className="card-title book-cover-image flex-column">

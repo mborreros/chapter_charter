@@ -75,3 +75,8 @@ code {
   font-size: 18px;
   color: #B2AC88;
 }
+
+/* explicit modal sizing */
+/* .modal.chap-charter-modal{
+  top: 65px;
+} */
