@@ -41,9 +41,6 @@ function ListPage({ journeys, collections, setCollections, challenges, user }) {
                         data-bs-target="#kt_modal_create_app" onClick={handleShow}>Start a new {this_page_title.slice(0, -1)}</button>
                     </div>
 
-                    { this_page_title === "Collections" ? <CollectionModal show={show} handleClose={handleClose} collections={collections
-                    } setCollections={setCollections} user={user} /> : null } 
-
                     {/* add a *pathname* button end */}
 
                   </div>
@@ -54,7 +51,7 @@ function ListPage({ journeys, collections, setCollections, challenges, user }) {
 
                       {/* start conditional card rendering based on pathname */}
                         { this_page_title === "Journeys" ? <JourneyCards journeys={journeys}/> : null }
-                        { this_page_title === "Collections" ? <CollectionCards collections={collections}/> : null } 
+                        { this_page_title === "Collections" ? <CollectionCards collections={collections} setCollections={setCollections} /> : null } 
                         { this_page_title === "Challenges" ? <ChallengeCards challenges={challenges}/> : null } 
                       {/* end conditional card rendering based on pathname */}
 
@@ -65,7 +62,10 @@ function ListPage({ journeys, collections, setCollections, challenges, user }) {
               </div>
             </div>
           </div>
-        </div>
+
+      { this_page_title === "Collections" ? <CollectionModal show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} user={user} /> : null } 
+
+      </div>
   );
 }
 

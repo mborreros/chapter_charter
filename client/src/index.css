@@ -64,7 +64,13 @@ code {
   height: 100%;
 }
 
-/* makes card header and bodt flush with each other */
+/* collection card height */
+.collection-card {
+  height: 90%;
+  min-height: 290.25px;
+}
+
+/* makes card header and body flush with each other */
 .card .card-header {
   border-bottom: none;
 }
@@ -75,8 +81,3 @@ code {
   font-size: 18px;
   color: #B2AC88;
 }
-
-/* explicit modal sizing */
-/* .modal.chap-charter-modal{
-  top: 65px;
-} */
