@@ -97,3 +97,11 @@ code {
 .journey-card-genres {
   max-width: 400px;
 }
+
+.add-journey-entry-button {
+  color: white;
+}
+
+.add-journey-entry-button:hover {
+  color: gray;
+}

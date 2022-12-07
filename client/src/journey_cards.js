@@ -1,6 +1,31 @@
 import defaultBook from "./imgs/generic_book.png";
 
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { useState } from "react";
+
+import JourneyEntryModal from "./journey_entry_modal";
+
 function JourneyCards({ journeys }){
+
+  // adding font awesome icons to library for use in html
+  library.add(faPenToSquare);
+
+  const [showJourneyModal, setShowJourneyModal] = useState(null)
+
+  function handleJourneyModalClose() {
+    setShowJourneyModal(null)
+  }
+
+  function handleJourneyEdit(e) {
+    console.log()
+    console.log("the button has been clicked")
+    
+    // setShowJourneyForm(e.currentTarget.id)
+    setShowJourneyModal(e.currentTarget.id)
+
+  }
 
 return (journeys?.map((journey) => {
     
@@ -33,11 +58,17 @@ return (journeys?.map((journey) => {
         </div>
         <div className="card-body d-flex align-items-end pt-0">
           <div className="d-flex align-items-center flex-column mt-3 w-100">
-            <div
-              className="d-flex justify-content-between fw-bold fs-6 text-white opacity-75 w-100 mt-auto mb-2">
+            <div className="d-flex justify-content-between fw-bold fs-6 text-white opacity-75 w-100 mt-auto mb-1">
               <span>{journey.start_date}</span>
-              <span>{journey.book.length + ' pages'} | {journey.current_progress + '% completed'}</span>
+              <span>{journey.book.length + ' pages'} | {journey.current_progress + '% completed'} 
+              {journey.current_progress <100 ? 
+                <button id={journey.id} className="btn btn-sm px-2 py-0 add-journey-entry-button mb-1" onClick={handleJourneyEdit}>
+                  <FontAwesomeIcon icon="fa-solid fa-pen-to-square"/>
+                </button> : 
+                null}
+              </span>
             </div>
+
             {/* progress bar */}
             <div className="h-8px mx-3 w-100 bg-white bg-opacity-50 rounded">
               {/* define width by adding class name w-% <- percentage as an integer */}
@@ -48,7 +79,8 @@ return (journeys?.map((journey) => {
           </div>
         </div>
       </div>
-      </div>
+      <JourneyEntryModal showJourneyModal={showJourneyModal} handleJourneyModalClose={handleJourneyModalClose}/>
+    </div>
   )
 }) )
 

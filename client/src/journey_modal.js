@@ -82,7 +82,7 @@ function JourneyModal({ show, handleClose, journeys, setJourneys, books, setBook
   }
 
   function startNewJourney(book) {
-    
+
     let new_journey 
     new_journey = {
       "user_id" : user.id,
@@ -130,7 +130,7 @@ function JourneyModal({ show, handleClose, journeys, setJourneys, books, setBook
 								<div className="text-end">
 									<button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3" onClick={(form) => resetModalForm(form)}>Clear</button>
 									<button type="submit" id="kt_modal_new_target_submit" className="btn btn-primary btn-sm">
-										<span className="indicator-label">Submit</span>
+										<span className="indicator-label">Start this Journey</span>
 										<span className="indicator-progress">Please wait...
 										<span className="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 									</button>

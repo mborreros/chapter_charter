@@ -51,7 +51,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
                     <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
 
                       {/* start conditional card rendering based on pathname */}
-                        { this_page_title === "Journeys" ? <JourneyCards journeys={journeys}/> : null }
+                        { this_page_title === "Journeys" ? <JourneyCards journeys={journeys} /> : null }
                         { this_page_title === "Collections" ? <CollectionCards collections={collections} setCollections={setCollections} /> : null } 
                         { this_page_title === "Challenges" ? <ChallengeCards challenges={challenges}/> : null } 
                       {/* end conditional card rendering based on pathname */}
