@@ -60,7 +60,7 @@ code {
 }
 
 /* challenge card height */
-.challenge-card {
+.challenge-card, .journey-card {
   height: 100%;
 }
 
@@ -82,22 +82,6 @@ code {
   color: #B2AC88;
 }
 
-/* sized book cover search result image */
-/* .book-image-search-result {
-  width: 90px;
-} */
-
-/* sets color on book search result cards */
-/* .search-book-card {
-  background-color: rgba(243, 246, 249);  
-} */
-
-/* makes book search results scrollable */
-/* .book-results-list {
-  overflow: auto;
-  max-height: 325px;
-} */
-
 .book-search-cover {
   height: 45px;
   width: 50px;
@@ -108,4 +92,8 @@ code {
   background-size: cover;
   width: 100%;
   height: 100%;
+}
+
+.journey-card-genres {
+  max-width: 400px;
 }

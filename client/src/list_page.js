@@ -8,7 +8,7 @@ import ChallengeCards from "./challenge_cards";
 import CollectionModal from "./collection_modal";
 import JourneyModal from "./journey_modal";
 
-function ListPage({ journeys, collections, setCollections, challenges, user }) {
+function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, user }) {
   // getting pathname to determine which page to show
   const location = useLocation();
   // capitalize page name
@@ -65,7 +65,7 @@ function ListPage({ journeys, collections, setCollections, challenges, user }) {
           </div>
 
       { this_page_title === "Collections" ? <CollectionModal show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} user={user} /> : null } 
-      { this_page_title === "Journeys" ? <JourneyModal show={show} handleClose={handleClose} user={user} /> : null } 
+      { this_page_title === "Journeys" ? <JourneyModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks}  user={user} /> : null } 
 
       </div>
   );

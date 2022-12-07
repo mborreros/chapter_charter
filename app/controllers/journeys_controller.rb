@@ -3,6 +3,8 @@ class JourneysController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
+  skip_before_action :authorized, only: [:destroy]
+
   def index
     if params[:user_id]
       this_user = User.find(params[:user_id])

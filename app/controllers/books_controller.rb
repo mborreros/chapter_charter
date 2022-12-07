@@ -3,6 +3,8 @@ class BooksController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
+  skip_before_action :authorized, only: [:destroy]
+
   def index
     books = Book.all
     render json: books, status: :ok
@@ -27,7 +29,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.permit(:title, :author, :length, :genre, :cover_img)
+    params.permit(:title, :author, :length, :cover_img, :book_api_num, :genre => [])
   end
 
   def render_unprocessable_entity_response(invalid)

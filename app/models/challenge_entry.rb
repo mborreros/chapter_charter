@@ -19,17 +19,3 @@ class ChallengeEntry < ApplicationRecord
   end
 
 end
-
-# {
-#   "date": "2022-11-22",
-#   "progress": 100,
-#   "journey_id": 1
-# }
-
-# {
-#   "start_date": "2022-11-22",
-#   "end_date": null,
-#   "manually_completed": false,
-#   "user_id": 1,
-#   "book_id": 1
-# }

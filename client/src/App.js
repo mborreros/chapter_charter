@@ -14,6 +14,7 @@ function App() {
   const [journeys, setJourneys] = useState(null);
   const [collections, setCollections] = useState(null);
   const [challenges, setChallenges] = useState(null);
+  const [books, setBooks] = useState(null);
 
   useEffect(() => {
     fetch("/auth").then((response) => {
@@ -53,6 +54,15 @@ function App() {
         })
       }}, [user]);
 
+    //  get all books in db
+    useEffect(() => {
+      fetch(`api/books`).then((response) => {
+        if (response.ok) {
+          response.json().then((db_books) => setBooks(db_books))
+        }
+      })
+    }, [user]);
+
   return (
     <>
     <Navigation currentUser={user}/>
@@ -65,7 +75,7 @@ function App() {
 
       {/* dummy pages */}
       <Route path="/collections" element={ <ListPage collections={collections} setCollections={setCollections} user={user} /> } />
-      <Route path="/journeys" element={ <ListPage journeys={journeys} /> } />
+      <Route path="/journeys" element={ <ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user}/> } />
       <Route path="/challenges" element={ <ListPage challenges={challenges}/> } />
       <Route path="/statistics" element={ <Statistics /> } />
       <Route path="/account" element={ <Account /> } />

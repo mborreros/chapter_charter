@@ -1,3 +1,4 @@
+import defaultBook from "./imgs/generic_book.png";
 
 function JourneyCards({ journeys }){
 
@@ -17,17 +18,17 @@ return (journeys?.map((journey) => {
   
   return(
     <div className="col-md-6 mb-md-5 mb-xl-10" key={journey.id}>
-      <div className={'card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color}>
-        <div className="card-header pt-5 align-items-start">
+      <div className={'journey-card card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color}>
+        <div className="card-header pt-5 align-items-start flex-nowrap">
           {/* book cover */}
-          <div className="card-title book-cover-image flex-column">
-            <img src={journey.book.cover_img} alt={journey.book.title + ' book cover'}></img>
+          <div className="card-title col-3 book-cover-image flex-column">
+            <img src={journey.book.cover_img ? journey.book.cover_img : defaultBook} alt={journey.book.title + ' book cover'}></img>
           </div>
           {/* book cover end */}
-          <div className="card-title flex-column align-items-end justify-content-end">
+          <div className="card-title col-9 flex-column align-items-end ">
             <span className="fs-2hx fw-bold text-white lh-1 ls-n2">{journey.book.title}</span>
             <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{journey.book.author}</span>
-            <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{journey.book.genre}</span>
+            <span className="journey-card-genres text-white opacity-75 pt-1 text-end fw-semibold fs-6 text-lowercase">{journey.book.genre?.join(" / ")}</span>
           </div>
         </div>
         <div className="card-body d-flex align-items-end pt-0">

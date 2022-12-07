@@ -32,7 +32,7 @@ function BookSearch({ selectedValue, setSelectedValue }) {
     // styling the options that appear on user input into search bar
     function formatOptionLabel( option ) {
       let pagesPublished = []
-      if (option.first_publish_year) {pagesPublished.push(`${option.first_publish_year}`)}
+      // if (option.first_publish_year) {pagesPublished.push(`${option.first_publish_year}`)}
       if (option.number_of_pages_median) {pagesPublished.push(`${option.number_of_pages_median} pages`)}
 
       return(
@@ -46,10 +46,11 @@ function BookSearch({ selectedValue, setSelectedValue }) {
         </div>
 
         <div className="col-5">
-          <div className="fw-bold fs-3">{option.title}</div>
+          <div><span className="fw-bold fs-3">{option.title}&nbsp;</span> <span className="opacity-50">({option.first_publish_year})</span></div> 
+
           <div className="opacity-75">{option.author_name ? option.author_name[0] : option.author_name}</div>
         </div>
-        <div className="col-6 d-flex flex-column text-end justify-content-end text-lowercase">
+        <div className="col-6 d-flex flex-column text-end justify-content-center text-lowercase">
           <div className="opacity-50 text-truncate" title={option.subject?.slice(0,4).join(" / ")}>{option.subject?.slice(0,4).join(" / ")}</div>
           <div className="opacity-50">{pagesPublished.join(' | ')}</div>
         </div>
@@ -76,7 +77,7 @@ function BookSearch({ selectedValue, setSelectedValue }) {
         onChange={handleChange}
         />
         {/* allows to visualize selected value on user click, to be deleted once functionality is finsihed */}
-        <pre>Selected Value: {JSON.stringify(selectedValue || {}, null, 2)}</pre>
+        {/* <pre>Selected Value: {JSON.stringify(selectedValue || {}, null, 2)}</pre> */}
       </div>
     )
 }
