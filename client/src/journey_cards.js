@@ -7,24 +7,24 @@ import { useState } from "react";
 
 import JourneyEntryModal from "./journey_entry_modal";
 
-function JourneyCards({ journeys }){
+function JourneyCards({ journeys, setJourneys, formatDate }){
 
   // adding font awesome icons to library for use in html
   library.add(faPenToSquare);
 
   const [showJourneyModal, setShowJourneyModal] = useState(null)
+  const [selectedJourney, setSelectedJourney] = useState(null)
+  const [cardAnimation, setCardAnimation] = useState(null)
 
   function handleJourneyModalClose() {
     setShowJourneyModal(null)
   }
 
+  let this_journey
   function handleJourneyEdit(e) {
-    console.log()
-    console.log("the button has been clicked")
-    
-    // setShowJourneyForm(e.currentTarget.id)
     setShowJourneyModal(e.currentTarget.id)
-
+    this_journey = journeys.filter(journey => journey.id == e.currentTarget.id)
+    setSelectedJourney(this_journey[0])
   }
 
 return (journeys?.map((journey) => {
@@ -43,7 +43,7 @@ return (journeys?.map((journey) => {
   
   return(
     <div className="col-md-6 mb-md-5 mb-xl-10" key={journey.id}>
-      <div className={'journey-card card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color}>
+      <div className={'journey-card card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color + (cardAnimation == journey.id ? " progress-animation" : "")}>
         <div className="card-header pt-5 align-items-start flex-nowrap">
           {/* book cover */}
           <div className="card-title col-3 book-cover-image flex-column">
@@ -79,7 +79,7 @@ return (journeys?.map((journey) => {
           </div>
         </div>
       </div>
-      <JourneyEntryModal showJourneyModal={showJourneyModal} handleJourneyModalClose={handleJourneyModalClose}/>
+      <JourneyEntryModal showJourneyModal={showJourneyModal} handleJourneyModalClose={handleJourneyModalClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} setCardAnimation={setCardAnimation}/>
     </div>
   )
 }) )

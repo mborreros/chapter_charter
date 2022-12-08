@@ -9,6 +9,7 @@ import CollectionModal from "./collection_modal";
 import JourneyModal from "./journey_modal";
 
 function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, user }) {
+  
   // getting pathname to determine which page to show
   const location = useLocation();
   // capitalize page name
@@ -21,6 +22,15 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
     setShow(false);
   };
   const handleShow = () => setShow(true);
+
+  function formatDate() {
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+  }
 
   return(
       <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
@@ -51,7 +61,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
                     <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
 
                       {/* start conditional card rendering based on pathname */}
-                        { this_page_title === "Journeys" ? <JourneyCards journeys={journeys} /> : null }
+                        { this_page_title === "Journeys" ? <JourneyCards journeys={journeys} setJourneys={setJourneys} formatDate={formatDate} /> : null }
                         { this_page_title === "Collections" ? <CollectionCards collections={collections} setCollections={setCollections} /> : null } 
                         { this_page_title === "Challenges" ? <ChallengeCards challenges={challenges}/> : null } 
                       {/* end conditional card rendering based on pathname */}
@@ -65,7 +75,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
           </div>
 
       { this_page_title === "Collections" ? <CollectionModal show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} user={user} /> : null } 
-      { this_page_title === "Journeys" ? <JourneyModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks}  user={user} /> : null } 
+      { this_page_title === "Journeys" ? <JourneyModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks}  user={user} formatDate={formatDate}/> : null } 
 
       </div>
   );

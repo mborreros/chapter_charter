@@ -16,7 +16,7 @@ code {
 
 /* start card colors based on journey progress */
 .card.card-flush-in-progress {
-  background-color: #FFEEAF;
+  background-color: #e1ad018e;
 }
 
 .card.card-flush-unstarted {
@@ -27,6 +27,18 @@ code {
   background-color: #B2AC88;
 }
 /* end card colors based on journey progress */
+
+/* card progress animnation */
+.progress-animation {
+  -webkit-animation-duration: 1.3s;
+  animation-duration: 1.3s;
+  -webkit-animation-duration: 1.3s;
+  animation-duration: 1.3s;
+  -webkit-animation-name: heartBeat;
+  animation-name: heartBeat;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out
+}
 
 /* start card colors based on challenge progress */
 .card.card-flush-current {
@@ -62,6 +74,10 @@ code {
 /* challenge card height */
 .challenge-card, .journey-card {
   height: 100%;
+}
+
+.journey-card {
+  transition: background-color .5s ease-in-out
 }
 
 /* collection card height */
@@ -104,4 +120,35 @@ code {
 
 .add-journey-entry-button:hover {
   color: gray;
+}
+
+
+
+@keyframes heartBeat {
+  0% {
+      -webkit-transform: scale(1);
+      transform: scale(1)
+  }
+
+  14% {
+      -webkit-transform: scale(1.05);
+      transform: scale(1.05);
+      background-color: #e1ad01cf
+  }
+
+  28% {
+      -webkit-transform: scale(1);
+      transform: scale(1)
+  }
+
+  42% {
+      -webkit-transform: scale(1.05);
+      transform: scale(1.05);
+      background-color: #e1ad01cf
+  }
+
+  70% {
+      -webkit-transform: scale(1);
+      transform: scale(1)
+  }
 }

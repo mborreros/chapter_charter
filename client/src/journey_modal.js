@@ -3,9 +3,7 @@ import Modal from 'react-bootstrap/Modal'
 
 import BookSearch from "./book_select_search";
 
-function JourneyModal({ show, handleClose, journeys, setJourneys, books, setBooks, user }) {
-
-  // console.log(user?.id)
+function JourneyModal({ show, handleClose, journeys, setJourneys, books, setBooks, user, formatDate }) {
 
   const [selectedValue, setSelectedValue] = useState(null);
 
@@ -72,15 +70,6 @@ function JourneyModal({ show, handleClose, journeys, setJourneys, books, setBook
     }
   }
 
-  function formatDate() {
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-
-    return `${year}-${month}-${day}`;
-  }
-
   function startNewJourney(book) {
 
     let new_journey 
@@ -98,7 +87,7 @@ function JourneyModal({ show, handleClose, journeys, setJourneys, books, setBook
     })
     .then(response => {
       response.json().then((this_journey) => {
-        setJourneys([...journeys, this_journey])
+        setJourneys([this_journey, ...journeys])
         handleClose()
       })
     })
