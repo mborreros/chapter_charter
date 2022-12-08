@@ -6,6 +6,7 @@ import ListPage from './list_page';
 import Statistics from './statistics';
 import Navigation from './navigation';
 import Account from './user_account';
+import IndividualCardList from "./idv_card_list";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
   return (
     <>
     <Navigation currentUser={user}/>
+    
     <Routes>
       
       {/* today's focus -> page for user login */}
@@ -76,6 +78,7 @@ function App() {
       {/* dummy pages */}
       <Route path="/collections" element={ <ListPage collections={collections} setCollections={setCollections} user={user} /> } />
       <Route path="/journeys" element={ <ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user}/> } />
+        <Route exact path="/journeys/:id" element={<IndividualCardList />} />
       <Route path="/challenges" element={ <ListPage challenges={challenges}/> } />
       <Route path="/statistics" element={ <Statistics /> } />
       <Route path="/account" element={ <Account /> } />

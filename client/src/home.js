@@ -9,7 +9,7 @@ function Home( { user, onLogout } ) {
     }).then(() => onLogout())
   }
 
-  console.log(user)
+  // console.log(user)
 
   return(
     <>

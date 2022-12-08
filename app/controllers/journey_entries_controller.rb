@@ -4,7 +4,7 @@ class JourneyEntriesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
   def index
-    journey_entries = JourneyEntry.all
+    journey_entries = JourneyEntry.all.order(created_at: :asc)
     render json: journey_entries, status: :ok
   end
 
