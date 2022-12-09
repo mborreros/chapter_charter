@@ -27,65 +27,86 @@ function App() {
 
   // get user's journeys
   useEffect(() => {
-    if (user){
+    if (user) {
       fetch(`api/users/${user?.id}/journeys`).then((response) => {
         if (response.ok) {
-          response.json().then((user_journeys) => setJourneys(user_journeys))
+          response.json().then((user_journeys) => {
+            setJourneys(user_journeys)
+          })
         }
       })
-    }}, [user]);
+    }
+  }, [user]);
 
-    // get user's collections
-    useEffect(() => {
-      if (user){
-        fetch(`api/users/${user?.id}/collections`).then((response) => {
-          if (response.ok) {
-            response.json().then((user_collections) => setCollections(user_collections))
-          }
-        })
-      }}, [user]);
-    
-    // get user's challenges
-    useEffect(() => {
-      if (user){
-        fetch(`api/users/${user?.id}/challenges`).then((response) => {
-          if (response.ok) {
-            response.json().then((user_challenges) => setChallenges(user_challenges))
-          }
-        })
-      }}, [user]);
-
-    //  get all books in db
-    useEffect(() => {
-      fetch(`api/books`).then((response) => {
+  // get user's collections
+  useEffect(() => {
+    if (user) {
+      fetch(`api/users/${user?.id}/collections`).then((response) => {
         if (response.ok) {
-          response.json().then((db_books) => setBooks(db_books))
+          response.json().then((user_collections) => setCollections(user_collections))
         }
       })
-    }, [user]);
+    }
+  }, [user]);
+
+  // get user's challenges
+  useEffect(() => {
+    if (user) {
+      fetch(`api/users/${user?.id}/challenges`).then((response) => {
+        if (response.ok) {
+          response.json().then((user_challenges) => setChallenges(user_challenges))
+        }
+      })
+    }
+  }, [user]);
+
+  //  get all books in db
+  useEffect(() => {
+    fetch(`api/books`).then((response) => {
+      if (response.ok) {
+        response.json().then((db_books) => setBooks(db_books))
+      }
+    })
+  }, [user]);
+
+  function formatDate() {
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+  }
 
   return (
     <>
-    <Navigation currentUser={user}/>
-    
-    <Routes>
-      
-      {/* today's focus -> page for user login */}
-      <Route exact path="/" element={ <Home user={user} onLogout={setUser}/> } />
-      <Route exact path="/login" element={ <UserAuthForm onLogin={setUser} /> } />
-      <Route exact path="/signup" element={ <UserAuthForm  onSignup={setUser} /> } />
+      <Navigation currentUser={user} />
 
-      {/* dummy pages */}
-      <Route path="/collections" element={ <ListPage collections={collections} setCollections={setCollections} user={user} /> } />
-      <Route path="/journeys" element={ <ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user}/> } />
-        <Route exact path="/journeys/:id" element={<IndividualCardList />} />
-      <Route path="/challenges" element={ <ListPage challenges={challenges}/> } />
-      <Route path="/statistics" element={ <Statistics /> } />
-      <Route path="/account" element={ <Account /> } />
-    </Routes>
+      <Routes>
+
+        {/* today's focus -> page for user login */}
+        <Route exact path="/" element={<Home user={user} onLogout={setUser} />} />
+        <Route exact path="/login" element={<UserAuthForm onLogin={setUser} />} />
+        <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} />} />
+
+        {/* dummy pages */}
+        <Route exact path="/collections" element={<ListPage collections={collections} setCollections={setCollections} user={user} />} />
+
+        <Route path="/journeys/*" element={<ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate}/>} />
+        <Route path="/journeys/:id" element={<IndividualCardList journeys={journeys} setJourneys={setJourneys} formatDate={formatDate}/>} />
+
+        {/* <Route path="/journeys/*" >
+          <Route index={true} element={ <ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user}/> }/>
+          <Route index={false} path=":id" element={<IndividualCardList />} />
+        </Route> */}
+
+        <Route exact path="/challenges" element={<ListPage challenges={challenges} />} />
+        <Route exact path="/statistics" element={<Statistics />} />
+        <Route exact path="/account" element={<Account />} />
+      </Routes>
 
 
-	{/* <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
+      {/* <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
   <div className="app-page flex-column flex-column-fluid" id="kt_app_page">
     
     <div className="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
@@ -178,7 +199,7 @@ function App() {
   </div>
 </div> */}
 
-{/* <div id="kt_scrolltop" className="scrolltop">
+      {/* <div id="kt_scrolltop" className="scrolltop">
   <span className="svg-icon">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect opacity="0.5" x="13" y="6" width="13" height="2" rx="1" transform="rotate(90 13 6)" fill="currentColor" />
@@ -188,7 +209,7 @@ function App() {
     </svg>
   </span>
 </div> */}
-</>
+    </>
 
   );
 }

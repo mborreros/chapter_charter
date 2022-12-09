@@ -42,8 +42,6 @@ function JourneyCards({ journeys, setJourneys, formatDate }) {
       card_progress_color = "card-flush-completed"
     }
 
-    // console.log(journey)
-
     return (
       <div className="col-md-6 mb-md-5 mb-xl-10" key={journey.id}>
         <div className={'journey-card card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color + (cardAnimation == journey.id ? " progress-animation" : "")}>
@@ -54,7 +52,7 @@ function JourneyCards({ journeys, setJourneys, formatDate }) {
             </div>
             {/* book cover end */}
             <div className="card-title col-9 flex-column align-items-end ">
-              <Link to={`/journeys/${journey.id}`} state={{ journey }}><span className="fs-2hx fw-bold text-white lh-1 ls-n2">{journey.book.title}</span></Link>
+              <Link to={`${journey.id}`} state={{ journey }}><span className="fs-2hx fw-bold text-white lh-1 ls-n2 ">{journey.book.title}</span></Link>
               <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{journey.book.author}</span>
               <span className="journey-card-genres text-white opacity-75 pt-1 text-end fw-semibold fs-6 text-lowercase">{journey.book.genre?.join(" / ")}</span>
             </div>

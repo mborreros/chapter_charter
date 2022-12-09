@@ -7,9 +7,11 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { useEffect, useState } from 'react';
 import moment from 'moment'
 
+import JourneyEntryModal from './journey_entry_modal';
+
 import defaultBook from "./imgs/generic_book.png";
 
-function IndividualCardList() {
+function IndividualCardList({ journeys, setJourneys, formatDate }) {
 
   library.add(faGenderless);
 
@@ -17,7 +19,11 @@ function IndividualCardList() {
   // location.state.journey.id <- selected journey's id
 
   const [thisJourney, setThisJourney] = useState(null)
+  const [thisJourneyEntries, setThisJourneyEntries] = useState(null)
   const [bookDetails, setBookDetails] = useState({})
+
+  const [showJourneyModal, setShowJourneyModal] = useState(null)
+  const [selectedJourney, setSelectedJourney] = useState(null)
 
   // fetch journey and associated journey entries for selected journey
   useEffect(() => {
@@ -25,9 +31,7 @@ function IndividualCardList() {
       if (response.ok) {
         response.json().then(this_journey => {
           setThisJourney(this_journey)
-          // fetch(`https://openlibrary.org/works/${thisJourney?.book.book_api_num}.json`)
-          // .then(res => res.json())
-          // .then(data => setBookBlurb(data.description)) 
+          setThisJourneyEntries(this_journey.journey_entries)
         })
       }
     })
@@ -37,18 +41,27 @@ function IndividualCardList() {
     if (thisJourney) {
       fetch(`https://openlibrary.org/works/${thisJourney?.book.book_api_num}.json`)
         .then(res => res.json())
-        .then(data => setBookDetails(
-          {
-            description: data.description,
+        .then(data =>
+          setBookDetails({
+            description: typeof data.description === "string" ? data.description : "",
             genres: data.subjects ? data.subjects.slice(0, 10).join(" / ") : "none listed",
             published: data.first_publish_date ? "published " + data.first_publish_date : ""
           }))
     }
   }, [thisJourney])
 
+  function handleAddProgressEntry(e) {
+    setShowJourneyModal(e.currentTarget.id)
+    setSelectedJourney(thisJourney)
+  }
+
+  function handleJourneyModalClose() {
+    setShowJourneyModal(null)
+  }
+
   // creating reading log plot points
   let journeyEntryItems
-  journeyEntryItems = thisJourney?.journey_entries.map((journey_entry) => {
+  journeyEntryItems = thisJourneyEntries?.map((journey_entry) => {
     // console.log(moment(journey_entry.created_at).calendar())
     return (
       <div className='timeline-item' key={journey_entry.id}>
@@ -71,7 +84,7 @@ function IndividualCardList() {
     )
   })
 
-  console.log(thisJourney)
+  // console.log(thisJourneyEntries)
 
   return (
 
@@ -111,8 +124,13 @@ function IndividualCardList() {
                     </ul>
                     {/* end breadcrumb */}
                   </div>
-
                   {/* page title end */}
+
+                  <div className="d-flex align-items-center gap-2 gap-lg-3">
+                      {/* disables button if the journey has already been completed */}
+                      <button id={thisJourney?.id} className={"btn btn-sm fw-bold btn-primary " + (thisJourney?.current_progress === 100 ? "disabled" : "")} data-bs-toggle="modal"
+                        data-bs-target="#kt_modal_create_app" onClick={(e) => handleAddProgressEntry(e)}>Add Progress Entry</button>
+                  </div>
 
                 </div>
               </div>
@@ -137,7 +155,7 @@ function IndividualCardList() {
                         <div className='card-body pt-5'>
                           <div className='row'>
                             <div className='col-4'>
-                              <img src={thisJourney?.book.cover_img ? thisJourney.book.cover_img.replace("S.jpg", "L.jpg") : defaultBook} className="img-fluid" />
+                              <img alt={thisJourney?.book.title + "book cover"} src={thisJourney?.book.cover_img ? thisJourney.book.cover_img.replace("S.jpg", "L.jpg") : defaultBook} className="img-fluid" />
                             </div>
                             <div className='col-8'>
                               <div className='d-flex flex-column h-100'>
@@ -211,6 +229,7 @@ function IndividualCardList() {
           </div>
         </div>
       </div>
+      <JourneyEntryModal showJourneyModal={showJourneyModal} handleJourneyModalClose={handleJourneyModalClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} thisJourneyEntries={thisJourneyEntries} setThisJourneyEntries={setThisJourneyEntries}/>
     </div>
   )
 }

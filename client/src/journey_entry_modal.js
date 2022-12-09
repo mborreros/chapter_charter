@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Modal from 'react-bootstrap/Modal'
 
-function JourneyEntryModal({ showJourneyModal, handleJourneyModalClose, journeys, setJourneys, selectedJourney, formatDate, setCardAnimation }){
+function JourneyEntryModal({ showJourneyModal, handleJourneyModalClose, journeys, setJourneys, selectedJourney, formatDate, setCardAnimation=null, thisJourneyEntries=null , setThisJourneyEntries=null}){
 
   const [updatedProgress, setUpdatedProgress] = useState(null)
 
@@ -26,6 +26,17 @@ function JourneyEntryModal({ showJourneyModal, handleJourneyModalClose, journeys
       .then(response => {
         if (response.ok) {
           response.json().then((new_journey_entry) => {
+            if (thisJourneyEntries) {
+              // setting state for journey_entries if coming from individual entry page
+              let this_new_entry = {}
+              this_new_entry = {
+                id : new_journey_entry.id,
+                date : new_journey_entry.date,
+                progress: new_journey_entry.progress,
+                created_at: new_journey_entry.created_at
+              }
+              setThisJourneyEntries([this_new_entry, ...thisJourneyEntries])
+            }
             // updating progress value on user updated journey based on id from POST request
             setJourneys(journeys.map(journey => {
               if (journey.id == new_journey_entry.journey.id) {
@@ -40,8 +51,8 @@ function JourneyEntryModal({ showJourneyModal, handleJourneyModalClose, journeys
         }
       })
 
-      // card animation on progress update
-      setCardAnimation(selectedJourney.id)
+      // card animation on progress update, not set if not on journeys page
+      thisJourneyEntries ? handleJourneyModalClose() : setCardAnimation(selectedJourney.id)
 
       // close modal after submisson
       handleJourneyModalClose()

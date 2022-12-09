@@ -8,7 +8,7 @@ import ChallengeCards from "./challenge_cards";
 import CollectionModal from "./collection_modal";
 import JourneyModal from "./journey_modal";
 
-function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, user }) {
+function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, user, formatDate }) {
   
   // getting pathname to determine which page to show
   const location = useLocation();
@@ -22,15 +22,6 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
     setShow(false);
   };
   const handleShow = () => setShow(true);
-
-  function formatDate() {
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-
-    return `${year}-${month}-${day}`;
-  }
 
   return(
       <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
