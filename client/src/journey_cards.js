@@ -8,23 +8,29 @@ import { Link } from "react-router-dom";
 
 import JourneyEntryModal from "./journey_entry_modal";
 
-function JourneyCards({ journeys, setJourneys, formatDate }) {
+function JourneyCards({ journeys, setJourneys, formatDate, show, handleClose, handleShow, setSelectedJourney, selectedJourney, cardAnimation }) {
 
   // adding font awesome icons to library for use in html
   library.add(faPenToSquare);
 
-  const [showJourneyModal, setShowJourneyModal] = useState(null)
-  const [selectedJourney, setSelectedJourney] = useState(null)
-  const [cardAnimation, setCardAnimation] = useState(null)
+  // const [showJourneyModal, setShowJourneyModal] = useState(null)
 
-  function handleJourneyModalClose() {
-    setShowJourneyModal(null)
-  }
+
+  // function handleJourneyModalClose() {
+  //   setShowJourneyModal(null)
+  // }
 
   let this_journey
-  function handleJourneyEdit(e) {
-    setShowJourneyModal(e.currentTarget.id)
-    this_journey = journeys.filter(journey => journey.id == e.currentTarget.id)
+  function handleJourneyEdit(e, journeyId) {
+    // console.log(journeyId)
+
+    handleShow(e)
+    
+    // let stringId = e.currentTarget.id.split("new-journey-entry-modal-")[1]
+    // console.log(typeof stringId)
+
+    // setShowJourneyModal(e.currentTarget.id)
+    this_journey = journeys.filter(journey => journey.id == journeyId)
     setSelectedJourney(this_journey[0])
   }
 
@@ -51,8 +57,8 @@ function JourneyCards({ journeys, setJourneys, formatDate }) {
               <img src={journey.book.cover_img ? journey.book.cover_img : defaultBook} alt={journey.book.title + ' book cover'}></img>
             </div>
             {/* book cover end */}
-            <div className="card-title col-9 flex-column align-items-end ">
-              <Link to={`${journey.id}`} state={{ journey }}><span className="fs-2hx fw-bold text-white lh-1 ls-n2 ">{journey.book.title}</span></Link>
+            <div className="card-title col-9 flex-column align-items-end">
+              <Link to={`/journeys/${journey.id}`}><span className="fs-2hx fw-bold text-white lh-1 ls-n2 ">{journey.book.title}</span></Link>
               <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{journey.book.author}</span>
               <span className="journey-card-genres text-white opacity-75 pt-1 text-end fw-semibold fs-6 text-lowercase">{journey.book.genre?.join(" / ")}</span>
             </div>
@@ -63,7 +69,7 @@ function JourneyCards({ journeys, setJourneys, formatDate }) {
                 <span>{journey.start_date}</span>
                 <span>{journey.book.length + ' pages'} | {journey.current_progress + '% completed'}
                   {journey.current_progress < 100 ?
-                    <button id={journey.id} className="btn btn-sm px-2 py-0 add-journey-entry-button mb-1" onClick={handleJourneyEdit}>
+                    <button id="new-journey-entry-modal" className="btn btn-sm px-2 py-0 add-journey-entry-button mb-1" onClick={(e) => handleJourneyEdit(e, journey.id)}>
                       <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />
                     </button> :
                     null}
@@ -80,7 +86,7 @@ function JourneyCards({ journeys, setJourneys, formatDate }) {
             </div>
           </div>
         </div>
-        <JourneyEntryModal showJourneyModal={showJourneyModal} handleJourneyModalClose={handleJourneyModalClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} setCardAnimation={setCardAnimation} />
+        {/* <JourneyEntryModal show={show} showJourneyModal={handleShow} handleJourneyModalClose={handleClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={journey} formatDate={formatDate} setCardAnimation={setCardAnimation} /> */}
       </div>
     )
   }))

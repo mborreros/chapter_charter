@@ -1,7 +1,8 @@
 // import Button from "react-bootstrap/esm/Button"
-import Dropdown from 'react-bootstrap/Dropdown';
+// import Dropdown from 'react-bootstrap/Dropdown';
+import { Link } from 'react-router-dom';
 
-function CollectionCards({ collections, setCollections }){
+function CollectionCards({ collections, setCollections, show, handleClose }){
 
   function handleCollectionDelete(e) {
     let thisCollectionId = e.target.parentNode.id
@@ -11,7 +12,7 @@ function CollectionCards({ collections, setCollections }){
       method: "DELETE"
     }).then((response) => {
       if (response.ok) {
-        updatedCollectionArray = collections.filter((collection) => collection.id != thisCollectionId)
+        updatedCollectionArray = collections.filter((collection) => collection.id !== thisCollectionId)
         setCollections(updatedCollectionArray)
       } else {console.log("Collection was not deleted successfully.")}
   })
@@ -31,6 +32,11 @@ function CollectionCards({ collections, setCollections }){
       </div>
     }
 
+    // const idvCollectionTo = {
+    //   pathname: `/collections/${collection.id}, ${collection}, ${show}, ${handleClose}, ${books}, ${setBooks}, ${user}, ${formatDate}`,
+    //   state: {collection}
+    // }
+
     
     return(
       <div className="col-md-6 mb-md-5 mb-xl-10" key={collection.id}>
@@ -38,23 +44,10 @@ function CollectionCards({ collections, setCollections }){
           <div className="card-header pt-5 flex-nowrap">
             {/* start collections name and details */}
             <div className="card-title flex-column justify-content-start">
-              <span className="fs-2hx fw-bold text-white lh-1 ls-n2">{collection.name}</span>
+            <Link to={`${collection.id}`} state={{ collection }}><span className="fs-2hx fw-bold text-white lh-1 ls-n2">{collection.name}</span></Link>
               <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{collection.description}</span>
             </div>
             {/* end collections name and details */}
-
-            {/* start options drop down buttons */}
-            <Dropdown>
-              <Dropdown.Toggle size="sm" split variant="secondary">Options</Dropdown.Toggle>
-
-              <Dropdown.Menu id={collection.id}>
-                <Dropdown.Item>View full Collection</Dropdown.Item>
-                <Dropdown.Item>Add Books</Dropdown.Item>
-                <Dropdown.Item>Edit Books</Dropdown.Item>
-                <Dropdown.Item onClick={(e) => handleCollectionDelete(e)}>Delete</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            {/* end options drop down buttons */}
 
           </div>
 

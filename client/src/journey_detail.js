@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 
 import { faGenderless } from '@fortawesome/free-solid-svg-icons'
@@ -7,35 +7,57 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { useEffect, useState } from 'react';
 import moment from 'moment'
 
-import JourneyEntryModal from './journey_entry_modal';
+// import JourneyEntryModal from './journey_entry_modal';
 
 import defaultBook from "./imgs/generic_book.png";
 
-function IndividualCardList({ journeys, setJourneys, formatDate }) {
+function JourneyDetail({ journeys, setJourneys, formatDate, show, handleShow, handleClose, setSelectedJourney, selectedJourney, thisJourney, setThisJourney, thisJourneyEntries, setThisJourneyEntries }) {
 
   library.add(faGenderless);
 
-  const location = useLocation()
+  const location = useLocation();
   // location.state.journey.id <- selected journey's id
+  const pageParams = useParams();
 
-  const [thisJourney, setThisJourney] = useState(null)
-  const [thisJourneyEntries, setThisJourneyEntries] = useState(null)
+  // console.log(pageParams)
+
+  // const [thisJourney, setThisJourney] = useState(null)
+  // const [thisJourneyEntries, setThisJourneyEntries] = useState(null)
+
   const [bookDetails, setBookDetails] = useState({})
 
-  const [showJourneyModal, setShowJourneyModal] = useState(null)
-  const [selectedJourney, setSelectedJourney] = useState(null)
+  // const [showJourneyModal, setShowJourneyModal] = useState(null)
+  // const [selectedJourney, setSelectedJourney] = useState(null)
 
   // fetch journey and associated journey entries for selected journey
   useEffect(() => {
-    fetch(`/api/journeys/${location.state.journey.id}`).then(response => {
-      if (response.ok) {
-        response.json().then(this_journey => {
-          setThisJourney(this_journey)
-          setThisJourneyEntries(this_journey.journey_entries)
-        })
-      }
-    })
+    // fetch(`/api/journeys/${pageParams.id}`).then(response => {
+    //   if (response.ok) {
+    //     response.json().then(this_journey => {
+    //       console.log(this_journey)
+    //       console.log(journeys)
+    //       setThisJourney(this_journey)
+    //       setThisJourneyEntries(this_journey.journey_entries)
+    //     })
+    //   }
+    // })
+
+    // journeys.map((journey) => {
+    //   if (journey.id === pageParams.id) {
+    //     setThisJourney(journey)
+    //     setThisJourneyEntries(journey.journey_entries)
+    //   }
+    // })
+    // console.log(`page params id: ${pageParams.id}`)
+    let thisPageId = parseInt(pageParams.id)
+    let currentJourneyDetails = journeys.filter(journey => journey.id === thisPageId )[0]
+    // console.log(currentJourneyDetails)
+    setThisJourney(currentJourneyDetails)
+    setThisJourneyEntries(currentJourneyDetails.journey_entries)
+    
   }, [])
+  
+  // console.log(thisJourney)
 
   useEffect(() => {
     if (thisJourney) {
@@ -51,13 +73,13 @@ function IndividualCardList({ journeys, setJourneys, formatDate }) {
   }, [thisJourney])
 
   function handleAddProgressEntry(e) {
-    setShowJourneyModal(e.currentTarget.id)
+    handleShow(e)
     setSelectedJourney(thisJourney)
   }
 
-  function handleJourneyModalClose() {
-    setShowJourneyModal(null)
-  }
+  // function handleJourneyModalClose() {
+  //   setShowJourneyModal(null)
+  // }
 
   // creating reading log plot points
   let journeyEntryItems
@@ -85,6 +107,7 @@ function IndividualCardList({ journeys, setJourneys, formatDate }) {
   })
 
   // console.log(thisJourneyEntries)
+  // console.log(parseInt(pageParams.id))
 
   return (
 
@@ -127,9 +150,9 @@ function IndividualCardList({ journeys, setJourneys, formatDate }) {
                   {/* page title end */}
 
                   <div className="d-flex align-items-center gap-2 gap-lg-3">
-                      {/* disables button if the journey has already been completed */}
-                      <button id={thisJourney?.id} className={"btn btn-sm fw-bold btn-primary " + (thisJourney?.current_progress === 100 ? "disabled" : "")} data-bs-toggle="modal"
-                        data-bs-target="#kt_modal_create_app" onClick={(e) => handleAddProgressEntry(e)}>Add Progress Entry</button>
+                    {/* disables button if the journey has already been completed */}
+                    <button id="new-journey-entry-modal" className={"btn btn-sm fw-bold btn-primary " + (thisJourney?.current_progress === 100 ? "disabled" : "")} data-bs-toggle="modal"
+                      data-bs-target="#kt_modal_create_app" onClick={(e) => handleAddProgressEntry(e)}>Add Progress Entry</button>
                   </div>
 
                 </div>
@@ -214,13 +237,11 @@ function IndividualCardList({ journeys, setJourneys, formatDate }) {
                             </div>
                             {/* end inital journey creation entry*/}
 
-
                           </div>
                           {/* end::Timeline */}
                         </div>
                         {/* end: Card Body */}
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -229,9 +250,9 @@ function IndividualCardList({ journeys, setJourneys, formatDate }) {
           </div>
         </div>
       </div>
-      <JourneyEntryModal showJourneyModal={showJourneyModal} handleJourneyModalClose={handleJourneyModalClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} thisJourneyEntries={thisJourneyEntries} setThisJourneyEntries={setThisJourneyEntries}/>
+      {/* <JourneyEntryModal handleJourneyModalClose={handleJourneyModalClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} thisJourneyEntries={thisJourneyEntries} setThisJourneyEntries={setThisJourneyEntries}/> */}
     </div>
   )
 }
 
-export default IndividualCardList;
+export default JourneyDetail;

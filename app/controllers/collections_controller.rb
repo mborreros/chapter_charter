@@ -6,7 +6,7 @@ class CollectionsController < ApplicationController
   def index
     if params[:user_id]
       this_user = User.find(params[:user_id])
-      collections = this_user.collections
+      collections = this_user.collections.order(created_at: :desc)
     else
       collections = Collection.all
     end

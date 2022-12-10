@@ -54,6 +54,17 @@ code {
   background-color: #edadb6bd;
 }
 
+.idv-collection-card {
+  border-color: #edadb6bd;
+  border-style: dotted;
+  border-width: 2px;
+}
+
+.collection-page-book-icon img {
+  width: 65px;
+  border-radius: 0;
+}
+
 /* journey card book cover image sizing */
 .card-title.book-cover-image img {
   width: 100px;
@@ -135,8 +146,6 @@ code {
   color: #93d136; 
 }
 /* end reading journey indicator colors*/
-
-
 
 @keyframes heartBeat {
   0% {
