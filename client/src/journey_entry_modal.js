@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
 // import Modal from 'react-bootstrap/Modal'
 
-function JourneyEntryModal({ show, showJourneyModal, handleJourneyModalClose, journeys, setJourneys, selectedJourney, formatDate, setCardAnimation = null, thisJourneyEntries = null, setThisJourneyEntries = null }) {
+function JourneyEntryModal({ handleClose, journeys, setJourneys, selectedJourney, formatDate, setCardAnimation, selectedJourneyEntries }) {
 
   const [updatedProgress, setUpdatedProgress] = useState(null)
-
-  // showJourneyModal <- the id of this journey which is also toggling the modal show/hide
-  // selectedJourney <- particular journey the user selected from the journey state
-
-  // console.log(selectedJourney)
-  console.log(thisJourneyEntries)
 
   let journey_entry_body
   function handleJourneyEntrySubmit(e) {
@@ -29,8 +23,7 @@ function JourneyEntryModal({ show, showJourneyModal, handleJourneyModalClose, jo
       .then(response => {
         if (response.ok) {
           response.json().then((new_journey_entry) => {
-            if (thisJourneyEntries) {
-              // setting state for journey_entries if coming from individual entry page
+              // setting state for journey_entries
               let this_new_entry = {}
               this_new_entry = {
                 id: new_journey_entry.id,
@@ -38,9 +31,7 @@ function JourneyEntryModal({ show, showJourneyModal, handleJourneyModalClose, jo
                 progress: new_journey_entry.progress,
                 created_at: new_journey_entry.created_at
               }
-
-              setThisJourneyEntries([this_new_entry, ...thisJourneyEntries])
-            }
+              selectedJourney.journey_entries.unshift(this_new_entry)
             // updating progress value on user updated journey based on id from POST request
             setJourneys(journeys.map(journey => {
               if (journey.id == new_journey_entry.journey.id) {
@@ -56,10 +47,10 @@ function JourneyEntryModal({ show, showJourneyModal, handleJourneyModalClose, jo
       })
 
     // card animation on progress update, not set if not on journeys page
-    thisJourneyEntries ? handleJourneyModalClose() : setCardAnimation(selectedJourney.id)
+    selectedJourneyEntries ? handleClose() : setCardAnimation(selectedJourney.id)
 
     // close modal after submisson
-    handleJourneyModalClose()
+    handleClose()
 
     setTimeout(() => {
       setCardAnimation(null)

@@ -3,22 +3,17 @@ import defaultBook from "./imgs/generic_book.png";
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import JourneyEntryModal from "./journey_entry_modal";
 
 function JourneyCards({ journeys, setJourneys, formatDate, show, handleClose, handleShow, setSelectedJourney, selectedJourney, cardAnimation }) {
 
+  useEffect(() => {
+    document.title = "Journeys"
+  }, [])
+
   // adding font awesome icons to library for use in html
   library.add(faPenToSquare);
-
-  // const [showJourneyModal, setShowJourneyModal] = useState(null)
-
-
-  // function handleJourneyModalClose() {
-  //   setShowJourneyModal(null)
-  // }
 
   let this_journey
   function handleJourneyEdit(e, journeyId) {

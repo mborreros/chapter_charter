@@ -6,8 +6,8 @@ import ListPage from './list_page';
 import Statistics from './statistics';
 import Navigation from './navigation';
 import Account from './user_account';
-import JourneyDetail from "./journey_detail";
-import IndividualCollectionList from "./idv_collection_list";
+// import JourneyDetail from "./journey_detail";
+// import CollectionDetail from "./collection_detail";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -89,12 +89,9 @@ function App() {
     };
 
     function handleShow(e) {
-      // console.log(e.target)
-      // console.log(e.currentTarget.id)
+      console.log(e.currentTarget.id)
       setShow(e.currentTarget.id)
     }
-
-    // console.log(show)
 
   return (
     <>
@@ -107,19 +104,13 @@ function App() {
         <Route exact path="/login" element={<UserAuthForm onLogin={setUser} />} />
         <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} />} />
 
-        {/* dummy pages */}
         <Route exact path="/collections" element={<ListPage collections={collections} setCollections={setCollections} user={user} show={show} handleClose={handleClose} handleShow={handleShow}/>} />
-        <Route  path="/collections/:id" element={<IndividualCollectionList />} />
+        <Route  path="/collections/:id" element={<ListPage />} />
 
         <Route exact path="/journeys" element={<ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} user={user} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow}/>} />
         <Route exact path="/journeys/:id" element={<ListPage journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} />} />
-        {/* <Route path="/journeys/:id" element={<JourneyDetail journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} />} /> */}
 
-        {/* <Route path="/journeys/*" >
-          <Route index={true} element={ <ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user}/> }/>
-          <Route index={false} path=":id" element={<IndividualCardList />} />
-        </Route> */}
-
+        {/* dummy pages */}
         <Route exact path="/challenges" element={<ListPage challenges={challenges} />} />
         <Route exact path="/statistics" element={<Statistics />} />
         <Route exact path="/account" element={<Account />} />

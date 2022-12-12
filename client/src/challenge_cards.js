@@ -1,6 +1,10 @@
+import { useEffect } from "react"
 
 function ChallengeCards({ challenges }){
 
+  useEffect(() => {
+    document.title = "Challenges"
+  }, [])
 
     return (challenges?.map((challenge) => {
       
