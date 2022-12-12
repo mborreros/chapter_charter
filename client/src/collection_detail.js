@@ -6,25 +6,18 @@ import moment from 'moment'
 // import JourneyModal from './journey_modal'
 import defaultBook from "./imgs/generic_book.png";
 
-function CollectionDetail({ }) {
-
-  const [selectedCollection, setSelectedCollection] = useState(null)
+function CollectionDetail({ selectedCollection, setSelectedCollection }) {
 
   const collectionLocation = useLocation()
 
-  useEffect(() => {
-    setSelectedCollection(collectionLocation?.state.collection)
-  }, [])
-
-  console.log(selectedCollection)
+  useEffect(() => {setSelectedCollection(collectionLocation?.state.collection)}, [])
 
   let bookListItems
-  bookListItems = selectedCollection?.books.map((book) => {
-
+  bookListItems = selectedCollection?.books?.map((book) => {
     return (
       <div className="d-flex align-items-center mb-7" key={book.id}>
         <div className="collection-page-book-icon me-5">
-          <img src={book.cover_img ? book.cover_img : defaultBook} className="" alt="" />
+          <img src={book.cover_img ? book.cover_img.replace("S.jpg", "L.jpg") : defaultBook} className="" alt="" />
         </div>
 
         <div className="flex-grow-1 text-capitalize">
@@ -43,26 +36,6 @@ function CollectionDetail({ }) {
         <div className="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
           <div className="app-main flex-column flex-row-fluid" id="kt_app_main">
             <div className="d-flex flex-column flex-column-fluid">
-
-              {/* start refactor */}
-              <div id="kt_app_toolbar" className="app-toolbar py-3 py-lg-6">
-                <div id="kt_app_toolbar_container" className="app-container container-xxl d-flex flex-stack">
-
-                  {/* page title */}
-                  <div className="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                    <h1 className='text-capitalize'>{selectedCollection?.name} Collection</h1>
-                  </div>
-                  {/* page title end */}
-
-                  <div className="d-flex align-items-center gap-2 gap-lg-3">
-                    {/* disables button if the journey has already been completed */}
-                    <button id={selectedCollection?.id} className="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal"
-                      data-bs-target="#kt_modal_create_app" onClick={(e) => console.log(e)}>Add Books to Collection</button>
-                  </div>
-
-                </div>
-              </div>
-              {/* end refactor  */}
 
               <div id="kt_app_content" className="app-content flex-column-fluid">
                 <div id="kt_app_content_container" className="app-container container-xxl">

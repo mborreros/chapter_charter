@@ -89,7 +89,6 @@ function App() {
     };
 
     function handleShow(e) {
-      console.log(e.currentTarget.id)
       setShow(e.currentTarget.id)
     }
 
@@ -105,7 +104,7 @@ function App() {
         <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} />} />
 
         <Route exact path="/collections" element={<ListPage collections={collections} setCollections={setCollections} user={user} show={show} handleClose={handleClose} handleShow={handleShow}/>} />
-        <Route  path="/collections/:id" element={<ListPage />} />
+        <Route  path="/collections/:id" element={<ListPage books={books} setBooks={setBooks} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} />} />
 
         <Route exact path="/journeys" element={<ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} user={user} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow}/>} />
         <Route exact path="/journeys/:id" element={<ListPage journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} />} />

@@ -1,6 +1,6 @@
-// import Button from "react-bootstrap/esm/Button"
-// import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
+
+import defaultBook from "./imgs/generic_book.png";
 
 function CollectionCards({ collections, setCollections, show, handleClose }){
 
@@ -25,18 +25,12 @@ function CollectionCards({ collections, setCollections, show, handleClose }){
 
     if (collection.books.length >0) {
       book_covers = collection.books.map((book) => {return(
-        <img src={book.cover_img} alt={book.title + 'cover image'} key={book.id} className="me-4"/>
+        <img src={ book.cover_img ? book.cover_img.replace("S.jpg", "L.jpg") : defaultBook } alt={book.title + 'cover image'} key={book.id} className="me-4"/>
       )})} else { book_covers = 
       <div className='text-grey opacity-50'>
         <span>This collection is empty; to add books: select the Options then Add Books</span>
       </div>
     }
-
-    // const idvCollectionTo = {
-    //   pathname: `/collections/${collection.id}, ${collection}, ${show}, ${handleClose}, ${books}, ${setBooks}, ${user}, ${formatDate}`,
-    //   state: {collection}
-    // }
-
     
     return(
       <div className="col-md-6 mb-md-5 mb-xl-10" key={collection.id}>

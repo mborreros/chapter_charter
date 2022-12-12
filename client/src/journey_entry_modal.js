@@ -57,8 +57,6 @@ function JourneyEntryModal({ handleClose, journeys, setJourneys, selectedJourney
     }, 2000);
   }
 
-  // console.log(selectedJourney)
-
   return (
         <form id="kt_modal_new_target_form" className="form" action="submit" onSubmit={(e) => handleJourneyEntrySubmit(e)}>
           {/* start collection name input group */}

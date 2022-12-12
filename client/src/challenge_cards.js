@@ -1,11 +1,6 @@
 import { useEffect } from "react"
 
 function ChallengeCards({ challenges }){
-
-  useEffect(() => {
-    document.title = "Challenges"
-  }, [])
-
     return (challenges?.map((challenge) => {
       
     // establishes class to define card color based on journey progress

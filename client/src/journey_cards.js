@@ -49,11 +49,11 @@ function JourneyCards({ journeys, setJourneys, formatDate, show, handleClose, ha
           <div className="card-header pt-5 align-items-start flex-nowrap">
             {/* book cover */}
             <div className="card-title col-3 book-cover-image flex-column">
-              <img src={journey.book.cover_img ? journey.book.cover_img : defaultBook} alt={journey.book.title + ' book cover'}></img>
+              <img src={journey.book.cover_img ? journey.book.cover_img.replace("S.jpg", "L.jpg") : defaultBook} alt={journey.book.title + ' book cover'}></img>
             </div>
             {/* book cover end */}
             <div className="card-title col-9 flex-column align-items-end">
-              <Link to={`/journeys/${journey.id}`}><span className="fs-2hx fw-bold text-white lh-1 ls-n2 ">{journey.book.title}</span></Link>
+              <Link to={`/journeys/${journey.id}`}><span className="d-block text-end fs-2hx fw-bold text-white lh-1 ls-n2 text-capitalize ">{journey.book.title}</span></Link>
               <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{journey.book.author}</span>
               <span className="journey-card-genres text-white opacity-75 pt-1 text-end fw-semibold fs-6 text-lowercase">{journey.book.genre?.join(" / ")}</span>
             </div>

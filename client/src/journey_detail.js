@@ -11,7 +11,7 @@ import moment from 'moment'
 
 import defaultBook from "./imgs/generic_book.png";
 
-function JourneyDetail({ handleShow, setSelectedJourney, selectedJourney, selectedJourneyEntries, findSelectedJourney }) {
+function JourneyDetail({ selectedJourney, findSelectedJourney }) {
 
   library.add(faGenderless);
 

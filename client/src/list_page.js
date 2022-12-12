@@ -17,47 +17,66 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
 
   // getting pathname to determine which page to show
   const location = useLocation();
-
-  // capitalize page name
-  const this_page_title = location.pathname.substring(1).charAt(0).toUpperCase() + location.pathname.substring(1).slice(1)
-
   // parsing pathname to just the dynamic text for render conditional logic
   const pathSlug = location.pathname.split('/')
 
-  const pageParams = useParams();
-
   const [cardAnimation, setCardAnimation] = useState(null)
-  // const [thisJourney, setThisJourney] = useState(null)
   const [selectedJourneyEntries, setSelectedJourneyEntries] = useState([])
+  const [selectedCollection, setSelectedCollection] = useState(null)
 
   // sorting and setting user selected journey for journey detail page
   function findSelectedJourney(thisPageId) {
     let currentJourneyDetails = journeys.filter(journey => journey.id == thisPageId)[0]
     setSelectedJourney(currentJourneyDetails)
-
     setSelectedJourneyEntries(currentJourneyDetails.journey_entries)
   }
 
+  function pagePath(path = pathSlug) {
+    let pageTitle
+    if (path[1] === "journeys") {
+      pageTitle = path[2] ? "journey-detail" : "journeys"
+    }
+    else if (path[1] == "collections") {
+      pageTitle = path[2] ? "collection-detail" : "collections"
+    }
+    else if (path[1] == "challenges") {
+      pageTitle = path[2] ? "challenge-detail" : "challenges"
+    }
+    return pageTitle
+  }
+
   // conditonal page content rendering based on pathname
-  let pageContent
-  if (pathSlug[1] === "journeys") {
-    if (pathSlug.length > 2) {
-      pageContent = <JourneyDetail journeys={journeys} setSelectedJourney={setSelectedJourney} handleShow={handleShow} selectedJourney={selectedJourney} setThisJourney={setSelectedJourney} selectedJourneyEntries={selectedJourneyEntries} setThisJourneyEntries={setSelectedJourneyEntries} findSelectedJourney={findSelectedJourney} />
-    }
-    else {
+  let pageContent, pageTitle, buttonText
+  switch (pagePath(pathSlug)) {
+    case "journeys":
       pageContent = <JourneyCards journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} cardAnimation={cardAnimation} />
-    }
-  }
-  else if (pathSlug[1] === "collections") {
-    if (pathSlug.length > 2) {
-      pageContent = <CollectionDetail />
-    }
-    else {
+      pageTitle = "Journeys"
+      buttonText = "Start a new Journey"
+      break;
+    case "journey-detail":
+      pageContent = <JourneyDetail journeys={journeys} setSelectedJourney={setSelectedJourney} handleShow={handleShow} selectedJourney={selectedJourney} setThisJourney={setSelectedJourney} selectedJourneyEntries={selectedJourneyEntries} setThisJourneyEntries={setSelectedJourneyEntries} findSelectedJourney={findSelectedJourney} />
+      pageTitle = selectedJourney?.book.title + " Journey"
+      buttonText = "Add Reading Journey Progress"
+      break;
+    case "collections":
       pageContent = <CollectionCards collections={collections} setCollections={setCollections} show={show} handleClose={handleClose} />
-    }
-  }
-  else if (pathSlug[1] === "challenges") {
-    pageContent = <ChallengeCards challenges={challenges} />
+      pageTitle = "Collections"
+      buttonText = "Start a new Collection"
+      break;
+    case "collection-detail":
+      pageContent = <CollectionDetail selectedCollection={selectedCollection} setSelectedCollection={setSelectedCollection} collections={collections} setCollections={setCollections} />
+      pageTitle = selectedCollection?.name + " Collection"
+      buttonText = "Add Books to this Collection"
+      break;
+    case "challenges":
+      pageContent = <ChallengeCards challenges={challenges} />
+      pageTitle = "Challenges"
+      break;
+    // case "collection-detail":
+    //   pageContent = <CollectionDetail selectedCollection={selectedCollection} setSelectedCollection={setSelectedCollection} />
+    //   break;
+    default:
+      break;
   }
 
   return (
@@ -67,7 +86,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
           <div className="app-main flex-column flex-row-fluid" id="kt_app_main">
             <div className="d-flex flex-column flex-column-fluid">
 
-              <HeaderContents pageName={pathSlug} handleShow={handleShow} journeyDetail={selectedJourney}/>
+              <HeaderContents pageName={pathSlug} handleShow={handleShow} journeyDetail={selectedJourney} collectionDetail={selectedCollection} pageTitle={pageTitle} buttonText={buttonText} />
 
               <div id="kt_app_content" className="app-content flex-column-fluid">
                 <div id="kt_app_content_container" className="app-container container-xxl">
@@ -91,6 +110,8 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
         journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} formatDate={formatDate}
         // if click is journey entry progress, using this data
         selectedJourney={selectedJourney} setCardAnimation={setCardAnimation} selectedJourneyEntries={selectedJourneyEntries}
+        // if click is add book(s) to colelction, using this data
+        setSelectedCollection={setSelectedCollection} selectedCollection={selectedCollection}
       />
 
     </div>

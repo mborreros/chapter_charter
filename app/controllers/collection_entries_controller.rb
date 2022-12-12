@@ -14,7 +14,15 @@ class CollectionEntriesController < ApplicationController
   end
 
   def create
-    new_collection_entry = CollectionEntry.create!(collection_entry_params)
+    if params[:_json]
+      new_collection_entry = Array.new
+      params[:_json].each do | collection_entry_record |
+        new_collection_entry_record = CollectionEntry.create!(collection_id: collection_entry_record[:collection_id], book_id: collection_entry_record[:book_id])
+        new_collection_entry << new_collection_entry_record
+      end
+    else 
+      new_collection_entry = CollectionEntry.create!(collection_entry_params)
+    end
     render json: new_collection_entry, status: :ok
   end
 
