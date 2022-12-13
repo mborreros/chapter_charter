@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import Modal from 'react-bootstrap/Modal'
 import CollectionModal from './collection_modal';
-import JourneyModal from './journey_modal';
+import JourneyCollectionEntryModal from './journey_collection_entry_modal';
 import JourneyEntryModal from './journey_entry_modal';
 
 function ModalWrapper({ pathSlug, show, handleClose, user,
@@ -28,10 +28,10 @@ function ModalWrapper({ pathSlug, show, handleClose, user,
 
         {pathSlug[1] === "journeys" ? <p className="text-muted fw-semibold fs-6 text-center">Begin by searching our library and selecting your next book. Then let the literary adventure begin!</p> : <div></div>}
 
-        {show === "new-journey-modal" ? <JourneyModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} /> : <div></div>}
+        {show === "new-journey-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} /> : <div></div>}
         {show === "new-collection-modal" ? <CollectionModal handleClose={handleClose} collections={collections} setCollections={setCollections} user={user} /> : <div></div>}
         {show === "new-journey-entry-modal" ? <JourneyEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} setCardAnimation={setCardAnimation} thisJourney={thisJourney} setThisJourney={setThisJourney} thisJourneyEntries={thisJourneyEntries} setThisJourneyEntries={setThisJourneyEntries} /> : <div></div>}
-        {show === "new-collection-entry-modal" ? <JourneyModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} setSelectedCollection={setSelectedCollection} selectedCollection={selectedCollection} collections={collections} setCollections={setCollections} /> : <div></div>}
+        {show === "new-collection-entry-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} setSelectedCollection={setSelectedCollection} selectedCollection={selectedCollection} collections={collections} setCollections={setCollections} /> : <div></div>}
 
 
       </Modal.Body>

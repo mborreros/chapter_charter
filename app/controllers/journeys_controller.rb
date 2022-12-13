@@ -21,7 +21,8 @@ class JourneysController < ApplicationController
   end
 
   def create
-    new_journey = Journey.create!(journey_params)
+    book = find_and_create_book(params[:book_id])
+    new_journey = Journey.create!(user_id: params[:user_id], book_id: book.id, start_date: params[:start_date], manually_completed: params[:manually_completed])
     render json: new_journey, status: :ok
   end
 
@@ -38,6 +39,15 @@ class JourneysController < ApplicationController
   end
 
   private
+
+  def find_and_create_book(book)
+    if found_book = Book.find_by(book_api_num: book[:book_api_num])
+      return found_book
+    else
+      new_book = Book.create!(title: book[:title], author: book[:author], length: book[:length], cover_img: book[:cover_img], book_api_num: book[:book_api_num], genre: book[:genre])
+      return new_book
+    end
+  end
 
   def journey_params
     params.permit(:book_id, :user_id, :start_date, :end_date, :manually_completed)

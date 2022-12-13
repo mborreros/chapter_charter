@@ -14,16 +14,13 @@ class CollectionEntriesController < ApplicationController
   end
 
   def create
-    if params[:_json]
-      new_collection_entry = Array.new
-      params[:_json].each do | collection_entry_record |
-        new_collection_entry_record = CollectionEntry.create!(collection_id: collection_entry_record[:collection_id], book_id: collection_entry_record[:book_id])
-        new_collection_entry << new_collection_entry_record
-      end
-    else 
-      new_collection_entry = CollectionEntry.create!(collection_entry_params)
+    books_array = find_and_create_books(params[:book_data])
+    new_collection_entries = Array.new
+    books_array.each do |book|
+      new_collection_entry_record = CollectionEntry.create!(collection_id: params[:collection_id], book_id: book[:id])
+      new_collection_entries << new_collection_entry_record
     end
-    render json: new_collection_entry, status: :ok
+    render json: new_collection_entries, status: :ok
   end
 
   def update
@@ -39,6 +36,19 @@ class CollectionEntriesController < ApplicationController
   end
 
   private
+
+  def find_and_create_books(books)
+    books_array = Array.new
+    books.each do |book|
+      if found_book = Book.find_by(book_api_num: book[:book_api_num])
+        books_array << found_book
+      else
+        new_book = Book.create!(title: book[:title], author: book[:author], length: book[:length], cover_img: book[:cover_img], book_api_num: book[:book_api_num], genre: book[:genre])
+        books_array << new_book
+      end
+    end
+    return books_array
+  end
 
   def collection_entry_params
     params.permit(:collection_id, :book_id)
