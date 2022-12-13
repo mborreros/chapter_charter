@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-function UserAuthForm( { onLogin, onSignup } ) {
+function UserAuthForm({ onLogin, onSignup }) {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,47 +14,41 @@ function UserAuthForm( { onLogin, onSignup } ) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  function handleUserLogin(e){
+  function handleUserLogin(e) {
     e.preventDefault()
-
     fetch("/login", {
       method: "POST",
-      headers: { "Content-Type" : "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })
     })
-    .then(response => {
-      if (response.ok){
-        response.json().then((user) => onLogin(user)).then(navigate("../", { replace: true }))
-      } else {
-        response.json().then((errors) => console.log(errors))
-      }
-    })
-
-    // .then((response) => response.json())
-    // .then((user) => onLogin(user),
-    //   navigate("../", { replace: true }))
+      .then(response => {
+        if (response.ok) {
+          response.json().then((user) => onLogin(user)).then(navigate("../", { replace: true }))
+        } else {
+          response.json().then((errors) => console.log(errors))
+        }
+      })
   }
 
-  function handleUserSignup(e){
+  function handleUserSignup(e) {
     e.preventDefault()
-
     fetch("/api/users", {
       method: "POST",
-      headers: { "Content-Type" : "application/json" },
-      body: JSON.stringify( {username, password} )
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
     })
-    .then(response => {
-      if (response.ok){
-        response.json().then(onSignup()).then(navigate("../", { replace: true }))
-      } else {
-        response.json().then((errors) => console.log(errors))
-      }
-    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(onSignup()).then(navigate("../", { replace: true }))
+        } else {
+          response.json().then((errors) => console.log(errors))
+        }
+      })
   }
 
-  return(
+  return (
     <>
-      { location.pathname === "/login" ?
+      {location.pathname === "/login" ?
         <>
           <h1>login user auth form content</h1>
           <Form onSubmit={(e) => handleUserLogin(e)}>
@@ -69,9 +63,9 @@ function UserAuthForm( { onLogin, onSignup } ) {
             </Form.Group>
             <br></br>
             <Button type="submit">Login</Button>
-          </Form> 
-        </> 
-      :
+          </Form>
+        </>
+        :
         <>
           <h1>signup user auth form content</h1>
           <Form onSubmit={(e) => handleUserSignup(e)}>
@@ -92,7 +86,7 @@ function UserAuthForm( { onLogin, onSignup } ) {
 
             <Button type="submit">Signup</Button>
 
-        </Form>
+          </Form>
         </>
       }
     </>

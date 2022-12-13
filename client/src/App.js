@@ -99,7 +99,7 @@ function App() {
       <Routes>
 
         {/* today's focus -> page for user login */}
-        <Route exact path="/" element={<Home user={user} onLogout={setUser} />} />
+        <Route exact path="/" element={<Home user={user} onLogout={setUser} onLogin={setUser} onSignup={setUser} />} />
         <Route exact path="/login" element={<UserAuthForm onLogin={setUser} />} />
         <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} />} />
 

@@ -30,6 +30,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
     setSelectedJourney(currentJourneyDetails)
     setSelectedJourneyEntries(currentJourneyDetails.journey_entries)
   }
+
   // used on journey detail page, at this level to control journey state rendered on list_page
   function handleJourneyEntryDelete(e) {
     let journeyEntryId = e.currentTarget.id
@@ -42,6 +43,26 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
           selectedJourney.journey_entries = updated_journey_entries
           setJourneys(journeys.map(journey => journey.id !== updatedJourney.id ? journey : updatedJourney))
         })
+      }
+    })
+  }
+
+  // used on collection detail page, at this level to control collection state rendered on list_page
+  function handleCollectionEntryDelete(e) {
+    let bookIdForRemoval = e.currentTarget.id
+    let entryToRemove = selectedCollection.collection_entries.filter(collection_entry => collection_entry.book_id == bookIdForRemoval)[0]
+
+    fetch(`/api/collection_entries/${entryToRemove.id}`, {
+      method: "DELETE"
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(updated_collection => {
+          setSelectedCollection(updated_collection)
+          let revised_collection_array = collections.map(collection => collection.id == updated_collection.id ? updated_collection : collection)
+          setCollections(revised_collection_array)
+        })
+      } else {
+        console.log("Error in collection entry deletion")
       }
     })
   }
@@ -79,7 +100,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "Start a new Collection"
       break;
     case "collection-detail":
-      pageContent = <CollectionDetail selectedCollection={selectedCollection} setSelectedCollection={setSelectedCollection} collections={collections} setCollections={setCollections} />
+      pageContent = <CollectionDetail selectedCollection={selectedCollection} setSelectedCollection={setSelectedCollection} collections={collections} setCollections={setCollections} handleCollectionEntryDelete={handleCollectionEntryDelete} />
       pageTitle = selectedCollection?.name + " Collection"
       buttonText = "Add Books to this Collection"
       break;

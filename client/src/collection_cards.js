@@ -4,20 +4,6 @@ import defaultBook from "./imgs/generic_book.png";
 
 function CollectionCards({ collections, setCollections, show, handleClose }){
 
-  function handleCollectionDelete(e) {
-    let thisCollectionId = e.target.parentNode.id
-    let updatedCollectionArray = []
-
-    fetch(`/api/collections/${thisCollectionId}`, {
-      method: "DELETE"
-    }).then((response) => {
-      if (response.ok) {
-        updatedCollectionArray = collections.filter((collection) => collection.id !== thisCollectionId)
-        setCollections(updatedCollectionArray)
-      } else {console.log("Collection was not deleted successfully.")}
-  })
-}
-
   return (collections?.map((collection) => {
 
     // getting collection book covers for card

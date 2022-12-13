@@ -147,8 +147,32 @@ code {
 }
 /* end reading journey indicator colors*/
 
-.trash-can-icon {
-  color: gray;
+.home-screen {
+  background-image: url('imgs/library-3.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 620px;
+  background-color: rgb(119, 136, 154);
+  background-attachment: fixed;
+  background-position: center center;
+}
+
+/* start custom login button coloring for home page */
+.btn-login-button {
+  color: #e3e3e3;
+  background-color: #C8A2C8 !important
+}
+
+.btn-login-button:active,
+.btn-login-button:hover,
+.btn-login-button:focus {
+  color: #e3e3e3;
+  background-color: #a98ca9 !important
+}
+/* end custom login button coloring for home page */
+
+.user-button-container {
+  width: 450px;
 }
 
 @keyframes heartBeat {

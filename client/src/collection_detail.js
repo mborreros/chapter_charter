@@ -1,16 +1,57 @@
-import { useLocation } from 'react-router-dom'
-// import { Link } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import moment from 'moment'
 
-// import JourneyModal from './journey_modal'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import moment from 'moment'
 import defaultBook from "./imgs/generic_book.png";
 
-function CollectionDetail({ selectedCollection, setSelectedCollection }) {
+function CollectionDetail({ selectedCollection, setSelectedCollection, collections, setCollections, handleCollectionEntryDelete }) {
+
+  // importing font awesome icons
+  library.add(faXmark);
 
   const collectionLocation = useLocation()
+  const navigate = useNavigate();
 
-  useEffect(() => {setSelectedCollection(collectionLocation?.state.collection)}, [])
+  const [isCollectionEditable, setIsCollectionEditable] = useState(false)
+
+  useEffect(() => { setSelectedCollection(collectionLocation?.state.collection) }, [])
+
+  function handleCollectionDelete(e) {
+    let thisCollectionId = e.currentTarget.id
+
+    fetch(`/api/collections/${thisCollectionId}`, {
+      method: "DELETE"
+    }).then((response) => {
+      if (response.ok) {
+        let updatedCollectionArray = collections.filter((collection) => collection.id !== parseInt(thisCollectionId))
+        setCollections(updatedCollectionArray)
+        navigate("../collections", { replace: true })
+      } else { console.log("Collection was not deleted successfully.") }
+    })
+  }
+
+  // function handleCollectionEntryDelete(e) {
+
+  //   let bookIdForRemoval = e.currentTarget.id
+  //   let entryToRemove = selectedCollection.collection_entries.filter(collection_entry => collection_entry.book_id == bookIdForRemoval)[0]
+
+  //   fetch(`/api/collection_entries/${entryToRemove.id}`, {
+  //     method: "DELETE"
+  //   }).then(response => {
+  //     if (response.ok) {
+  //       response.json().then(updated_collection => {
+  //         setSelectedCollection(updated_collection)
+  //         let revised_collection_array = collections.filter(collection => collection.id == updated_collection.id ? updated_collection : collection)
+  //         setCollections(revised_collection_array)
+  //       })
+  //     } else {
+  //       console.log("Error in collection entry deletion")
+  //     }
+  //   })
+  // }
 
   let bookListItems
   bookListItems = selectedCollection?.books?.map((book) => {
@@ -23,6 +64,11 @@ function CollectionDetail({ selectedCollection, setSelectedCollection }) {
         <div className="flex-grow-1 text-capitalize">
           <span className='fs-5'>{book.title}</span>
           <span className="text-muted d-block">{book.author}</span>
+          <span>
+            <button id={book.id} className={'btn btn-active-text-danger btn-sm py-1 align-baseline ' + (isCollectionEditable ? "" : "d-none")} onClick={(e) => handleCollectionEntryDelete(e)}>
+              <FontAwesomeIcon icon="fa-solid fa-xmark" />
+            </button>
+          </span>
         </div>
 
       </div>
@@ -75,6 +121,10 @@ function CollectionDetail({ selectedCollection, setSelectedCollection }) {
                             <span className='fw-bold mb-2 text-dark'>Shelf</span>
                             <span className='text-muted fw-semibold fs-7'>{selectedCollection?.books.length} Book{selectedCollection?.books.length == 1 ? "" : "s"}</span>
                           </h3>
+                          <div>
+                            <button id={selectedCollection?.id} className={"btn btn-sm btn-danger mx-4 " + (isCollectionEditable ? "" : "d-none")} onClick={(e) => handleCollectionDelete(e)}>Delete Collection</button>
+                            <button className='btn btn-sm btn-light' onClick={(e) => setIsCollectionEditable(!isCollectionEditable)}>{isCollectionEditable ? "Cancel" : "Edit Books"}</button>
+                          </div>
                         </div>
                         {/* end header */}
 

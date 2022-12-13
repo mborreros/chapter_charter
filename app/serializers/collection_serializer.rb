@@ -4,5 +4,6 @@ class CollectionSerializer < ActiveModel::Serializer
 
   # belongs_to :user
   has_many :books, through: :collection_entries
+  has_many :collection_entries
 
 end

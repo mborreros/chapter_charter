@@ -26,7 +26,6 @@ class JourneyEntriesController < ApplicationController
 
   def destroy
     this_journey_entry = JourneyEntry.find(params[:id])
-    # debugger
     this_journey_entry.destroy
     render json: this_journey_entry.journey, status: :ok
   end

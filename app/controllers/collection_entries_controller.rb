@@ -31,8 +31,8 @@ class CollectionEntriesController < ApplicationController
 
   def destroy
     this_collection_entry = CollectionEntry.find(params[:id])
-      this_collection_entry.destroy
-      head :no_content
+    this_collection_entry.destroy
+    render json: this_collection_entry.collection, status: :ok
   end
 
   private

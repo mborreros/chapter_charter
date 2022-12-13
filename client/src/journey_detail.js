@@ -54,26 +54,6 @@ function JourneyDetail({ selectedJourney, setSelectedJourney, handleJourneyEntry
 
   }
 
-  // function handleJourneyEntryDelete(e) {
-  //   let journeyEntryId = e.currentTarget.id
-  //   fetch(`/api/journey_entries/${journeyEntryId}`, {
-  //     method: "DELETE"
-  //   }).then(response => {
-  //     if (response.ok) {
-  //       response.json().then(updatedJourney => {
-  //         let updated_journey_entries = selectedJourney.journey_entries.filter(journey_entry => journey_entry.id !== parseInt(journeyEntryId))
-  //         selectedJourney.journey_entries = updated_journey_entries
-  //         console.log("journeys before filter")
-  //         console.log(journeys)
-  //         let updated_journeys = journeys.filter(journey => journey.id !== updatedJourney.id)
-  //         setJourneys(updated_journeys)
-  //         console.log("journeys after filter")
-  //         console.log(journeys)
-  //       })
-  //     }
-  //   })
-  // }
-
   // creating reading log plot points
   let journeyEntryItems
   journeyEntryItems = selectedJourney?.journey_entries?.map((journey_entry) => {
