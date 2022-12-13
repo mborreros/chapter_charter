@@ -30,6 +30,21 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
     setSelectedJourney(currentJourneyDetails)
     setSelectedJourneyEntries(currentJourneyDetails.journey_entries)
   }
+  // used on journey detail page, at this level to control journey state rendered on list_page
+  function handleJourneyEntryDelete(e) {
+    let journeyEntryId = e.currentTarget.id
+    fetch(`/api/journey_entries/${journeyEntryId}`, {
+      method: "DELETE"
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(updatedJourney => {
+          let updated_journey_entries = selectedJourney.journey_entries.filter(journey_entry => journey_entry.id !== parseInt(journeyEntryId))
+          selectedJourney.journey_entries = updated_journey_entries
+          setJourneys(journeys.map(journey => journey.id !== updatedJourney.id ? journey : updatedJourney))
+        })
+      }
+    })
+  }
 
   function pagePath(path = pathSlug) {
     let pageTitle
@@ -54,7 +69,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "Start a new Journey"
       break;
     case "journey-detail":
-      pageContent = <JourneyDetail journeys={journeys} setSelectedJourney={setSelectedJourney} handleShow={handleShow} selectedJourney={selectedJourney} setThisJourney={setSelectedJourney} selectedJourneyEntries={selectedJourneyEntries} setThisJourneyEntries={setSelectedJourneyEntries} findSelectedJourney={findSelectedJourney} />
+      pageContent = <JourneyDetail journeys={journeys} setJourneys={setJourneys} setSelectedJourney={setSelectedJourney} handleShow={handleShow} selectedJourney={selectedJourney} handleJourneyEntryDelete={handleJourneyEntryDelete} setThisJourney={setSelectedJourney} selectedJourneyEntries={selectedJourneyEntries} setThisJourneyEntries={setSelectedJourneyEntries} findSelectedJourney={findSelectedJourney} />
       pageTitle = selectedJourney?.book.title + " Journey"
       buttonText = "Add Reading Journey Progress"
       break;

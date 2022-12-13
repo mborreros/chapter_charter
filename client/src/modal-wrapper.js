@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import Modal from 'react-bootstrap/Modal'
 import CollectionModal from './collection_modal';
 import JourneyCollectionEntryModal from './journey_collection_entry_modal';
@@ -8,11 +6,11 @@ import JourneyEntryModal from './journey_entry_modal';
 function ModalWrapper({ pathSlug, show, handleClose, user,
   // collection modal props
   collections, setCollections,
-  // journey modal props
+  // journey_collection_entry_modal clicked from journey props
   journeys, setJourneys, books, setBooks, formatDate,
   // journey entry progress modal props
   selectedJourney, cardAnimation, setCardAnimation, thisJourney, setThisJourney, thisJourneyEntries, setThisJourneyEntries,
-  // if click is add book(s) to colelction, using this data
+  // journey_collection_entry_modal clicked from collection detail props
   setSelectedCollection, selectedCollection }) {
 
   let entryTitle = (typeof show) === "string" && show.includes("entry") ? "Entry" : ""

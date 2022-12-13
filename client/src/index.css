@@ -147,6 +147,10 @@ code {
 }
 /* end reading journey indicator colors*/
 
+.trash-can-icon {
+  color: gray;
+}
+
 @keyframes heartBeat {
   0% {
       -webkit-transform: scale(1);

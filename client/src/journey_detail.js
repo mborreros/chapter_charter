@@ -1,28 +1,28 @@
-import { useLocation, useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
 
-import { faGenderless } from '@fortawesome/free-solid-svg-icons'
+import { faGenderless, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { useEffect, useState } from 'react';
 import moment from 'moment'
-
-// import JourneyEntryModal from './journey_entry_modal';
-
 import defaultBook from "./imgs/generic_book.png";
 
-function JourneyDetail({ selectedJourney, findSelectedJourney }) {
+function JourneyDetail({ selectedJourney, setSelectedJourney, handleJourneyEntryDelete, findSelectedJourney, journeys, setJourneys }) {
 
+  // importing font awesome icons
   library.add(faGenderless);
+  library.add(faXmark);
 
-  const location = useLocation();
-  // location.state.journey.id <- selected journey's id
   const pageParams = useParams();
+  const navigate = useNavigate();
 
   const [bookDetails, setBookDetails] = useState({})
+  const [areEntriesEditable, setAreEntriesEditable] = useState(false)
 
   // sorting and setting user selected journey for journey detail page
-  useEffect (() => {findSelectedJourney(pageParams.id)}, []) 
+  useEffect(() => { findSelectedJourney(pageParams.id) }
+    // eslint-disable-next-line
+    , [])
 
   useEffect(() => {
     if (selectedJourney) {
@@ -35,13 +35,50 @@ function JourneyDetail({ selectedJourney, findSelectedJourney }) {
             published: data.first_publish_date ? "published " + data.first_publish_date : ""
           }))
     }
-  }, [selectedJourney])
+    // eslint-disable-next-line
+  }, [pageParams])
+
+  function handleJounreyDelete(journeyId) {
+    console.log(journeyId)
+
+    fetch(`/api/journeys/${journeyId}`, {
+      method: "DELETE"
+    }).then((response) => {
+      if (response.ok) {
+        let updated_journey_array = journeys.filter(journey => journey.id !== journeyId)
+        setJourneys(updated_journey_array)
+        navigate("../journeys", { replace: true })
+      }
+      else { console.log("Error in deleting journey!") }
+    })
+
+  }
+
+  // function handleJourneyEntryDelete(e) {
+  //   let journeyEntryId = e.currentTarget.id
+  //   fetch(`/api/journey_entries/${journeyEntryId}`, {
+  //     method: "DELETE"
+  //   }).then(response => {
+  //     if (response.ok) {
+  //       response.json().then(updatedJourney => {
+  //         let updated_journey_entries = selectedJourney.journey_entries.filter(journey_entry => journey_entry.id !== parseInt(journeyEntryId))
+  //         selectedJourney.journey_entries = updated_journey_entries
+  //         console.log("journeys before filter")
+  //         console.log(journeys)
+  //         let updated_journeys = journeys.filter(journey => journey.id !== updatedJourney.id)
+  //         setJourneys(updated_journeys)
+  //         console.log("journeys after filter")
+  //         console.log(journeys)
+  //       })
+  //     }
+  //   })
+  // }
 
   // creating reading log plot points
   let journeyEntryItems
   journeyEntryItems = selectedJourney?.journey_entries?.map((journey_entry) => {
     return (
-      <div className='timeline-item' key={journey_entry.id}>
+      <div className='timeline-item align-items-center' key={journey_entry.id}>
         {/* begin::Label */}
         <div className='timeline-label fw-bold text-gray-800 fs-6'>{journey_entry.progress} %</div>
         {/* end::Label */}
@@ -55,7 +92,14 @@ function JourneyDetail({ selectedJourney, findSelectedJourney }) {
         {/* begin::Text */}
         <div className='fw-mormal timeline-content text-gray-800 ps-3'>
           {moment(journey_entry.created_at).calendar()}
+          <span>
+            <button id={journey_entry.id} className={'btn btn-active-text-danger btn-sm py-1 align-baseline ' + (areEntriesEditable && selectedJourney.current_progress !== 100 ? "" : "d-none")} onClick={(e) => handleJourneyEntryDelete(e)}>
+              <FontAwesomeIcon icon="fa-solid fa-xmark" />
+            </button>
+          </span>
         </div>
+
+
         {/* end::Text */}
       </div>
     )
@@ -68,7 +112,7 @@ function JourneyDetail({ selectedJourney, findSelectedJourney }) {
         <div className="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
           <div className="app-main flex-column flex-row-fluid" id="kt_app_main">
             <div className="d-flex flex-column flex-column-fluid">
-              
+
               <div id="kt_app_content" className="app-content flex-column-fluid">
                 <div id="kt_app_content_container" className="app-container container-xxl">
                   <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
@@ -119,6 +163,10 @@ function JourneyDetail({ selectedJourney, findSelectedJourney }) {
                             <span className='fw-bold mb-2 text-dark'>Reading Log</span>
                             <span className='text-muted fw-semibold fs-7'>{selectedJourney?.journey_entries.length} Entries</span>
                           </h3>
+                          <div>
+                            <button id={selectedJourney?.id} className={"btn btn-sm btn-danger mx-4 " + (areEntriesEditable ? "" : "d-none")} onClick={() => handleJounreyDelete(selectedJourney?.id)}>Delete Journey</button>
+                            <button className='btn btn-sm btn-light' onClick={(e) => setAreEntriesEditable(!areEntriesEditable)}>{areEntriesEditable ? "Cancel" : "Edit Entries"}</button>
+                          </div>
                         </div>
                         {/* end header */}
 

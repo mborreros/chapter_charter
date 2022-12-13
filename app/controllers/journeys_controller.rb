@@ -34,8 +34,8 @@ class JourneysController < ApplicationController
 
   def destroy
     this_journey = Journey.find(params[:id])
-      this_journey.destroy
-      head :no_content
+    this_journey.destroy
+    render json: { message: "Successful deletion of journey" }, status: :ok
   end
 
   private
