@@ -176,6 +176,32 @@ code {
   width: 450px;
 }
 
+/* start author async select styling for challenge modal */
+.author-search-select > label+div {
+  flex-grow: 1;
+}
+
+.author-search-select .author-search__control {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: transparent;
+}
+
+.author-search-select .author-search__indicator-separator {
+  display: none;
+}
+
+.author-search-select {
+  max-width: 400px;
+}
+
+/* end author async select styling for challenge modal */
+
+/* challenge form radio text styling */
+.form-check-label{
+  color: #3f4254;
+}
+
 @keyframes heartBeat {
   0% {
       -webkit-transform: scale(1);

@@ -2,7 +2,12 @@ import { useState, useRef } from "react";
 import Form from "react-bootstrap/Form";
 import Flatpickr from "react-flatpickr";
 
+import AuthorSearch from "./author_select_search";
+
 function ChallengeModal({ show, handleClose, challenges, setChallenges, collections, setCollections, user }) {
+
+  const [authorsLoading, setAuthorsLoading] = useState(false)
+  const [selectedAuthor, setSelectedAuthor] = useState(null);
 
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(null)
@@ -71,6 +76,8 @@ function ChallengeModal({ show, handleClose, challenges, setChallenges, collecti
       <option value={collection.id} key={collection.id}>{collection.name}</option>
     )
   })
+
+  console.log(selectedAuthor?.name)
 
   return (
     <form id="kt_modal_new_target_form" className="form" action="submit" onSubmit={(e) => console.log(e)}>
@@ -165,6 +172,11 @@ function ChallengeModal({ show, handleClose, challenges, setChallenges, collecti
             <option>Select Collection</option>
             {collectionSelectOptions}
           </Form.Select>
+        </div>
+
+        <div className={"col-7 author-search-select align-items-center pe-0 " + (challengeFormValues.category == "author" ? "d-flex" : "d-none")}>
+          <label className="required fs-6 fw-semibold mb-2 me-8">Author Name</label>
+          <AuthorSearch authorsLoading={authorsLoading} setAuthorsLoading={setAuthorsLoading} selectedAuthor={selectedAuthor} setSelectedAuthor={setSelectedAuthor} />
         </div>
 
       </div>

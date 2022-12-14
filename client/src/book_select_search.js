@@ -36,7 +36,6 @@ function BookSearch({ selectedValue, setSelectedValue, loadingBooks, setLoadingB
   // styling the options that appear on user input into search bar
   function formatOptionLabel(option) {
     let pagesPublished = []
-    // if (option.first_publish_year) {pagesPublished.push(`${option.first_publish_year}`)}
     if (option.number_of_pages_median) { pagesPublished.push(`${option.number_of_pages_median} pages`) }
 
     return (
