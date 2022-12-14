@@ -13,7 +13,7 @@ import CollectionDetail from "./collection_detail";
 
 import ModalWrapper from "./modal-wrapper";
 
-function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, user, formatDate, show, handleClose, handleShow, selectedJourney, setSelectedJourney }) {
+function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, setChallenges, user, formatDate, show, handleClose, handleShow, selectedJourney, setSelectedJourney }) {
 
   // getting pathname to determine which page to show
   const location = useLocation();
@@ -105,8 +105,9 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "Add Books to this Collection"
       break;
     case "challenges":
-      pageContent = <ChallengeCards challenges={challenges} />
+      pageContent = <ChallengeCards challenges={challenges} setChallenges={setChallenges} />
       pageTitle = "Challenges"
+      buttonText = "Start a new Challenge"
       break;
     // case "collection-detail":
     //   pageContent = <CollectionDetail selectedCollection={selectedCollection} setSelectedCollection={setSelectedCollection} />
@@ -148,6 +149,8 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
         selectedJourney={selectedJourney} setCardAnimation={setCardAnimation} selectedJourneyEntries={selectedJourneyEntries}
         // if click is add book(s) to colelction, using this data
         setSelectedCollection={setSelectedCollection} selectedCollection={selectedCollection}
+        //  if page is challenge, using this data
+        challenges={challenges} setChallenges={setChallenges}
       />
 
     </div>

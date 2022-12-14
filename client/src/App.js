@@ -28,6 +28,12 @@ function App() {
     })
   }, []);
 
+  function handleUserLogout() {
+    fetch("/logout", {
+      method: "DELETE"
+    }).then(() => setUser())
+  }
+
   // get user's journeys
   useEffect(() => {
     if (user) {
@@ -77,40 +83,40 @@ function App() {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-
     return `${year}-${month}-${day}`;
   }
 
-    // list-page modal functions and variables
-    const [show, setShow] = useState(null);
-    const handleClose = () => {
-      // resetting state variables which control validation of react-select element 
-      setShow(false);
-    };
+  // list-page modal functions and variables
+  const [show, setShow] = useState(null);
+  const handleClose = () => {
+    // resetting state variables which control validation of react-select element 
+    setShow(false);
+  };
 
-    function handleShow(e) {
-      setShow(e.currentTarget.id)
-    }
+  function handleShow(e) {
+    setShow(e.currentTarget.id)
+  }
 
   return (
     <>
-      <Navigation currentUser={user} />
+      <Navigation currentUser={user} handleUserLogout={handleUserLogout} />
 
       <Routes>
 
-        {/* today's focus -> page for user login */}
-        <Route exact path="/" element={<Home user={user} onLogout={setUser} onLogin={setUser} onSignup={setUser} />} />
+        <Route exact path="/" element={<Home user={user} handleUserLogout={handleUserLogout} />} />
         <Route exact path="/login" element={<UserAuthForm onLogin={setUser} />} />
         <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} />} />
 
-        <Route exact path="/collections" element={<ListPage collections={collections} setCollections={setCollections} user={user} show={show} handleClose={handleClose} handleShow={handleShow}/>} />
-        <Route  path="/collections/:id" element={<ListPage books={books} setBooks={setBooks} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} />} />
+        <Route exact path="/collections" element={<ListPage collections={collections} setCollections={setCollections} user={user} show={show} handleClose={handleClose} handleShow={handleShow} />} />
+        <Route path="/collections/:id" element={<ListPage books={books} setBooks={setBooks} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} />} />
 
-        <Route exact path="/journeys" element={<ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} user={user} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow}/>} />
-        <Route exact path="/journeys/:id" element={<ListPage journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} />} />
+        <Route exact path="/journeys" element={<ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} user={user} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} />} />
+        <Route path="/journeys/:id" element={<ListPage journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} />} />
+
+        <Route exact path="/challenges" element={<ListPage challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleShow={handleShow} show={show} handleClose={handleClose} />} />
+        <Route path="/challenges/:id" element={<ListPage challenges={challenges} handleShow={handleShow} show={show} handleClose={handleClose} />} />
 
         {/* dummy pages */}
-        <Route exact path="/challenges" element={<ListPage challenges={challenges} />} />
         <Route exact path="/statistics" element={<Statistics />} />
         <Route exact path="/account" element={<Account />} />
       </Routes>

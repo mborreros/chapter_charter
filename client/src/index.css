@@ -148,7 +148,7 @@ code {
 /* end reading journey indicator colors*/
 
 .home-screen {
-  background-image: url('imgs/library-3.png');
+  background-image: url('imgs/library.png');
   background-repeat: no-repeat;
   background-size: cover;
   height: 620px;
@@ -158,17 +158,18 @@ code {
 }
 
 /* start custom login button coloring for home page */
-.btn-login-button {
+/* .btn-login-button {
   color: #e3e3e3;
   background-color: #C8A2C8 !important
 }
 
 .btn-login-button:active,
 .btn-login-button:hover,
-.btn-login-button:focus {
+.btn-login-button:focus
+.btn-login:active:focus {
   color: #e3e3e3;
   background-color: #a98ca9 !important
-}
+} */
 /* end custom login button coloring for home page */
 
 .user-button-container {

@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-// import Modal from 'react-bootstrap/Modal'
-
 function CollectionModal({ handleClose, collections, setCollections, user }) {
 
   // default collection form values
@@ -35,15 +33,6 @@ function CollectionModal({ handleClose, collections, setCollections, user }) {
   function handleCollectionInput(e) {
     collectionFormValues[e.target.name] = e.target.value;
   }
-
-    // conditial rendering based on button click to show modal 
-    // <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-90w" centered>
-
-      {/* start header */}
-      {/* <Modal.Header className="border-0 justify-content-center">
-        <h1 className="mb-3 text-center">Start a new Collection</h1>
-      </Modal.Header> */}
-      {/* end header */}
 
   return (
         <form id="kt_modal_new_target_form" className="form" action="submit" onSubmit={(e) => handleCollectionSubmit(e)}>

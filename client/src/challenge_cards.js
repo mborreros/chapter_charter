@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 
-function ChallengeCards({ challenges }){
+function ChallengeCards({ challenges, setChallenges }){
     return (challenges?.map((challenge) => {
       
     // establishes class to define card color based on journey progress

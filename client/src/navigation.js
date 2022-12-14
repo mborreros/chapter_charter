@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import textLogo from "./imgs/logo_text.png";
 
-function Navigation({ currentUser }) {
+function Navigation({ currentUser, handleUserLogout }) {
 
   return (
     <div id="kt_app_header" className="app-header">
@@ -51,16 +51,17 @@ function Navigation({ currentUser }) {
                   ?
                   <>
                     <div className="symbol">
-                      <span className="me-2">Logged in as </span>
-                      <span className="custom-cc-logo-font me-4 pt-3">{currentUser.screenname}</span>
-                    </div>
                     <Link to="/account">
-                      <img src={currentUser.avatar_img} alt="user" className="cursor-pointer symbol symbol-30px symbol-md-40px" width="40" height="40" />
+                      <img src={currentUser.avatar_img} alt="user" className="cursor-pointer symbol symbol-30px symbol-md-40px me-4" width="40" height="40" />
                     </Link>
+                      <span className="me-2">Logged in as </span>
+                      <span className="custom-cc-logo-font">{currentUser.screenname}</span>
+                    <button className="btn btn-sm btn-bg-light btn-active-light-danger btn-color-gray-700 px-4 py-2 ms-4" onClick={handleUserLogout}>Logout</button>
+                    </div>
                   </>
                   :
                   <>
-                    {/* <div className="app-header-menu app-header-mobile-drawer align-items-stretch">
+                    <div className="app-header-menu app-header-mobile-drawer align-items-stretch">
                       <div className="menu menu-rounded menu-column menu-lg-row my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu">
                         <div className="menu-item">
                           <Link className="menu-link" to="/signup">Create an account</Link>
@@ -69,7 +70,7 @@ function Navigation({ currentUser }) {
                           <Link className="menu-link" to="/login">Login</Link>
                         </div>
                       </div>
-                    </div> */}
+                    </div>
                   </>
                 }
 
