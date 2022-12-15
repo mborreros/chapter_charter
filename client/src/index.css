@@ -42,11 +42,19 @@ code {
 
 /* start card colors based on challenge progress */
 .card.card-flush-current {
+  background-color: #C8A2C8;
+}
+
+.card.card-flush-progress {
   background-color: #e49550b4;
 }
 
 .card.card-flush-finished {
   background-color: #B2AC88;
+}
+
+.card.card-flush-inactive {
+  background-color: #8e979ad7;
 }
 /* end card colors based on challenge progress */
 
@@ -56,6 +64,12 @@ code {
 
 .idv-collection-card {
   border-color: #edadb6bd;
+  border-style: dotted;
+  border-width: 2px;
+}
+
+.idv-challenge-card {
+  border-color: #e49550b4;
   border-style: dotted;
   border-width: 2px;
 }

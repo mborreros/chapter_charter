@@ -1,25 +1,32 @@
-import { useEffect } from "react"
+import { Link } from 'react-router-dom';
 
-function ChallengeCards({ challenges, setChallenges, formatDate }){
-    return (challenges?.map((challenge) => {
-      
+function ChallengeCards({ challenges, setChallenges, formatDate }) {
+  return (challenges?.map((challenge) => {
+
     // establishes class to define card color based on journey progress
-    let card_progress_color 
-    if (challenge.challenge_progress >= 0) {
-      card_progress_color = "card-flush-current"
+    let card_progress_color
+    if (challenge.active) {
+      if (challenge.challenge_progress === 0) {
+        card_progress_color = "card-flush-current"
+      }
+      if (challenge.challenge_progress > 0) {
+        card_progress_color = "card-flush-progress"
+      }
+      if (challenge.challenge_progress === 100) {
+        card_progress_color = "card-flush-finished"
+      }
+    } else {
+      card_progress_color = "card-flush-inactive"
     }
-    if (challenge.challenge_progress === 100) {
-      card_progress_color = "card-flush-finished"
-    }
-    
-    return(
+
+    return (
       <div className="col-md-4 mb-md-5 mb-xl-10" key={challenge.id}>
         <div className={'card challenge-card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color}>
 
           {/* start challenge header content */}
           <div className="card-header pt-5 align-items-start">
             <div className="card-title flex-column">
-              <span className="fs-2hx fw-bold text-white lh-1 ls-n2">{challenge.name}</span>
+              <Link to={`${challenge.id}`} state={{ challenge }}><span className="fs-2hx fw-bold text-white lh-1 ls-n2">{challenge.name}</span></Link>
               <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{challenge.description}</span>
               <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mt-5">started: {challenge.start_date}</span>
               <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{challenge.end_date !== null ? 'complete by: ' + challenge.end_date : ""}</span>
@@ -38,15 +45,15 @@ function ChallengeCards({ challenges, setChallenges, formatDate }){
               </div>
               <div className="h-8px mx-3 w-100 bg-white bg-opacity-50 rounded">
                 {/* define width by adding class name w-% <- percentage as an integer */}
-                <div className="bg-white bg-opacity-100 rounded h-8px" style={{width: challenge.challenge_progress + '%'}} role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div className="bg-white bg-opacity-100 rounded h-8px" style={{ width: challenge.challenge_progress + '%' }} role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               {/* progress bar end */}
 
             </div>
           </div>
         </div>
-        </div>
+      </div>
     )
-  }) )
-  }
-  export default ChallengeCards
+  }))
+}
+export default ChallengeCards

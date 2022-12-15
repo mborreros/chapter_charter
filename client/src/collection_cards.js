@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import FlagToolTip from './tool_tip';
+import ToolTip from './tool_tip';
 
 import defaultBook from "./imgs/generic_book.png";
 
@@ -36,7 +36,7 @@ function CollectionCards({ collections, setCollections, show, handleClose }) {
             {collection.challenge_locked ?
               <div className='me-4 mt-3'>
                 <span className='text-gray-800 fs-2'>
-                  <FlagToolTip placement={"left"} />
+                <ToolTip placement="left" icon="flag" message="This Collection is involved in a Challenge!" />
                 </span>
               </div>
               :

@@ -114,7 +114,7 @@ function App() {
         <Route path="/journeys/:id" element={<ListPage journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} />} />
 
         <Route exact path="/challenges" element={<ListPage challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleShow={handleShow} show={show} handleClose={handleClose} formatDate={formatDate} user={user} />} />
-        <Route path="/challenges/:id" element={<ListPage challenges={challenges} handleShow={handleShow} show={show} handleClose={handleClose} />} />
+        <Route path="/challenges/:id" element={<ListPage challenges={challenges} setChallenges={setChallenges} handleShow={handleShow} show={show} handleClose={handleClose} />} />
 
         {/* dummy pages */}
         <Route exact path="/statistics" element={<Statistics />} />

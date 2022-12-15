@@ -10,6 +10,7 @@ import CollectionCards from "./collection_cards";
 import ChallengeCards from "./challenge_cards";
 import JourneyDetail from "./journey_detail";
 import CollectionDetail from "./collection_detail";
+import ChallengeDetail from "./challenge_detail";
 
 import ModalWrapper from "./modal-wrapper";
 
@@ -23,6 +24,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
   const [cardAnimation, setCardAnimation] = useState(null)
   const [selectedJourneyEntries, setSelectedJourneyEntries] = useState([])
   const [selectedCollection, setSelectedCollection] = useState(null)
+  const [selectedChallenge, setSelectedChallenge] = useState(null)
 
   // sorting and setting user selected journey for journey detail page
   function findSelectedJourney(thisPageId) {
@@ -109,13 +111,18 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       pageTitle = "Challenges"
       buttonText = "Start a new Challenge"
       break;
-    // case "collection-detail":
-    //   pageContent = <CollectionDetail selectedCollection={selectedCollection} setSelectedCollection={setSelectedCollection} />
-    //   break;
+    case "challenge-detail":
+      pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} />
+      pageTitle = selectedChallenge?.name +" Challenge"
+      buttonText = "This button needs to be removed"
+      break;
     default:
       break;
-  }
 
+    }
+
+  // console.log(pagePath(pathSlug))
+    
   return (
     <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
       <div className="app-page flex-column flex-column-fluid" id="kt_app_page">

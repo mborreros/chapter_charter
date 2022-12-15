@@ -17,14 +17,7 @@ function JourneyCards({ journeys, setJourneys, formatDate, show, handleClose, ha
 
   let this_journey
   function handleJourneyEdit(e, journeyId) {
-    // console.log(journeyId)
-
     handleShow(e)
-    
-    // let stringId = e.currentTarget.id.split("new-journey-entry-modal-")[1]
-    // console.log(typeof stringId)
-
-    // setShowJourneyModal(e.currentTarget.id)
     this_journey = journeys.filter(journey => journey.id == journeyId)
     setSelectedJourney(this_journey[0])
   }

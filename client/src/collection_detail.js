@@ -7,7 +7,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import moment from 'moment'
 import defaultBook from "./imgs/generic_book.png";
 
-import FlagToolTip from './tool_tip';
+import ToolTip from './tool_tip';
 
 function CollectionDetail({ selectedCollection, setSelectedCollection, collections, setCollections, handleCollectionEntryDelete }) {
 
@@ -83,7 +83,7 @@ function CollectionDetail({ selectedCollection, setSelectedCollection, collectio
                           {selectedCollection?.challenge_locked ?
                             <div className='me-1 mb-10'>
                               <span className='text-gray-800 fs-2'>
-                                <FlagToolTip placement="left" />
+                                <ToolTip placement="left" icon="flag" message="This Collection is involved in a Challenge!" />
                               </span>
                             </div>
                             :

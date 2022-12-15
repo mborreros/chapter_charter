@@ -1,18 +1,25 @@
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
-import { faFlagCheckered } from '@fortawesome/free-solid-svg-icons'
+import { faFlagCheckered, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-function FlagToolTip({ placement="auto" }) {
+function ToolTip({ placement="auto", icon=null, message="" }) {
 
+  let fontAwesomeIcon 
   // importing font awesome icons
-  library.add(faFlagCheckered);
+  if (icon === "flag") {
+    library.add(faFlagCheckered)
+    fontAwesomeIcon = <FontAwesomeIcon icon="fa-solid fa-flag-checkered" />
+  } if (icon === "info") {
+    library.add(faCircleInfo)
+    fontAwesomeIcon = <FontAwesomeIcon icon="fa-solid fa-circle-info" />
+  }
 
   const renderToolTip = (props) => (
     <Tooltip id="button-tooltip" className='text-gray-800' {...props}>
-      This Collection is involved in a Challenge!
+      {message}
     </Tooltip>
   );
 
@@ -21,11 +28,11 @@ function FlagToolTip({ placement="auto" }) {
       delay={{ show: 250, hide: 400 }}
       overlay={renderToolTip}>
 
-      <FontAwesomeIcon icon="fa-solid fa-flag-checkered" />
+      {fontAwesomeIcon}
 
     </OverlayTrigger>
   )
 
 }
 
-export default FlagToolTip;
+export default ToolTip;

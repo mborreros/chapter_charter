@@ -3,8 +3,9 @@ import Form from "react-bootstrap/Form";
 import Flatpickr from "react-flatpickr";
 
 import AuthorSearch from "./author_select_search";
+import ToolTip from "./tool_tip";
 
-function ChallengeModal({ show, handleClose, challenges, setChallenges, collections, setCollections, user, formatDate }) {
+function ChallengeModal({ handleClose, challenges, setChallenges, collections, user, formatDate }) {
 
   const [authorsLoading, setAuthorsLoading] = useState(false)
   const [selectedAuthor, setSelectedAuthor] = useState(null);
@@ -172,7 +173,7 @@ function ChallengeModal({ show, handleClose, challenges, setChallenges, collecti
 
         <div className={"col-7 author-search-select align-items-center pe-0 " + (challengeFormValues.category == "author" ? "d-flex" : "d-none")}>
           <div className="col-3">
-            <label className="fs-6 fw-semibold mb-2 d-block pe-8 text-end">
+            <label className="fs-6 fw-semibold mb-2 me-9 d-block pe-8 text-end">
               <span className="required">Author</span>
               </label>
           </div>
@@ -184,8 +185,9 @@ function ChallengeModal({ show, handleClose, challenges, setChallenges, collecti
         <div className={"col-7 align-items-center pe-15 " + (challengeFormValues.category == "genre" ? "d-flex" : "d-none")}>
           {/* start label */}
           <div className="col-3">
-            <label className="align-items-center fs-6 fw-semibold mb-2 d-block pe-8 text-end">
-              <span className="required">Genre</span>
+            <label className="align-items-center fs-6 fw-semibold mb-2 me-7 d-block text-end">
+              <span className="required pe-1">Genre</span>
+              <ToolTip placement="right" icon="info" message="Books have many genres, ranging from the vague to very specific. We recommend you keep your Challenge genre broad so that you can best capture Challenge progress, regardless of the specificity of a book's genre."/>
               <i className="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Choose a genre."></i>
             </label>
           </div>
