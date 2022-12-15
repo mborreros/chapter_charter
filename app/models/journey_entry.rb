@@ -46,7 +46,7 @@ class JourneyEntry < ApplicationRecord
   def create_appropriate_challenge_entries(challenge_id, goal_type, category = nil, category_identifier = nil)
     if goal_type == "duration" || # duration challenge
       (goal_type == "interest" && category == "author" && self.book.author == category_identifier) || # author challenge
-      (goal_type == "interest" && category == "genre" && self.book.genre == category_identifier) || # genre challenge 
+      (goal_type == "interest" && category == "genre" && self.book.genre.include?(category_identifier)) || # genre challenge 
       (category == "collection_id" && CollectionEntry.where(book_id: self.book.id, collection_id: category_identifier.to_i).exists?) # collection challenge 
       begin
         ChallengeEntry.create!(book_id: self.book.id, challenge_id: challenge_id, journey_entry_id: self.id)

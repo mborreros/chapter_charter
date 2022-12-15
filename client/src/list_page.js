@@ -112,7 +112,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "Start a new Challenge"
       break;
     case "challenge-detail":
-      pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} />
+      pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} />
       pageTitle = selectedChallenge?.name +" Challenge"
       buttonText = "This button needs to be removed"
       break;

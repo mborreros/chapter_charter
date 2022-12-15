@@ -5,16 +5,22 @@ import moment from 'moment'
 
 import defaultBook from "./imgs/generic_book.png";
 
-function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, setChallenges }) {
+function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, setChallenges, collections, setCollections }) {
 
   function handleChallengeDelete(e) {
+    let collectionId = selectedChallenge.category === "collection_id" ? selectedChallenge.category_identifier : false
     let thisChallengeId = e.currentTarget.id
+
     if (window.confirm("Are you sure you want to permenantly delete this challenge")) {
       fetch(`/api/challenges/${thisChallengeId}`, {
         method: "DELETE"
       }).then((response) => {
         if (response.ok) {
           let updatedChallengeArray = challenges.filter((challenges) => challenges.id !== parseInt(thisChallengeId))
+          if (collectionId) {
+            let updatedCollectionArray = collections.map((collection) => collection.id == parseInt(collectionId) ? {...collection, challenge_locked: false} : collection)
+            setCollections(updatedCollectionArray)
+          }
           setChallenges(updatedChallengeArray)
           navigate("../challenges", { replace: true })
         } else { console.log("Challenge was not deleted successfully.") }

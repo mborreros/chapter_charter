@@ -1,6 +1,19 @@
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
-function ChallengeCards({ challenges, setChallenges, formatDate }) {
+function ChallengeCards({ challenges, setChallenges, formatDate, user }) {
+
+    // fetching user's challenges from the backend to capture all challenge progress changes that occured if/when the user made any new journey completion progress
+    useEffect(() => {
+      if (user) {
+        fetch(`api/users/${user?.id}/challenges`).then((response) => {
+          if (response.ok) {
+            response.json().then((user_challenges) => setChallenges(user_challenges))
+          }
+        })
+      }
+    }, []);
+
   return (challenges?.map((challenge) => {
 
     // establishes class to define card color based on journey progress

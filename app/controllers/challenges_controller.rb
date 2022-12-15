@@ -32,10 +32,12 @@ class ChallengesController < ApplicationController
   end
 
   def destroy
-    check_if_challenge_for_collection(params)
     this_challenge = Challenge.find(params[:id])
-      this_challenge.destroy
-      head :no_content
+    if this_challenge.category === "collection_id"
+      update_collection_after_challenge_delete(this_challenge.category_identifier) 
+    end
+      this_challenge.destroy 
+      render json: { message: "Successful deletion of challenge" }, status: :ok
   end
 
   private 
@@ -45,10 +47,13 @@ class ChallengesController < ApplicationController
       selected_collection = Collection.find_by(id: params[:category_identifier])
       if params[:action] === "create"
         selected_collection.update!(challenge_locked: true)
-      elsif params[:action] === "destroy"
-        elected_collection.update!(challenge_locked: false)
       end
     end
+  end
+
+  def update_collection_after_challenge_delete(collection_id) 
+    collection = Collection.find(collection_id)
+    collection.update(challenge_locked: false)
   end
 
   def challenge_params

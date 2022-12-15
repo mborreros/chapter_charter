@@ -5,7 +5,9 @@ import Flatpickr from "react-flatpickr";
 import AuthorSearch from "./author_select_search";
 import ToolTip from "./tool_tip";
 
-function ChallengeModal({ handleClose, challenges, setChallenges, collections, user, formatDate }) {
+function ChallengeModal({ handleClose, challenges, setChallenges, collections, user, formatDate, setCollections }) {
+
+  // console.log(collections)
 
   const [authorsLoading, setAuthorsLoading] = useState(false)
   const [selectedAuthor, setSelectedAuthor] = useState(null);
@@ -35,8 +37,7 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
     e.preventDefault()
 
     let formValues = ({ ...challengeFormValues, "user_id": user.id, "start_date": formatDate(startDate), "end_date": endDate ? formatDate(endDate) : null })
-
-    console.log(formValues)
+    let collectionId = challengeFormValues.category === "collection_id" ? challengeFormValues.category_identifier : false
 
     fetch("/api/challenges", {
       method: "POST",
@@ -44,7 +45,13 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
       body: JSON.stringify(formValues)
     })
       .then(response => {
-        response.json().then((new_challenge) => setChallenges([new_challenge, ...challenges ]))
+        response.json().then((new_challenge) => {
+          if (collectionId) {
+            let updatedCollectionArray = collections.map((collection) => collection.id == parseInt(collectionId) ? { ...collection, challenge_locked: true } : collection)
+            setCollections(updatedCollectionArray)
+          }
+          setChallenges([new_challenge, ...challenges])
+        })
       })
 
     // modal close after submit
@@ -66,7 +73,7 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
 
   let collectionSelectOptions = collections?.map(collection => {
     return (
-      <option value={collection.id} key={collection.id}>{collection.name}</option>
+      <option disabled={collection.challenge_locked} value={collection.id} key={collection.id}>{collection.name}</option>
     )
   })
 
@@ -161,7 +168,7 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
           <div className="col-3">
             <label className="fs-6 fw-semibold mb-2 d-block pe-8 text-end">
               <span className="required">Collection</span>
-              </label>
+            </label>
           </div>
           <div className="col">
             <Form.Select aria-label="Select collection" className="form-select form-select-solid text-capitalize me-13" name="category_identifier" onChange={e => handleChallengeInput(e)}>
@@ -175,7 +182,7 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
           <div className="col-3">
             <label className="fs-6 fw-semibold mb-2 me-9 d-block pe-8 text-end">
               <span className="required">Author</span>
-              </label>
+            </label>
           </div>
           <div className="col me-15">
             <AuthorSearch authorsLoading={authorsLoading} setAuthorsLoading={setAuthorsLoading} selectedAuthor={selectedAuthor} setSelectedAuthor={setSelectedAuthor} setChallengeFormValues={setChallengeFormValues} challengeFormValues={challengeFormValues} />
@@ -187,7 +194,7 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
           <div className="col-3">
             <label className="align-items-center fs-6 fw-semibold mb-2 me-7 d-block text-end">
               <span className="required pe-1">Genre</span>
-              <ToolTip placement="right" icon="info" message="Books have many genres, ranging from the vague to very specific. We recommend you keep your Challenge genre broad so that you can best capture Challenge progress, regardless of the specificity of a book's genre."/>
+              <ToolTip placement="right" icon="info" message="Books have many genres, ranging from the vague to very specific. We recommend you keep your Challenge genre broad so that you can best capture Challenge progress, regardless of the specificity of a book's genre." />
               <i className="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Choose a genre."></i>
             </label>
           </div>
