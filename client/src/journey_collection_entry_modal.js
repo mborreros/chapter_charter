@@ -9,17 +9,17 @@ function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys,
   const [loadingBooks, setLoadingBooks] = useState(false)
 
   // resets select search on clear
-  function resetModalForm() {
-    document.getElementById("book-search-form").reset()
-    setSelectedValue("")
-  }
+  // function resetModalForm() {
+  //   document.getElementById("book-search-form").reset()
+  //   setSelectedValue("")
+  // }
 
   function parseBookData(book) {
     return ({
       "title": book.title,
       "author": book.author_name[0],
       "length": book.number_of_pages_median,
-      "genre": book.subject ? book.subject.slice(0, 4) : null,
+      "genre": book.subject || null,
       "cover_img": book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-S.jpg` : null,
       "book_api_num": book.key.replace("/works/", "")
     })
@@ -98,7 +98,7 @@ function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys,
 
       {/* start action buttons */}
       <div className="text-end">
-        <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3" onClick={(form) => resetModalForm(form)}>Clear</button>
+        {/* <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3" onClick={(form) => resetModalForm(form)}>Clear</button> */}
         <button type="submit" id="kt_modal_new_target_submit" className="btn btn-primary btn-sm">
           <span className="indicator-label">{show === "new-journey-modal" ? "Start this Journey" : "Add Book(s) to Collection"}</span>
           <span className="indicator-progress">Please wait...

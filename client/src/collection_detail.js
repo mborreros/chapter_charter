@@ -7,6 +7,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import moment from 'moment'
 import defaultBook from "./imgs/generic_book.png";
 
+import FlagToolTip from './tool_tip';
+
 function CollectionDetail({ selectedCollection, setSelectedCollection, collections, setCollections, handleCollectionEntryDelete }) {
 
   // importing font awesome icons
@@ -32,26 +34,6 @@ function CollectionDetail({ selectedCollection, setSelectedCollection, collectio
       } else { console.log("Collection was not deleted successfully.") }
     })
   }
-
-  // function handleCollectionEntryDelete(e) {
-
-  //   let bookIdForRemoval = e.currentTarget.id
-  //   let entryToRemove = selectedCollection.collection_entries.filter(collection_entry => collection_entry.book_id == bookIdForRemoval)[0]
-
-  //   fetch(`/api/collection_entries/${entryToRemove.id}`, {
-  //     method: "DELETE"
-  //   }).then(response => {
-  //     if (response.ok) {
-  //       response.json().then(updated_collection => {
-  //         setSelectedCollection(updated_collection)
-  //         let revised_collection_array = collections.filter(collection => collection.id == updated_collection.id ? updated_collection : collection)
-  //         setCollections(revised_collection_array)
-  //       })
-  //     } else {
-  //       console.log("Error in collection entry deletion")
-  //     }
-  //   })
-  // }
 
   let bookListItems
   bookListItems = selectedCollection?.books?.map((book) => {
@@ -98,6 +80,15 @@ function CollectionDetail({ selectedCollection, setSelectedCollection, collectio
                             <span className='text-muted fw-semibold fs-7'>&nbsp;</span>
                             <span className='fw-bold fs-2 text-capitalize'>{selectedCollection?.name}</span>
                           </h3>
+                          {selectedCollection?.challenge_locked ?
+                            <div className='me-1 mb-10'>
+                              <span className='text-gray-800 fs-2'>
+                                <FlagToolTip placement="left" />
+                              </span>
+                            </div>
+                            :
+                            <></>
+                          }
                         </div>
                         {/* end header */}
 
@@ -123,7 +114,7 @@ function CollectionDetail({ selectedCollection, setSelectedCollection, collectio
                           </h3>
                           <div>
                             <button id={selectedCollection?.id} className={"btn btn-sm btn-danger mx-4 " + (isCollectionEditable ? "" : "d-none")} onClick={(e) => handleCollectionDelete(e)}>Delete Collection</button>
-                            <button className='btn btn-sm btn-light' onClick={(e) => setIsCollectionEditable(!isCollectionEditable)}>{isCollectionEditable ? "Cancel" : "Edit Books"}</button>
+                            <button disabled={selectedCollection?.challenge_locked} title={selectedCollection?.challenge_locked ? "Cannot edit a collection that is used in a challenge" : ""} className='btn btn-sm btn-light' onClick={(e) => setIsCollectionEditable(!isCollectionEditable)}>{isCollectionEditable ? "Cancel" : "Edit Books"}</button>
                           </div>
                         </div>
                         {/* end header */}

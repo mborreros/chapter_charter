@@ -191,15 +191,16 @@ code {
   display: none;
 }
 
-.author-search-select {
-  max-width: 400px;
-}
-
 /* end author async select styling for challenge modal */
 
 /* challenge form radio text styling */
 .form-check-label{
   color: #3f4254;
+}
+
+.btn.disabled, .btn:disabled, fieldset:disabled .btn {
+  pointer-events: auto;
+  cursor: not-allowed;
 }
 
 @keyframes heartBeat {

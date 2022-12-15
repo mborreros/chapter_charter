@@ -3,7 +3,7 @@ import AsyncSelect from 'react-select/async'
 
 import { debounce } from "lodash"
 
-function AuthorSearch({ authorsLoading, setAuthorsLoading, selectedAuthor, setSelectedAuthor }) {
+function AuthorSearch({ authorsLoading, setAuthorsLoading, selectedAuthor, setSelectedAuthor, setChallengeFormValues, challengeFormValues }) {
 
   const [inputValue, setValue] = useState('');
 
@@ -14,8 +14,9 @@ function AuthorSearch({ authorsLoading, setAuthorsLoading, selectedAuthor, setSe
 
   // handle selection
   const handleChange = value => {
-    // setSelectedAuthor(value.key.replace('/works/',''));
+    let updatedValues = challengeFormValues
     setSelectedAuthor(value);
+    setChallengeFormValues({ ...updatedValues, "category_identifier": value.name })
   }
 
   function formatOptionLabel(option) {
@@ -85,7 +86,7 @@ function AuthorSearch({ authorsLoading, setAuthorsLoading, selectedAuthor, setSe
   return (
     <div>
       <AsyncSelect
-        className="form-control form-control-solid p-1"
+        className="form-control form-control-solid p-1 border-0"
         classNamePrefix="author-search"
         value={selectedAuthor || ""}
         getOptionLabel={option => option.name}

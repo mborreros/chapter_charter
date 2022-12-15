@@ -23,7 +23,7 @@ function BookSearch({ selectedValue, setSelectedValue, loadingBooks, setLoadingB
   const loadOptions = useCallback(
     debounce((inputValue, callback) => {
       setLoadingBooks(true)
-      fetch(`https://openlibrary.org/search.json?q=${inputValue}`)
+      fetch(`https://openlibrary.org/search.json?q=${inputValue}&limit=50`)
         .then(res => res.json())
         .then(data => {
           callback(data.docs)

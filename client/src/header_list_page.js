@@ -18,9 +18,9 @@ function HeaderContents({ pageName, handleShow, journeyDetail, collectionDetail,
 
         <div className="d-flex align-items-center gap-2 gap-lg-3">
 
-          <button className={"btn btn-sm fw-bold btn-primary " + (journeyEntryDetailButton ? "disabled" : "")} data-bs-toggle="modal" id={"new-" + (pageName.length > 2 ? (pageName[1].slice(0, -1) + "-entry") : pageName[1].slice(0, -1)) + "-modal"}
+          <button disabled={collectionDetail?.challenge_locked && pageName.length > 2} title={collectionDetail?.challenge_locked && pageName.length > 2 ? "Cannot edit a collection that is used in a challenge" : ""} className={"btn btn-sm fw-bold btn-primary " + (journeyEntryDetailButton ? "disabled" : "")} data-bs-toggle="modal" id={"new-" + (pageName.length > 2 ? (pageName[1].slice(0, -1) + "-entry") : pageName[1].slice(0, -1)) + "-modal"}
             data-bs-target="#kt_modal_create_app" onClick={(e) => handleShow(e)}>
-            <span className="text-capitalize">{buttonText} </span>
+            <span className="text-capitalize">{buttonText}</span>
           </button>
 
         </div>

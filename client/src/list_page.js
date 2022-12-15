@@ -105,7 +105,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "Add Books to this Collection"
       break;
     case "challenges":
-      pageContent = <ChallengeCards challenges={challenges} setChallenges={setChallenges} />
+      pageContent = <ChallengeCards challenges={challenges} setChallenges={setChallenges} formatDate={formatDate} user={user} />
       pageTitle = "Challenges"
       buttonText = "Start a new Challenge"
       break;

@@ -6,7 +6,7 @@ class ChallengesController < ApplicationController
   def index 
     if params[:user_id]
       this_user = User.find(params[:user_id])
-      challenges = this_user.challenges
+      challenges = this_user.challenges.order(created_at: :desc)
     else 
       challenges = Challenge.all
     end
@@ -19,6 +19,7 @@ class ChallengesController < ApplicationController
   end
 
   def create
+    check_if_challenge_for_collection(params)
     new_challenge = Challenge.create!(challenge_params)
     render json: new_challenge, status: :created
   end
@@ -31,12 +32,24 @@ class ChallengesController < ApplicationController
   end
 
   def destroy
+    check_if_challenge_for_collection(params)
     this_challenge = Challenge.find(params[:id])
       this_challenge.destroy
       head :no_content
   end
 
   private 
+
+  def check_if_challenge_for_collection(params)
+    if params[:category] === "collection_id"
+      selected_collection = Collection.find_by(id: params[:category_identifier])
+      if params[:action] === "create"
+        selected_collection.update!(challenge_locked: true)
+      elsif params[:action] === "destroy"
+        elected_collection.update!(challenge_locked: false)
+      end
+    end
+  end
 
   def challenge_params
     params.permit(:name, :description, :start_date, :end_date, :user_id, :goal_number, :goal_type, :category, :category_identifier, :active, :successful)

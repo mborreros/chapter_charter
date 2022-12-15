@@ -38,7 +38,7 @@ class CollectionsController < ApplicationController
   private
 
   def collection_params
-    params.permit(:name, :description, :user_id)
+    params.permit(:name, :description, :user_id, :challenge_locked)
   end
 
   def render_unprocessable_entity_response(invalid)

@@ -4,12 +4,12 @@ import Flatpickr from "react-flatpickr";
 
 import AuthorSearch from "./author_select_search";
 
-function ChallengeModal({ show, handleClose, challenges, setChallenges, collections, setCollections, user }) {
+function ChallengeModal({ show, handleClose, challenges, setChallenges, collections, setCollections, user, formatDate }) {
 
   const [authorsLoading, setAuthorsLoading] = useState(false)
   const [selectedAuthor, setSelectedAuthor] = useState(null);
 
-  const [startDate, setStartDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
 
   // default challenge form values
@@ -25,38 +25,30 @@ function ChallengeModal({ show, handleClose, challenges, setChallenges, collecti
     "category_identifier": "",
     "active": true
   }
-
   const [challengeFormValues, setChallengeFormValues] = useState(defaultChallengeFormValues);
 
   // allows second date picker icon to toggle of menu
   const fp = useRef(null);
 
-  // function handleCollectionSubmit(e) {
-  //   e.preventDefault()
+  function handleCollectionSubmit(e) {
+    e.preventDefault()
 
-  //   // setting user id on collection to post
-  //   collectionFormValues["user_id"] = user.id
+    let formValues = ({ ...challengeFormValues, "user_id": user.id, "start_date": formatDate(startDate), "end_date": endDate ? formatDate(endDate) : null })
 
-  //   fetch("/api/collections", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(collectionFormValues)
-  //   })
-  //     .then(response => {
-  //       response.json().then((new_collection) => setCollections([new_collection, ...collections ]))
-  //     })
+    console.log(formValues)
 
-  //   // modal close after submit
-  //   handleClose()
-  // };
+    fetch("/api/challenges", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formValues)
+    })
+      .then(response => {
+        response.json().then((new_challenge) => setChallenges([new_challenge, ...challenges ]))
+      })
 
-  // function clearGoalTypeDependentValues() {
-  //   setChallengeFormValues({...challengeFormValues, "category": "", "category_identifier": ""})
-  // }
-
-  // function clearCategoryDependentValues() {
-  //   setChallengeFormValues({...challengeFormValues, "category_identifier": ""})
-  // }
+    // modal close after submit
+    handleClose()
+  };
 
   function handleChallengeInput(e, clearDeps) {
     let updatedValues = challengeFormValues
@@ -77,10 +69,8 @@ function ChallengeModal({ show, handleClose, challenges, setChallenges, collecti
     )
   })
 
-  console.log(selectedAuthor?.name)
-
   return (
-    <form id="kt_modal_new_target_form" className="form" action="submit" onSubmit={(e) => console.log(e)}>
+    <form id="kt_modal_new_target_form" className="form" action="submit" onSubmit={(e) => handleCollectionSubmit(e)}>
 
       {/* start challenge name input group */}
       <div className="d-flex flex-column mt-8 mb-8">
@@ -166,17 +156,43 @@ function ChallengeModal({ show, handleClose, challenges, setChallenges, collecti
           </Form.Select>
         </div>
 
-        <div className={"col-7 align-items-center " + (challengeFormValues.category == "collection_id" ? "d-flex" : "d-none")}>
-          <label className="required fs-6 fw-semibold mb-2 me-8">Collection</label>
-          <Form.Select aria-label="Select collection" className="form-select form-select-solid text-capitalize me-12" name="category_identifier" onChange={e => handleChallengeInput(e)}>
-            <option>Select Collection</option>
-            {collectionSelectOptions}
-          </Form.Select>
+        <div className={"col-7 align-items-center pe-15 " + (challengeFormValues.category == "collection_id" ? "d-flex" : "d-none")}>
+          <div className="col-3">
+            <label className="fs-6 fw-semibold mb-2 d-block pe-8 text-end">
+              <span className="required">Collection</span>
+              </label>
+          </div>
+          <div className="col">
+            <Form.Select aria-label="Select collection" className="form-select form-select-solid text-capitalize me-13" name="category_identifier" onChange={e => handleChallengeInput(e)}>
+              <option>Select Collection</option>
+              {collectionSelectOptions}
+            </Form.Select>
+          </div>
         </div>
 
         <div className={"col-7 author-search-select align-items-center pe-0 " + (challengeFormValues.category == "author" ? "d-flex" : "d-none")}>
-          <label className="required fs-6 fw-semibold mb-2 me-8">Author Name</label>
-          <AuthorSearch authorsLoading={authorsLoading} setAuthorsLoading={setAuthorsLoading} selectedAuthor={selectedAuthor} setSelectedAuthor={setSelectedAuthor} />
+          <div className="col-3">
+            <label className="fs-6 fw-semibold mb-2 d-block pe-8 text-end">
+              <span className="required">Author</span>
+              </label>
+          </div>
+          <div className="col me-15">
+            <AuthorSearch authorsLoading={authorsLoading} setAuthorsLoading={setAuthorsLoading} selectedAuthor={selectedAuthor} setSelectedAuthor={setSelectedAuthor} setChallengeFormValues={setChallengeFormValues} challengeFormValues={challengeFormValues} />
+          </div>
+        </div>
+
+        <div className={"col-7 align-items-center pe-15 " + (challengeFormValues.category == "genre" ? "d-flex" : "d-none")}>
+          {/* start label */}
+          <div className="col-3">
+            <label className="align-items-center fs-6 fw-semibold mb-2 d-block pe-8 text-end">
+              <span className="required">Genre</span>
+              <i className="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Choose a genre."></i>
+            </label>
+          </div>
+          {/* end label */}
+          <div className="col">
+            <input type="text" autoComplete="off" className="form-control form-control-solid me-13" placeholder="Enter Genre" name="category_identifier" onChange={(e) => handleChallengeInput(e)} />
+          </div>
         </div>
 
       </div>
@@ -194,6 +210,7 @@ function ChallengeModal({ show, handleClose, challenges, setChallenges, collecti
                   className="d-flex"
                   placeholder="Select Date"
                   value={startDate}
+                  onReady={() => setStartDate(new Date())}
                   onChange={value => setStartDate(value[0])}
                   options={{
                     wrap: true,
@@ -261,7 +278,7 @@ function ChallengeModal({ show, handleClose, challenges, setChallenges, collecti
 
       {/* start action buttons */}
       <div className="text-end mt-12">
-        <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3">Clear</button>
+        {/* <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3">Clear</button> */}
         <button type="submit" id="kt_modal_new_target_submit" className="btn btn-primary btn-sm">
           <span className="indicator-label">Submit</span>
           <span className="indicator-progress">Please wait...

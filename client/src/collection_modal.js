@@ -62,7 +62,7 @@ function CollectionModal({ handleClose, collections, setCollections, user }) {
 
           {/* start action buttons */}
           <div className="text-end">
-            <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3">Clear</button>
+            {/* <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3">Clear</button> */}
             <button type="submit" id="kt_modal_new_target_submit" className="btn btn-primary btn-sm">
               <span className="indicator-label">Submit</span>
               <span className="indicator-progress">Please wait...
