@@ -6,7 +6,6 @@ import Home from './home';
 import UserAuthForm from './user_auth_form';
 import ListPage from './list_page';
 import Navigation from './navigation';
-import Account from './user_account';
 
 function App() {
 
@@ -21,22 +20,24 @@ function App() {
   const [selectedJourney, setSelectedJourney] = useState(null)
 
   function fetchUserAuth() {
-    fetch("/auth").then((response) => {
+    fetch("/auth")
+    .then((response) => {
       if (response.ok) {
         response.json().then((user) => setUser(user))
+        return true
       }
     })
   }
 
   useEffect(() => {
-    fetchUserAuth()
+      fetchUserAuth()
   }, []);
 
   function handleUserLogout() {
     fetch("/logout", {
       method: "DELETE"
     }).then(() => setUser())
-    .then(navigate("../login", { replace: true }))
+      .then(navigate("../login", { replace: true }))
   }
 
   // get user's journeys
@@ -76,11 +77,13 @@ function App() {
 
   //  get all books in db
   useEffect(() => {
-    fetch(`api/books`).then((response) => {
-      if (response.ok) {
-        response.json().then((db_books) => setBooks(db_books))
-      }
-    })
+    if (user) {
+      fetch(`api/books`).then((response) => {
+        if (response.ok) {
+          response.json().then((db_books) => setBooks(db_books))
+        }
+      })
+    }
   }, [user]);
 
   function formatDate(date = new Date()) {
@@ -100,7 +103,6 @@ function App() {
 
   function handleShow(e) {
     setShow(e.currentTarget.id)
-    // console.log(show)
   }
 
   return (
@@ -122,7 +124,6 @@ function App() {
         <Route exact path="/challenges" element={<ListPage challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleShow={handleShow} show={show} handleClose={handleClose} formatDate={formatDate} user={user} />} />
         <Route path="/challenges/:id" element={<ListPage challenges={challenges} setChallenges={setChallenges} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} />} />
 
-        {/* dummy pages */}
         <Route exact path="/accounts" element={<ListPage user={user} setUser={setUser} handleShow={handleShow} show={show} handleClose={handleClose} />} />
       </Routes>
 

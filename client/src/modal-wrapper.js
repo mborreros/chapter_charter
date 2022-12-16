@@ -3,7 +3,7 @@ import CollectionModal from './collection_modal';
 import JourneyCollectionEntryModal from './journey_collection_entry_modal';
 import JourneyEntryModal from './journey_entry_modal';
 import ChallengeModal from './challenge_modal';
-import AccountModal from './account_modal';
+// import AccountModal from './account_modal';
 
 function ModalWrapper({ pathSlug, show, handleClose, user, setUser, 
   // collection modal props
