@@ -3,8 +3,9 @@ import CollectionModal from './collection_modal';
 import JourneyCollectionEntryModal from './journey_collection_entry_modal';
 import JourneyEntryModal from './journey_entry_modal';
 import ChallengeModal from './challenge_modal';
+import AccountModal from './account_modal';
 
-function ModalWrapper({ pathSlug, show, handleClose, user,
+function ModalWrapper({ pathSlug, show, handleClose, user, setUser, 
   // collection modal props
   collections, setCollections,
   // journey_collection_entry_modal clicked from journey props
@@ -18,11 +19,13 @@ function ModalWrapper({ pathSlug, show, handleClose, user,
 
   let entryTitle = (typeof show) === "string" && show.includes("entry") ? "Entry" : ""
 
+  // console.log(pathSlug[1])
+
   return (
     <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-90w" size="lg" centered>
 
       <Modal.Header className="border-0 justify-content-center">
-        <h1 className="mb-3 text-center text-capitalize">Start a New {pathSlug[1].slice(0, -1)} {entryTitle}</h1>
+        <h1 className="mb-3 text-center text-capitalize">{pathSlug[1] === "accounts" ? "Edit Account Details": "Start a New " + pathSlug[1].slice(0, -1) + " " + entryTitle}</h1>
       </Modal.Header>
 
       <Modal.Body>
@@ -34,6 +37,7 @@ function ModalWrapper({ pathSlug, show, handleClose, user,
         {show === "new-journey-entry-modal" ? <JourneyEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} setCardAnimation={setCardAnimation} thisJourney={thisJourney} setThisJourney={setThisJourney} thisJourneyEntries={thisJourneyEntries} setThisJourneyEntries={setThisJourneyEntries} /> : null}
         {show === "new-collection-entry-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} setSelectedCollection={setSelectedCollection} selectedCollection={selectedCollection} collections={collections} setCollections={setCollections} /> : null}
         {show === "new-challenge-modal" ? <ChallengeModal show={show} handleClose={handleClose} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} formatDate={formatDate} user={user} /> : null}
+        {/* {show === "new-account-modal" ? <AccountModal show={show} handleClose={handleClose} user={user} setUser={setUser} /> : null} */}
 
 
 

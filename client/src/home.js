@@ -1,6 +1,6 @@
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 
-function Home({ user, handleUserLogout }) {
+function Home({ user }) {
 
   return (
     <>
@@ -23,7 +23,7 @@ function Home({ user, handleUserLogout }) {
         :
         <>
           <p>this is the home page for <b>{user.username}</b> now that they are logged in</p>
-          <Button onClick={handleUserLogout}>Logout</Button>
+          {/* <Button onClick={handleUserLogout}>Logout</Button> */}
         </>
       }
     </>

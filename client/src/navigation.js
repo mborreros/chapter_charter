@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-// import Button from 'react-bootstrap/Button';
 
 import textLogo from "./imgs/logo_text.png";
+import genericAvatar from "./imgs/generic_avatar_img.png"
 
 function Navigation({ currentUser, handleUserLogout }) {
 
@@ -37,7 +37,7 @@ function Navigation({ currentUser, handleUserLogout }) {
                 <Link className="menu-link" to="/challenges">Challenges</Link>
               </div>
               <div className="menu-item">
-                <Link className="menu-link" to="/statistics">Statistics</Link>
+                <Link className="menu-link" to="/accounts">Account</Link>
               </div>
             </div>
           </div>
@@ -51,8 +51,8 @@ function Navigation({ currentUser, handleUserLogout }) {
                   ?
                   <>
                     <div className="symbol">
-                    <Link to="/account">
-                      <img src={currentUser.avatar_img} alt="user" className="cursor-pointer symbol symbol-30px symbol-md-40px me-4" width="40" height="40" />
+                    <Link to="/accounts">
+                      <img src={currentUser.avatar_img.length === 0 ? genericAvatar : currentUser.avatar_img} alt="user" className="cursor-pointer symbol symbol-30px symbol-md-40px me-4" width="40" height="40" />
                     </Link>
                       <span className="me-2">Logged in as </span>
                       <span className="custom-cc-logo-font">{currentUser.screenname}</span>

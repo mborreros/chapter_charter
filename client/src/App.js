@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 
 import Home from './home';
 import UserAuthForm from './user_auth_form';
 import ListPage from './list_page';
-import Statistics from './statistics';
 import Navigation from './navigation';
 import Account from './user_account';
-// import JourneyDetail from "./journey_detail";
-// import CollectionDetail from "./collection_detail";
-import { Routes, Route } from "react-router-dom";
 
 function App() {
+
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
   const [journeys, setJourneys] = useState(null);
@@ -20,18 +20,23 @@ function App() {
 
   const [selectedJourney, setSelectedJourney] = useState(null)
 
-  useEffect(() => {
+  function fetchUserAuth() {
     fetch("/auth").then((response) => {
       if (response.ok) {
         response.json().then((user) => setUser(user))
       }
     })
+  }
+
+  useEffect(() => {
+    fetchUserAuth()
   }, []);
 
   function handleUserLogout() {
     fetch("/logout", {
       method: "DELETE"
     }).then(() => setUser())
+    .then(navigate("../login", { replace: true }))
   }
 
   // get user's journeys
@@ -95,6 +100,7 @@ function App() {
 
   function handleShow(e) {
     setShow(e.currentTarget.id)
+    // console.log(show)
   }
 
   return (
@@ -105,7 +111,7 @@ function App() {
 
         <Route exact path="/" element={<Home user={user} handleUserLogout={handleUserLogout} />} />
         <Route exact path="/login" element={<UserAuthForm onLogin={setUser} />} />
-        <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} />} />
+        <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} fetchUserAuth={fetchUserAuth} />} />
 
         <Route exact path="/collections" element={<ListPage collections={collections} setCollections={setCollections} user={user} show={show} handleClose={handleClose} handleShow={handleShow} />} />
         <Route path="/collections/:id" element={<ListPage books={books} setBooks={setBooks} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} />} />
@@ -117,8 +123,7 @@ function App() {
         <Route path="/challenges/:id" element={<ListPage challenges={challenges} setChallenges={setChallenges} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} />} />
 
         {/* dummy pages */}
-        <Route exact path="/statistics" element={<Statistics />} />
-        <Route exact path="/account" element={<Account />} />
+        <Route exact path="/accounts" element={<ListPage user={user} setUser={setUser} handleShow={handleShow} show={show} handleClose={handleClose} />} />
       </Routes>
 
     </>

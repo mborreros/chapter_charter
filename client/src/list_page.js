@@ -11,10 +11,11 @@ import ChallengeCards from "./challenge_cards";
 import JourneyDetail from "./journey_detail";
 import CollectionDetail from "./collection_detail";
 import ChallengeDetail from "./challenge_detail";
+import Account from "./user_account";
 
 import ModalWrapper from "./modal-wrapper";
 
-function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, setChallenges, user, formatDate, show, handleClose, handleShow, selectedJourney, setSelectedJourney }) {
+function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, setChallenges, user, setUser, formatDate, show, handleClose, handleShow, selectedJourney, setSelectedJourney }) {
 
   // getting pathname to determine which page to show
   const location = useLocation();
@@ -80,6 +81,9 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
     else if (path[1] == "challenges") {
       pageTitle = path[2] ? "challenge-detail" : "challenges"
     }
+    else if (path[1] == "accounts") {
+      pageTitle = path[1]
+    }
     return pageTitle
   }
 
@@ -113,15 +117,18 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       break;
     case "challenge-detail":
       pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} />
-      pageTitle = selectedChallenge?.name +" Challenge"
+      pageTitle = selectedChallenge?.name + " Challenge"
       buttonText = "This button needs to be removed"
+      break;
+    case "accounts":
+      pageContent = <Account user={user} setUser={setUser} />
+      pageTitle = user?.screenname + "'s Account"
+      buttonText = "Edit Account Details"
       break;
     default:
       break;
 
     }
-
-  // console.log(pagePath(pathSlug))
     
   return (
     <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
@@ -149,7 +156,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       <ModalWrapper
         pathSlug={pathSlug} show={show} handleClose={handleClose}
         // if page is collection, using this data
-        collections={collections} setCollections={setCollections} user={user}
+        collections={collections} setCollections={setCollections} user={user} setUser={setUser}
         // if page is journey, using this data
         journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} formatDate={formatDate}
         // if click is journey entry progress, using this data
