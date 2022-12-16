@@ -73,7 +73,7 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
 
   let collectionSelectOptions = collections?.map(collection => {
     return (
-      <option disabled={collection.challenge_locked} value={collection.id} key={collection.id}>{collection.name}</option>
+      <option disabled={collection.challenge_locked || parseInt(challengeFormValues.goal_number) < collection.books.length} value={collection.id} key={collection.id}>{collection.name}</option>
     )
   })
 
@@ -166,8 +166,9 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
 
         <div className={"col-7 align-items-center pe-15 " + (challengeFormValues.category == "collection_id" ? "d-flex" : "d-none")}>
           <div className="col-3">
-            <label className="fs-6 fw-semibold mb-2 d-block pe-8 text-end">
-              <span className="required">Collection</span>
+            <label className="fs-6 fw-semibold mb-2 d-block pe-1 text-end">
+              <span className="required pe-1">Collection</span>
+              <ToolTip placement="right" icon="info" message="Collections that contain less books than your Challenge Goal or that are already being used for other Challenges are not available."/>
             </label>
           </div>
           <div className="col">

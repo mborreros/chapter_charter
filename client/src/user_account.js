@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import moment from 'moment'
+
 import genericAvatar from "./imgs/generic_avatar_img.png"
 
 function Account({ user, setUser }) {
@@ -69,7 +71,7 @@ function Account({ user, setUser }) {
 
   return (
 
-    <div className="col-md-12">
+    <div className="col-md-12 d-flex justify-content-center">
       <div className="account-card card w-1000px mb-xl-10">
         {/* start header */}
         <div className='card-header align-items-center border-0 mt-4'>
@@ -85,12 +87,12 @@ function Account({ user, setUser }) {
           </div>
         </div>
         {/* end header */}
-        <div className="card-body pt-9 pb-0">
+        <div className="card-body pt-0 pb-0">
 
           {/* <!--begin::Details--> */}
           <div className="row d-flex flex-sm-nowrap mb-3">
             {/* <!--begin: Pic--> */}
-            <div className="col-3 mb-4">
+            <div className="col-3 mb-4 d-flex align-items-center justify-content-center">
               <div className="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
                 <img className="account-card-avatar-img" src={user?.avatar_img.length === 0 ? genericAvatar : user?.avatar_img} alt={user?.screenname + "'s profile picture"} />
               </div>
@@ -98,54 +100,70 @@ function Account({ user, setUser }) {
             {/* <!--end::Pic--> */}
 
             {/* <!--begin::Info--> */}
-            <div className="col-9 d-flex mb-4">
-              {/* <!--begin::Title--> */}
-              <div className="d-flex justify-content-between align-items-start flex-wrap mb-2">
-                {/* <!--begin::User--> */}
-                <div className="d-flex flex-column">
+            {/* <div className="col-9 d-flex mb-4"> */}
+            {/* <!--begin::Title--> */}
+            {/* <div className="d-flex justify-content-between align-items-start flex-wrap mb-2"> */}
 
-                  {/* <div className="d-flex align-items-center mb-2">
-                    <span className="text-gray-900 fs-2 fw-bold me-1">Account Details</span>
-                    <div>
-                      <button className="btn btn-sm btn-light">Edit Details</button>
-                    </div>
-                  </div> */}
+            <form id="chapter-charter-sign-up-form" className="form col-9 mb-4" action="submit" onSubmit={(e) => e.preventDefault()}>
 
-                  <form id="chapter-charter-sign-up-form" className="form" action="submit" onSubmit={(e) => e.preventDefault()}>
+              <div className="row d-flex mt-4">
+                {/* start label */}
+                <div className="col-3 d-flex">
+                  <label className="d-flex align-items-center fs-6 fw-semibold me-4">
+                    <span>Joined:</span>
+                  </label>
+                </div>
+                {/* end label */}
+                <div className="col-9 ps-0">
+                  <input required readOnly type="text" autoComplete="off" className="form-control border-0" placeholder="Joined" name="username" value={moment(user?.created_at).from(new Date())} />
+                </div>
+              </div>
 
-                    <div className="d-flex mt-8 mb-8">
-                      {/* start label */}
-                      <label className="d-flex align-items-center fs-6 fw-semibold">
-                        <span>Username</span>
-                      </label>
-                      {/* end label */}
-                      {/* onInvalid={e => e.target.setCustomValidity("Username is required")} onInput={e => e.target.setCustomValidity("")} */}
-                      <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} placeholder="Enter Username" name="username" value={userFormValues.username} onChange={(e) => handleUserFormInputs(e)} />
-                    </div>
+              <div className="row d-flex mt-4">
+                {/* start label */}
+                <div className="col-3 d-flex">
+                  <label className="d-flex align-items-center fs-6 fw-semibold me-4">
+                    <span>Username</span>
+                  </label>
+                </div>
+                {/* end label */}
+                <div className="col-9 ps-0">
+                  {/* onInvalid={e => e.target.setCustomValidity("Username is required")} onInput={e => e.target.setCustomValidity("")} */}
+                  <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} placeholder="Enter Username" name="username" value={userFormValues.username} onChange={(e) => handleUserFormInputs(e)} />
+                </div>
+              </div>
 
-                    {/* <div className="row"> */}
-                    <div className="d-flex mt-8 mb-8 pe-0">
-                      {/* start label */}
-                      <label className="d-flex align-items-center fs-6 fw-semibold">
-                        <span>Screen Name</span>
-                      </label>
-                      {/* end label */}
-                      <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} name="screenname" placeholder="Enter Screen Name" value={userFormValues.screenname} onChange={(e) => handleUserFormInputs(e)} />
-                    </div>
+              {/* <div className="row"> */}
+              <div className=" row d-flex mt-4 pe-0">
+                {/* start label */}
+                <div className="col-3 d-flex">
+                  <label className="d-flex align-items-center fs-6 fw-semibold me-4">
+                    <span>Screen Name</span>
+                  </label>
+                </div>
+                {/* end label */}
+                <div className="col-9 ps-0">
+                  <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} name="screenname" placeholder="Enter Screen Name" value={userFormValues.screenname} onChange={(e) => handleUserFormInputs(e)} />
+                </div>
+              </div>
 
-                    <div className="d-flex mt-8 mb-8 ps-0">
-                      {/* start label */}
-                      <label className="d-flex align-items-center fs-6 fw-semibold">
-                        <span>Profile Picture</span>
-                      </label>
-                      {/* end label */}
-                      <input readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} name="avatar_img" placeholder="Enter Picture URL" value={userFormValues.avatar_img} onChange={(e) => handleUserFormInputs(e)} />
-                    </div>
-                    {/* </div> */}
+              <div className="row d-flex mt-4 ps-0">
+                {/* start label */}
+                <div className="col-3 d-flex">
+                  <label className="d-flex align-items-center fs-6 fw-semibold me-4">
+                    <span>Profile Picture</span>
+                  </label>
+                </div>
+                {/* end label */}
+                <div className="col-9 ps-0">
+                  <input readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} name="avatar_img" placeholder="Enter Picture URL" value={userFormValues.avatar_img} onChange={(e) => handleUserFormInputs(e)} />
+                </div>
+              </div>
 
-                  </form>
 
-                  {/* <div className="d-flex align-items-center mb-2">
+            </form>
+
+            {/* <div className="d-flex align-items-center mb-2">
                   <span className="text-gray-900 me-1">Username: {user?.username}</span>
                 </div>
 
@@ -157,10 +175,10 @@ function Account({ user, setUser }) {
                   <span className="text-gray-900 me-1">Profile Picture Source: {user?.avatar_img}</span>
                 </div> */}
 
-                </div>
-                {/* {/* <!--end::User--> */}
-              </div>
-            </div>
+            {/* </div> */}
+            {/* {/* <!--end::User--> */}
+            {/* </div> */}
+            {/* </div> */}
           </div>
         </div>
       </div>

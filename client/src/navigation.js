@@ -56,7 +56,7 @@ function Navigation({ currentUser, handleUserLogout }) {
                     </Link>
                       <span className="me-2">Logged in as </span>
                       <span className="custom-cc-logo-font">{currentUser.screenname}</span>
-                    <button className="btn btn-sm btn-bg-light btn-active-light-danger btn-color-gray-700 px-4 py-2 ms-4" onClick={handleUserLogout}>Logout</button>
+                    <button className="btn btn-sm btn-bg-light btn-active-light-danger btn-color-gray-700 px-4 py-2 ms-4 mb-1" onClick={handleUserLogout}>Logout</button>
                     </div>
                   </>
                   :
