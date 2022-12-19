@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useLocation, useParams } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 // page header contents
 import HeaderContents from "./header_list_page";
-
 // page body contents
 import JourneyCards from "./journey_cards";
 import CollectionCards from "./collection_cards";
@@ -12,10 +12,10 @@ import JourneyDetail from "./journey_detail";
 import CollectionDetail from "./collection_detail";
 import ChallengeDetail from "./challenge_detail";
 import Account from "./user_account";
-
+// modal wrapper contents
 import ModalWrapper from "./modal-wrapper";
 
-function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, setChallenges, user, setUser, formatDate, show, handleClose, handleShow, selectedJourney, setSelectedJourney }) {
+function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, setChallenges, user, setUser, formatDate, show, handleClose, handleShow, selectedJourney, setSelectedJourney, handleServerError }) {
 
   // getting pathname to determine which page to show
   const location = useLocation();
@@ -39,15 +39,14 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
     let journeyEntryId = e.currentTarget.id
     fetch(`/api/journey_entries/${journeyEntryId}`, {
       method: "DELETE"
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(updatedJourney => {
-          let updated_journey_entries = selectedJourney.journey_entries.filter(journey_entry => journey_entry.id !== parseInt(journeyEntryId))
-          selectedJourney.journey_entries = updated_journey_entries
-          setJourneys(journeys.map(journey => journey.id !== updatedJourney.id ? journey : updatedJourney))
-        })
-      }
     })
+      .then(response => handleServerError(response))
+      .then(updatedJourney => {
+        let updated_journey_entries = selectedJourney.journey_entries.filter(journey_entry => journey_entry.id !== parseInt(journeyEntryId))
+        selectedJourney.journey_entries = updated_journey_entries
+        setJourneys(journeys.map(journey => journey.id !== updatedJourney.id ? journey : updatedJourney))
+      })
+      .catch(error => console.log(error))
   }
 
   // used on collection detail page, at this level to control collection state rendered on list_page
@@ -57,17 +56,14 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
 
     fetch(`/api/collection_entries/${entryToRemove.id}`, {
       method: "DELETE"
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(updated_collection => {
-          setSelectedCollection(updated_collection)
-          let revised_collection_array = collections.map(collection => collection.id == updated_collection.id ? updated_collection : collection)
-          setCollections(revised_collection_array)
-        })
-      } else {
-        console.log("Error in collection entry deletion")
-      }
     })
+      .then(response => handleServerError(response))
+      .then(updated_collection => {
+        setSelectedCollection(updated_collection)
+        let revised_collection_array = collections.map(collection => collection.id == updated_collection.id ? updated_collection : collection)
+        setCollections(revised_collection_array)
+      })
+      .catch(error => console.log(error))
   }
 
   function pagePath(path = pathSlug) {
@@ -96,7 +92,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "Start a new Journey"
       break;
     case "journey-detail":
-      pageContent = <JourneyDetail journeys={journeys} setJourneys={setJourneys} setSelectedJourney={setSelectedJourney} handleShow={handleShow} selectedJourney={selectedJourney} handleJourneyEntryDelete={handleJourneyEntryDelete} setThisJourney={setSelectedJourney} selectedJourneyEntries={selectedJourneyEntries} setThisJourneyEntries={setSelectedJourneyEntries} findSelectedJourney={findSelectedJourney} />
+      pageContent = <JourneyDetail journeys={journeys} setJourneys={setJourneys} setSelectedJourney={setSelectedJourney} handleShow={handleShow} selectedJourney={selectedJourney} handleJourneyEntryDelete={handleJourneyEntryDelete} setThisJourney={setSelectedJourney} selectedJourneyEntries={selectedJourneyEntries} setThisJourneyEntries={setSelectedJourneyEntries} findSelectedJourney={findSelectedJourney} handleServerError={handleServerError} />
       pageTitle = selectedJourney?.book.title + " Journey"
       buttonText = "Add Reading Journey Progress"
       break;
@@ -106,30 +102,30 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "Start a new Collection"
       break;
     case "collection-detail":
-      pageContent = <CollectionDetail selectedCollection={selectedCollection} setSelectedCollection={setSelectedCollection} collections={collections} setCollections={setCollections} handleCollectionEntryDelete={handleCollectionEntryDelete} />
+      pageContent = <CollectionDetail selectedCollection={selectedCollection} setSelectedCollection={setSelectedCollection} collections={collections} setCollections={setCollections} handleCollectionEntryDelete={handleCollectionEntryDelete} handleServerError={handleServerError} />
       pageTitle = selectedCollection?.name + " Collection"
       buttonText = "Add Books to this Collection"
       break;
     case "challenges":
-      pageContent = <ChallengeCards challenges={challenges} setChallenges={setChallenges} formatDate={formatDate} user={user} />
+      pageContent = <ChallengeCards challenges={challenges} setChallenges={setChallenges} formatDate={formatDate} user={user} handleServerError={handleServerError}/>
       pageTitle = "Challenges"
       buttonText = "Start a new Challenge"
       break;
     case "challenge-detail":
-      pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} />
+      pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleServerError={handleServerError} />
       pageTitle = selectedChallenge?.name + " Challenge"
       buttonText = "This button needs to be removed"
       break;
     case "accounts":
-      pageContent = <Account user={user} setUser={setUser} />
+      pageContent = <Account user={user} setUser={setUser} handleServerError={handleServerError} />
       pageTitle = user?.screenname + "'s Account"
       buttonText = "Edit Account Details"
       break;
     default:
       break;
 
-    }
-    
+  }
+
   return (
     <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
       <div className="app-page flex-column flex-column-fluid" id="kt_app_page">
@@ -166,6 +162,8 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
         //  if page is challenge, using this data
         challenges={challenges} setChallenges={setChallenges}
       />
+
+      <Toaster />
 
     </div>
   );

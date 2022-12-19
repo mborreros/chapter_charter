@@ -5,9 +5,10 @@ import { faGenderless, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import moment from 'moment'
+import toast from 'react-hot-toast';
 import defaultBook from "./imgs/generic_book.png";
 
-function JourneyDetail({ selectedJourney, setSelectedJourney, handleJourneyEntryDelete, findSelectedJourney, journeys, setJourneys }) {
+function JourneyDetail({ selectedJourney, setSelectedJourney, handleJourneyEntryDelete, findSelectedJourney, journeys, setJourneys, handleServerError }) {
 
   // importing font awesome icons
   library.add(faGenderless);
@@ -26,32 +27,29 @@ function JourneyDetail({ selectedJourney, setSelectedJourney, handleJourneyEntry
 
   useEffect(() => {
     if (selectedJourney) {
-      fetch(`https://openlibrary.org/works/${selectedJourney?.book.book_api_num}.json`)
-        .then(res => res.json())
+      fetch(`https://openlibrary.org/works/${selectedJourney.book.book_api_num}.json`)
         .then(data =>
           setBookDetails({
             description: typeof data.description === "string" ? data.description : "",
             genres: data.subjects ? data.subjects.slice(0, 10).join(" / ") : "none listed",
             published: data.first_publish_date ? "published " + data.first_publish_date : ""
           }))
+        .catch(error => toast.error(error.message + " book from Books API"))
     }
     // eslint-disable-next-line
   }, [pageParams])
 
   function handleJounreyDelete(journeyId) {
-    console.log(journeyId)
-
-    fetch(`/api/journeys/${journeyId}`, {
+    fetch(`/api/journey/${journeyId}`, {
       method: "DELETE"
-    }).then((response) => {
-      if (response.ok) {
+    })
+      .then(response => handleServerError(response))
+      .then(() => {
         let updated_journey_array = journeys.filter(journey => journey.id !== journeyId)
         setJourneys(updated_journey_array)
         navigate("../journeys", { replace: true })
-      }
-      else { console.log("Error in deleting journey!") }
-    })
-
+      })
+      .catch(error => console.log(error))
   }
 
   // creating reading log plot points
@@ -118,8 +116,8 @@ function JourneyDetail({ selectedJourney, setSelectedJourney, handleJourneyEntry
                             </div>
                             <div className='col-8'>
                               <div className='d-flex flex-column h-100'>
-                                <h2 className='fw-normal'>{selectedJourney?.book.title}</h2>
-                                <h4 className='fw-normal text-muted'>{selectedJourney?.book.author}</h4>
+                                <h2 className='fw-normal text-capitalize'>{selectedJourney?.book.title}</h2>
+                                <h4 className='fw-normal text-muted text-capitalize'>{selectedJourney?.book.author}</h4>
                                 <p className='fs-8 mb-0'>{bookDetails.published}</p>
                                 <p className='fs-8 mb-6'>{selectedJourney?.book.length} pages</p>
                                 <p className='mb-6'>{bookDetails.description}</p>

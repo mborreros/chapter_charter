@@ -217,10 +217,6 @@ code {
   cursor: not-allowed;
 }
 
-.account-card-avatar-img {
-  width: 200px;
-}
-
 @keyframes heartBeat {
   0% {
       -webkit-transform: scale(1);

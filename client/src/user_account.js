@@ -5,7 +5,11 @@ import moment from 'moment'
 
 import genericAvatar from "./imgs/generic_avatar_img.png"
 
-function Account({ user, setUser }) {
+function Account({ user, setUser, handleServerError }) {
+
+  useEffect(() => {
+    document.title = "Account"
+  }, [])
 
   let defaultUserValues = {
     "username": "",
@@ -34,15 +38,17 @@ function Account({ user, setUser }) {
 
 
   function handleAccountDelete(e) {
-    fetch(`/api/users/${parseInt(e.target.id)}`, {
-      method: "DELETE"
-    }).then((response) => {
-      if (response.ok) {
-        setUser(null)
-        navigate("../signup", { replace: true })
-      }
-      else { console.log("Error in deleting user!") }
-    })
+    if (window.confirm("Are you sure you want to permenantly delete this account")) {
+      fetch(`/api/users/${parseInt(e.target.id)}`, {
+        method: "DELETE"
+      })
+        .then(response => handleServerError(response))
+        .then(() => {
+          setUser(null)
+          navigate("../signup", { replace: true })
+        })
+        .catch(error => console.log(error))
+    }
   }
 
   function handleUserFormInputs(e) {
@@ -59,18 +65,16 @@ function Account({ user, setUser }) {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userFormValues)
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then((updated_user => {
-          setUser(updated_user)
-          setIsAccountEditable(false)
-        }))
-      }
     })
+      .then(response => handleServerError(response))
+      .then((updated_user => {
+        setUser(updated_user)
+        setIsAccountEditable(false)
+      }))
+      .catch(error => console.log(error))
   }
 
   return (
-
     <div className="col-md-12 d-flex justify-content-center">
       <div className="account-card card w-1000px mb-xl-10">
         {/* start header */}

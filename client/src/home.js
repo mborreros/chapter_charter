@@ -1,4 +1,5 @@
-// import Button from 'react-bootstrap/Button';
+// import Alert from 'react-bootstrap/Alert';
+import { Toaster } from 'react-hot-toast';
 
 function Home({ user }) {
 
@@ -25,7 +26,15 @@ function Home({ user }) {
         </div>
         :
         <>
+        {/* <div id="status-message" className="d-none">
+
+        </div> */}
+
+        {/* <Alert variant="danger"> This is an alert—check it out! </Alert> */}
+
           <p>this is the home page for <b>{user.username}</b> now that they are logged in</p>
+
+          <Toaster />
         </>
       }
     </>

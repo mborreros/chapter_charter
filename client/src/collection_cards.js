@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import ToolTip from './tool_tip';
 
 import defaultBook from "./imgs/generic_book.png";
 
 function CollectionCards({ collections, setCollections, show, handleClose }) {
+
+  useEffect(() => {
+    document.title = "Collections"
+  }, [])
 
   return (collections?.map((collection) => {
 

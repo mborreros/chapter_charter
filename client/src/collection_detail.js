@@ -9,7 +9,7 @@ import defaultBook from "./imgs/generic_book.png";
 
 import ToolTip from './tool_tip';
 
-function CollectionDetail({ selectedCollection, setSelectedCollection, collections, setCollections, handleCollectionEntryDelete }) {
+function CollectionDetail({ selectedCollection, setSelectedCollection, collections, setCollections, handleCollectionEntryDelete, handleServerError }) {
 
   // importing font awesome icons
   library.add(faXmark);
@@ -23,16 +23,16 @@ function CollectionDetail({ selectedCollection, setSelectedCollection, collectio
 
   function handleCollectionDelete(e) {
     let thisCollectionId = e.currentTarget.id
-
     fetch(`/api/collections/${thisCollectionId}`, {
       method: "DELETE"
-    }).then((response) => {
-      if (response.ok) {
+    })
+      .then(response => handleServerError(response))
+      .then(() => {
         let updatedCollectionArray = collections.filter((collection) => collection.id !== parseInt(thisCollectionId))
         setCollections(updatedCollectionArray)
         navigate("../collections", { replace: true })
-      } else { console.log("Collection was not deleted successfully.") }
-    })
+      })
+      .catch(error => console.log(error))
   }
 
   let bookListItems

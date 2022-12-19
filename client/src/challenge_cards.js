@@ -1,16 +1,21 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 
-function ChallengeCards({ challenges, setChallenges, formatDate, user }) {
+function ChallengeCards({ challenges, setChallenges, formatDate, user, handleServerError }) {
+
+  useEffect(() => {
+    document.title = "Challenges"
+  }, [])
+
 
     // fetching user's challenges from the backend to capture all challenge progress changes that occured if/when the user made any new journey completion progress
     useEffect(() => {
       if (user) {
-        fetch(`api/users/${user?.id}/challenges`).then((response) => {
-          if (response.ok) {
-            response.json().then((user_challenges) => setChallenges(user_challenges))
-          }
-        })
+        fetch(`api/users/${user?.id}/challenges`)
+          .then(response => handleServerError(response))
+          .then(user_challenges => setChallenges(user_challenges))
+          .catch(error => console.log(error))
       }
     }, []);
 
