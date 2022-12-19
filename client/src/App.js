@@ -20,7 +20,9 @@ function App() {
 
   const [selectedJourney, setSelectedJourney] = useState(null)
 
+  // handles server errors shown to user in toasts throughout the application
   function handleServerError(response) {
+    // console.log("in error handle function")
     let statusMessage = response.status + ": " + response.statusText
     if (!response.ok) {
       toast.error("There was an error with the request \n" + statusMessage)
@@ -114,8 +116,8 @@ function App() {
 
       <Routes>
         <Route exact path="/" element={<Home user={user} handleUserLogout={handleUserLogout} />} />
-        <Route exact path="/login" element={<UserAuthForm onLogin={setUser} />} />
-        <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} fetchUserAuth={fetchUserAuth} />} />
+        <Route exact path="/login" element={<UserAuthForm onLogin={setUser} handleServerError={handleServerError} />} />
+        <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} fetchUserAuth={fetchUserAuth} handleServerError={handleServerError} />} />
 
         <Route exact path="/collections" element={<ListPage collections={collections} setCollections={setCollections} user={user} show={show} handleClose={handleClose} handleShow={handleShow} handleServerError={handleServerError}/>} />
         <Route path="/collections/:id" element={<ListPage books={books} setBooks={setBooks} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} handleServerError={handleServerError}/>} />

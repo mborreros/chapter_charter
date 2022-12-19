@@ -150,7 +150,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       </div>
 
       <ModalWrapper
-        pathSlug={pathSlug} show={show} handleClose={handleClose}
+        pathSlug={pathSlug} show={show} handleClose={handleClose} handleServerError={handleServerError}
         // if page is collection, using this data
         collections={collections} setCollections={setCollections} user={user} setUser={setUser}
         // if page is journey, using this data

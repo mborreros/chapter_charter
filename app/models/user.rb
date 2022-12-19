@@ -8,9 +8,8 @@ class User < ApplicationRecord
   has_many :challenges, dependent: :destroy
   has_many :challenge_entries, through: :challenges
 
-  validates :username, presence: true, uniqueness: true
-  # validates :password, presence: true
-  # validates :screenname, uniqueness: true
-  # validates :avatar_img, uniqueness: true
+  validates :username, presence: true, uniqueness: true, length: { minimum: 5 }
+  validates :password, presence: true, length: { minimum: 7 }
+  validates :screenname, presence: true
 
 end

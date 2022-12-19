@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import moment from 'moment'
 
+import ToolTip from "./tool_tip";
 import genericAvatar from "./imgs/generic_avatar_img.png"
 
 function Account({ user, setUser, handleServerError }) {
@@ -103,11 +103,6 @@ function Account({ user, setUser, handleServerError }) {
             </div>
             {/* <!--end::Pic--> */}
 
-            {/* <!--begin::Info--> */}
-            {/* <div className="col-9 d-flex mb-4"> */}
-            {/* <!--begin::Title--> */}
-            {/* <div className="d-flex justify-content-between align-items-start flex-wrap mb-2"> */}
-
             <form id="chapter-charter-sign-up-form" className="form col-9 mb-4" action="submit" onSubmit={(e) => e.preventDefault()}>
 
               <div className="row d-flex mt-4">
@@ -155,7 +150,8 @@ function Account({ user, setUser, handleServerError }) {
                 {/* start label */}
                 <div className="col-3 d-flex">
                   <label className="d-flex align-items-center fs-6 fw-semibold me-4">
-                    <span>Profile Picture</span>
+                    <span className="pe-2">Profile Picture</span>
+                    <ToolTip placement="right" icon="info" message="Profile pictures must be links which end in .jpg or .png for the site to render them properly. " />
                   </label>
                 </div>
                 {/* end label */}
@@ -163,26 +159,7 @@ function Account({ user, setUser, handleServerError }) {
                   <input readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} name="avatar_img" placeholder="Enter Picture URL" value={userFormValues.avatar_img} onChange={(e) => handleUserFormInputs(e)} />
                 </div>
               </div>
-
-
             </form>
-
-            {/* <div className="d-flex align-items-center mb-2">
-                  <span className="text-gray-900 me-1">Username: {user?.username}</span>
-                </div>
-
-                <div className="d-flex align-items-center mb-2">
-                  <span className="text-gray-900 me-1">Screenname: {user?.screenname}</span>
-                </div>
-
-                <div className="d-flex align-items-center mb-2">
-                  <span className="text-gray-900 me-1">Profile Picture Source: {user?.avatar_img}</span>
-                </div> */}
-
-            {/* </div> */}
-            {/* {/* <!--end::User--> */}
-            {/* </div> */}
-            {/* </div> */}
           </div>
         </div>
       </div>

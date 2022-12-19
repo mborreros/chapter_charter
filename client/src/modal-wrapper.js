@@ -5,7 +5,7 @@ import JourneyEntryModal from './journey_entry_modal';
 import ChallengeModal from './challenge_modal';
 // import AccountModal from './account_modal';
 
-function ModalWrapper({ pathSlug, show, handleClose, user, setUser, 
+function ModalWrapper({ pathSlug, show, handleClose, user, setUser, handleServerError,
   // collection modal props
   collections, setCollections,
   // journey_collection_entry_modal clicked from journey props
@@ -32,7 +32,7 @@ function ModalWrapper({ pathSlug, show, handleClose, user, setUser,
 
         {pathSlug[1] === "journeys" ? <p className="text-muted fw-semibold fs-6 text-center">Begin by searching our library and selecting your next book. Then let the literary adventure begin!</p> : <div></div>}
 
-        {show === "new-journey-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} /> : null}
+        {show === "new-journey-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} handleServerError={handleServerError} /> : null}
         {show === "new-collection-modal" ? <CollectionModal handleClose={handleClose} collections={collections} setCollections={setCollections} user={user} /> : null}
         {show === "new-journey-entry-modal" ? <JourneyEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} setCardAnimation={setCardAnimation} thisJourney={thisJourney} setThisJourney={setThisJourney} thisJourneyEntries={thisJourneyEntries} setThisJourneyEntries={setThisJourneyEntries} /> : null}
         {show === "new-collection-entry-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} setSelectedCollection={setSelectedCollection} selectedCollection={selectedCollection} collections={collections} setCollections={setCollections} /> : null}

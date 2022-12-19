@@ -16,6 +16,7 @@
     "react-bootstrap": "^2.6.0",
     "react-dom": "^18.2.0",
     "react-flatpickr": "^3.10.13",
+    "react-hook-form": "^7.41.0",
     "react-hot-toast": "^2.4.0",
     "react-router-dom": "^6.4.4",
     "react-scripts": "5.0.1",

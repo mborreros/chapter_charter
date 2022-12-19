@@ -1,82 +1,93 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import Alert from 'react-bootstrap/Alert';
 
 import ToolTip from "./tool_tip";
 
-function UserAuthForm({ onLogin, onSignup, fetchUserAuth }) {
-
-  let defaultLogInValues = {
-    "username": "",
-    "password": ""
-  }
-  let defaultSignUpValues = {
-    "username": "",
-    "password": "",
-    "screenname": "",
-    "avatar_img": ""
-  }
-
-  const [loginValues, setLoginValues] = useState(defaultLogInValues)
-  const [signUpValues, setSignUpValues] = useState(defaultSignUpValues)
+function UserAuthForm({ onLogin, onSignup, fetchUserAuth, handleServerError }) {
 
   // getting pathname (login or signup) to determine which form to show
   const location = useLocation();
   const navigate = useNavigate();
 
-  // console.log(location.pathname)
+  // form error handling functions and variables
+  const { register, handleSubmit, setError, clearErrors, formState: { errors } } = useForm({
+    defaultValues: {
+      login_username: "",
+      login_password: "",
+      username: "",
+      password: "",
+      screenname: "",
+      avatar_img: ""
+    }
+  });
 
   useEffect(() => {
-    setLoginValues(defaultLogInValues)
-    setSignUpValues(defaultSignUpValues)
-  },[location.pathname])
+    // clearing inputValues and error form values on pathname switch between login/signup
+    clearErrors()
+    // setLoginValues(defaultLogInValues)
+    // setSignUpValues(defaultSignUpValues)
+  }, [location.pathname])
 
-  function handleUserLogin(e) {
-    e.preventDefault()
+  function handleUserLogin(data) {
     fetch("/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(loginValues)
+      body: JSON.stringify({"username": data.login_username, "password": data.login_password})
     })
-      .then(response => {
-        if (response.ok) {
-          response.json().then((user) => onLogin(user)).then(navigate("../", { replace: true }))
-        } else {
-          response.json().then((errors) => console.log(errors))
-        }
+      .then(response => handleServerError(response))
+      .then(user => {
+        onLogin(user)
+        navigate("../", { replace: true })
+      })
+      .catch(error => {
+        setError('notRegisteredInput', { type: 'custom', message: 'The username and password you submitted is not associated with a valid Chapter Charter account, please resubmit with a valid username and password or create a new account.' })
+        console.log(error)
       })
   }
 
-  function handleUserSignup(e) {
-    e.preventDefault()
+  function handleUserSignup(data) {
+    let submissionData = {...data}
+
+    if (!checkImg(data.avatar_img)) {
+      submissionData.avatar_img = ""
+    }
+
     fetch("/api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(signUpValues)
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(() => {
-          onSignup()
-          fetchUserAuth()
-        }).then(navigate("../", { replace: true }))
-      } else {
-        response.json().then((errors) => console.log(errors))
-      }
+      body: JSON.stringify(submissionData)
     })
+      .then(response => handleServerError(response))
+      .then(() => {
+        onSignup()
+        fetchUserAuth()
+        navigate("../", { replace: true })
+      })
+      .catch(error => {
+        setError('notRegisteredInput', { type: 'custom', message: 'The username you selected has already been taken, please resubmit with a unique username.' })
+        console.log(error)
+      })
   }
 
-  function handleLoginInputs(e) {
-    let previousLoginValues = loginValues
-    setLoginValues({ ...previousLoginValues, [e.target.name]: e.target.value })
-  }
+  //   clearErrors(e.target.name)
+  //   clearErrors("notRegisteredInput")
+  //   let previousLoginValues = loginValues
+  //   setLoginValues({ ...previousLoginValues, [e.target.name]: e.target.value })
+  // }
 
-  function handleSignUpInputs(e) {
-    let previousSignUpValues = signUpValues
+  // function handleSignUpInputs(e) {
+  //   clearErrors(e.target.name)
+  //   clearErrors("notRegisteredInput")
+  //   let previousSignUpValues = signUpValues
+  //   // only set avatar_img if it is a valid image, else set to default "" (blank string)
+  //   if (e.target.name === "avatar_img") {
+  //     checkImg(e.target.value) ? setSignUpValues({ ...previousSignUpValues, [e.target.name]: e.target.value }) : setSignUpValues({ ...previousSignUpValues })
+  //   } else { setSignUpValues({ ...previousSignUpValues, [e.target.name]: e.target.value }) }
+  // }
 
-    if (e.target.name === "avatar_img") {
-      checkImg(e.target.value) ? setSignUpValues({ ...previousSignUpValues, [e.target.name]: e.target.value }) : setSignUpValues({ ...previousSignUpValues })
-    } else { setSignUpValues({ ...previousSignUpValues, [e.target.name]: e.target.value }) }
-  }
-
+  // validate avatar_img in form
   function checkImg(url) {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
   }
@@ -96,29 +107,30 @@ function UserAuthForm({ onLogin, onSignup, fetchUserAuth }) {
                       <>
                         <h1 className="px-12 text-center mb-2">Login to your Account</h1>
 
-                        <form id="chapter-charter-login-form" name="chapter-charter-login-form" className="form px-12" action="submit" onSubmit={(e) => handleUserLogin(e)}>
+                        <form id="chapter-charter-login-form" name="chapter-charter-login-form" className="form px-12" action="submit" onSubmit={handleSubmit(handleUserLogin)}>
+
                           <div className="d-flex flex-column mt-8 mb-8">
-                            {/* start label */}
                             <label className="d-flex align-items-center fs-6 fw-semibold mb-2">
                               <span className="required">Username</span>
                             </label>
-                            {/* end label */}
-                            {/* onInvalid={e => e.target.setCustomValidity("Username is required")} onInput={e => e.target.setCustomValidity("")} */}
-                            <input required type="text" autoComplete="off" className="form-control" placeholder="Enter Username" name="username" value={loginValues.username} onChange={(e) => handleLoginInputs(e)} />
+
+                            <input {...register("login_username", { required: true })} type="text" autoComplete="off" className={"form-control " + (errors.login_username ? "is-invalid" : "")} placeholder="Enter Username" name="login_username"/>
+                            {errors.login_username && <p className="text-danger">Username is required</p>}
                           </div>
 
                           <div className="d-flex flex-column mt-8 mb-8">
-                            {/* start label */}
                             <label className="d-flex align-items-center fs-6 fw-semibold mb-2">
                               <span className="required">Password</span>
                             </label>
-                            {/* end label */}
-                            <input required type="password" autoComplete="off" className="form-control" name="password" placeholder="Enter Password" value={loginValues.password} onChange={(e) => handleLoginInputs(e)} />
+
+                            <input {...register("login_password", { required: true })} type="password" autoComplete="off" className={"form-control " + (errors.login_password ? "is-invalid" : "")} name="login_password" placeholder="Enter Password" />
+                            {errors.login_password && <p className="text-danger">Password is required</p>}
                           </div>
+
+                          {errors.notRegisteredInput && <Alert variant="danger" className="text-center">{errors.notRegisteredInput.message}</Alert>}
 
                           {/* start action buttons */}
                           <div className="text-end mt-12">
-                            {/* <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3">Clear</button> */}
                             <button type="submit" id="chapter-charter-login-button" className="btn btn-primary btn-sm">
                               <span className="indicator-label">Log In</span>
                               <span className="indicator-progress">Please wait...
@@ -131,51 +143,64 @@ function UserAuthForm({ onLogin, onSignup, fetchUserAuth }) {
                       :
                       <>
                         <h1 className="px-12 text-center mb-2">Create a New Account</h1>
-                        <form id="chapter-charter-sign-up-form" name="chapter-charter-sign-up-form" className="form px-12" action="submit" onSubmit={(e) => handleUserSignup(e)}>
+                        <form id="chapter-charter-sign-up-form" name="chapter-charter-sign-up-form" className="form px-12" action="submit" onSubmit={handleSubmit(handleUserSignup)}>
 
                           <div className="d-flex flex-column mt-8 mb-8">
-                            {/* start label */}
                             <label className="d-flex align-items-center fs-6 fw-semibold mb-2">
-                              <span className="required">Username</span>
+                              <span className="required">Username</span><span className="text-muted ps-4 fs-7">Must be unique and more than 5 characters</span>
                             </label>
-                            {/* end label */}
-                            {/* onInvalid={e => e.target.setCustomValidity("Username is required")} onInput={e => e.target.setCustomValidity("")} */}
-                            <input required type="text" autoComplete="off" className="form-control" placeholder="Enter Username" name="username" value={signUpValues.username} onChange={(e) => handleSignUpInputs(e)} />
+
+                            <input {...register("username", { required: true, minLength: 5 })} type="text" autoComplete="off" className={"form-control " + (errors.username ? "is-invalid" : "")} placeholder="Enter Username" name="username" />
+                            {errors.username?.type === "required" && <p className="text-danger">Username is required</p>}
+                            {errors.username?.type === "minLength" && <p className="text-danger">Username must be at least 5 characters long</p>}
                           </div>
 
                           <div className="d-flex flex-column mt-8 mb-8">
-                            {/* start label */}
                             <label className="d-flex align-items-center fs-6 fw-semibold mb-2">
-                              <span className="required">Password</span>
+                              <span className="required">Password</span><span className="text-muted ps-4 fs-7">Must be more than 7 characters</span>
                             </label>
-                            {/* end label */}
-                            <input required type="password" autoComplete="off" className="form-control" name="password" placeholder="Enter Password" value={signUpValues.password} onChange={(e) => handleSignUpInputs(e)} />
+
+                            <input {...register("password", { required: true, minLength: 7 })} type="password" autoComplete="off" className={"form-control " + (errors.password ? "is-invalid" : "")} name="password" placeholder="Enter Password" />
+                            {errors.password?.type === "required" && <p className="text-danger">Password is required</p>}
+                            {errors.password?.type === "minLength" && <p className="text-danger">Password must be at least 7 characters long</p>}
                           </div>
 
                           <div className="row">
-                            <div className="d-flex col-6 justify-content-evenly mt-8 mb-8 pe-0">
-                              {/* start label */}
-                              <label className="d-flex align-items-center fs-6 fw-semibold mb-2">
-                                <span className="required">Screen Name</span>
-                              </label>
-                              {/* end label */}
-                              <input required type="text" autoComplete="off" className="form-control w-450px" name="screenname" placeholder="Enter Screen Name" value={signUpValues.screenname} onChange={(e) => handleSignUpInputs(e)} />
+                            <div className="d-flex col-6 mt-8">
+                              <div className="row align-items-baseline">
+                                <div className="col-3">
+                                  <label className="d-flex align-items-center fs-6 fw-semibold mb-2">
+                                    <span className="required">Screen Name</span>
+                                  </label>
+                                </div>
+
+                                <div className="col-9">
+                                  <input {...register("screenname", { required: true })} type="text" autoComplete="off" className={"form-control w-450px " + (errors.screenname ? "is-invalid" : "")} name="screenname" placeholder="Enter Screen Name" />
+                                  {errors.screenname && <p className="text-danger">Screenname is required</p>}
+                                </div>
+                              </div>
                             </div>
 
                             <div className="d-flex col-6 justify-content-evenly mt-8 mb-8 px-0">
-                              {/* start label */}
-                              <label className="d-flex align-items-center fs-6 fw-semibold mb-2">
-                                <span className="pe-2">Profile Picture</span>
-                                <ToolTip placement="right" icon="info" message="Profile pictures must be links which end in .jpg or .png for the site to render them properly. If you submit an bad image, you can always change it through your account tab later on. " />
-                              </label>
-                              {/* end label */}
-                              <input type="text" autoComplete="off" className="form-control w-450px" name="avatar_img" placeholder="Enter Picture URL" onChange={(e) => handleSignUpInputs(e)} />
+                              <div className="row align-items-baseline">
+                                <div className="col-3">
+                                  <label className="d-flex align-items-center fs-6 fw-semibold mb-2">
+                                    <span className="pe-2">Profile Picture</span>
+                                    <ToolTip placement="right" icon="info" message="Profile pictures must be links which end in .jpg or .png for the site to render them properly. If you submit a bad image, you can always change it through your account tab later on. " />
+                                  </label>
+                                </div>
+
+                                <div className="col-9">
+                                  <input {...register("avatar_img")} type="text" autoComplete="off" className="form-control w-450px" name="avatar_img" placeholder="Enter Picture URL" />
+                                </div>
+                              </div>
                             </div>
                           </div>
 
+                          {errors.notRegisteredInput && <Alert variant="danger" className="text-center">{errors.notRegisteredInput.message}</Alert>}
+
                           {/* start action buttons */}
                           <div className="text-end mt-12">
-                            {/* <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3">Clear</button> */}
                             <button type="submit" id="chapter-charter-sign-up-button" className="btn btn-primary btn-sm">
                               <span className="indicator-label">Sign Up</span>
                               <span className="indicator-progress">Please wait...
@@ -183,7 +208,6 @@ function UserAuthForm({ onLogin, onSignup, fetchUserAuth }) {
                             </button>
                           </div>
                           {/* end action buttons */}
-
                         </form>
                       </>
                     }
