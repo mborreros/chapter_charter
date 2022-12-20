@@ -32,7 +32,7 @@ class CollectionsController < ApplicationController
   def destroy
     collection = Collection.find(params[:id])
       collection.destroy
-      head :no_content
+      render json: { message: "Successful deletion of collection" }, status: :ok
   end
 
   private

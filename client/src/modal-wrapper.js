@@ -17,29 +17,48 @@ function ModalWrapper({ pathSlug, show, handleClose, user, setUser, handleServer
   //  if page is challenge, using this data
   challenges, setChallenges }) {
 
-  let entryTitle = (typeof show) === "string" && show.includes("entry") ? "Entry" : ""
-
-  // console.log(pathSlug[1])
+  let modalHeaderText, modalSize
+  switch (show) {
+    case "new-journey-modal":
+      modalHeaderText = "Start a New Journey"
+      modalSize = "lg"
+      break;
+    case "new-collection-modal":
+      modalHeaderText = "Start a New Collection"
+      modalSize = "lg"
+      break;
+    case "new-journey-entry-modal":
+      modalHeaderText = "Log Journey Progress"
+      modalSize = "m"
+      break;
+    case "new-collection-entry-modal":
+      modalHeaderText = "Add Books to This Collection"
+      modalSize = "lg"
+      break;
+    case "new-challenge-modal":
+      modalHeaderText = "Start a New Challenge"
+      modalSize = "lg"
+      break;
+    default:
+      break;
+  }
 
   return (
-    <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-90w" size="lg" centered>
+    <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-90w" size={modalSize} centered>
 
-      <Modal.Header className="border-0 justify-content-center">
-        <h1 className="mb-3 text-center text-capitalize">{pathSlug[1] === "accounts" ? "Edit Account Details": "Start a New " + pathSlug[1].slice(0, -1) + " " + entryTitle}</h1>
+      <Modal.Header className="border-0 justify-content-center mt-4">
+        <h1 className="mb-3 text-center text-capitalize">{modalHeaderText}</h1>
       </Modal.Header>
 
       <Modal.Body>
 
-        {pathSlug[1] === "journeys" ? <p className="text-muted fw-semibold fs-6 text-center">Begin by searching our library and selecting your next book. Then let the literary adventure begin!</p> : <div></div>}
+        {show === "new-journey-modal" ? <p className="text-muted fw-semibold fs-6 text-center">Begin by searching our library and selecting your next book. Then let the literary adventure begin!</p> : <div></div>}
 
         {show === "new-journey-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} handleServerError={handleServerError} /> : null}
-        {show === "new-collection-modal" ? <CollectionModal handleClose={handleClose} collections={collections} setCollections={setCollections} user={user} /> : null}
-        {show === "new-journey-entry-modal" ? <JourneyEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} setCardAnimation={setCardAnimation} thisJourney={thisJourney} setThisJourney={setThisJourney} thisJourneyEntries={thisJourneyEntries} setThisJourneyEntries={setThisJourneyEntries} /> : null}
-        {show === "new-collection-entry-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} setSelectedCollection={setSelectedCollection} selectedCollection={selectedCollection} collections={collections} setCollections={setCollections} /> : null}
-        {show === "new-challenge-modal" ? <ChallengeModal show={show} handleClose={handleClose} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} formatDate={formatDate} user={user} /> : null}
-        {/* {show === "new-account-modal" ? <AccountModal show={show} handleClose={handleClose} user={user} setUser={setUser} /> : null} */}
-
-
+        {show === "new-collection-modal" ? <CollectionModal handleClose={handleClose} collections={collections} setCollections={setCollections} user={user} handleServerError={handleServerError} /> : null}
+        {show === "new-journey-entry-modal" ? <JourneyEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} setCardAnimation={setCardAnimation} thisJourney={thisJourney} setThisJourney={setThisJourney} thisJourneyEntries={thisJourneyEntries} setThisJourneyEntries={setThisJourneyEntries} handleServerError={handleServerError} /> : null}
+        {show === "new-collection-entry-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} setSelectedCollection={setSelectedCollection} selectedCollection={selectedCollection} collections={collections} setCollections={setCollections} handleServerError={handleServerError} /> : null}
+        {show === "new-challenge-modal" ? <ChallengeModal show={show} handleClose={handleClose} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} formatDate={formatDate} user={user} handleServerError={handleServerError} /> : null}
 
       </Modal.Body>
 

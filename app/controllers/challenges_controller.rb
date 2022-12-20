@@ -28,7 +28,6 @@ class ChallengesController < ApplicationController
     this_challenge = Challenge.find(params[:id])
     this_challenge.update(challenge_params)
     render json: this_challenge, status: :ok
-
   end
 
   def destroy

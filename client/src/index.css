@@ -217,6 +217,42 @@ code {
   cursor: not-allowed;
 }
 
+.no-pointer-event-element {
+  pointer-events: none;
+}
+
+.form-control.form-control-solid.is-invalid {
+  border-color: #f1416c
+}
+
+.user-edit-row {
+  align-items: center;
+}
+
+.editing .user-edit-row {
+  align-items: flex-start;
+}
+
+.editing .error-message {
+  position: absolute;
+}
+
+.user-edit-input-wrapper{
+  padding-left: 0px;
+} 
+
+.editing .user-edit-input-wrapper {
+  padding-bottom: 1.5rem;
+}
+
+.editing .user-edit-label-wrapper {
+  padding-top: 0.5rem;
+}
+
+#chapter-charter-sign-up-form.editing {
+  padding-top: 1rem;
+}
+
 @keyframes heartBeat {
   0% {
       -webkit-transform: scale(1);

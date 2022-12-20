@@ -5,8 +5,6 @@ function HeaderContents({ pageName, handleShow, journeyDetail, collectionDetail,
   let journeyEntryDetailButton
   journeyEntryDetailButton = buttonText === "Add Reading Journey Progress" && journeyDetail?.current_progress === 100
 
-  // console.log(pageName)
-
   return (
     <div id="kt_app_toolbar" className="app-toolbar py-3 py-lg-6">
       <div id="kt_app_toolbar_container" className="app-container container-xxl d-flex flex-stack">

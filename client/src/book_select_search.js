@@ -86,6 +86,7 @@ function BookSearch({ selectedValue, setSelectedValue, loadingBooks, setLoadingB
         hideSelectedOptions={false}
         onInputChange={handleInputChange}
         onChange={handleChange}
+        onFocus={() => setSelectedValue("")}
         isLoading={loadingBooks}
         onKeyDown={(e) => handleEnterPress(e)}
         isMulti={modalType === "new-collection-entry-modal" ? true : false} 

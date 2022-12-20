@@ -5,7 +5,7 @@ import moment from 'moment'
 import ToolTip from "./tool_tip";
 import genericAvatar from "./imgs/generic_avatar_img.png"
 
-function Account({ user, setUser, handleServerError }) {
+function Account({ user, setUser, handleServerError, checkImg }) {
 
   useEffect(() => {
     document.title = "Account"
@@ -14,15 +14,24 @@ function Account({ user, setUser, handleServerError }) {
   let defaultUserValues = {
     "username": "",
     "screenname": "",
-    "avatar_img": ""
+    "avatar_img": "",
+    "password": ""
   }
+
+  let defaultValidation = {
+    "username": "",
+    "screenname": "",
+  }
+
   const [userFormValues, setUserFormValues] = useState(defaultUserValues)
+  const [areInputsValid, setAreInputsValid] = useState(defaultValidation)
+  const [isServerErrror, setIsServerError] = useState("")
 
   function resetFormValuesToUser(user) {
     defaultUserValues = {
       "username": user.username,
       "screenname": user.screenname,
-      "avatar_img": user.avatar_img
+      "avatar_img": user.avatar_img,
     }
     setUserFormValues(defaultUserValues)
   }
@@ -38,7 +47,7 @@ function Account({ user, setUser, handleServerError }) {
 
 
   function handleAccountDelete(e) {
-    if (window.confirm("Are you sure you want to permenantly delete this account")) {
+    if (window.confirm("Are you sure you want to permenantly delete this account?")) {
       fetch(`/api/users/${parseInt(e.target.id)}`, {
         method: "DELETE"
       })
@@ -53,25 +62,66 @@ function Account({ user, setUser, handleServerError }) {
 
   function handleUserFormInputs(e) {
     setUserFormValues({ ...userFormValues, [e.target.name]: e.target.value })
+    setAreInputsValid({ ...areInputsValid, [e.target.name]: "" })
+    if (e.target.name === "username") {
+      setIsServerError("")
+    }
   }
 
   function handleCancelForm(e) {
     resetFormValuesToUser(user)
     setIsAccountEditable(!isAccountEditable)
+    setAreInputsValid(defaultValidation)
+    setIsServerError("")
   }
 
   function handleAccountUpdate(e) {
-    fetch(`/api/users/${user.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userFormValues)
-    })
-      .then(response => handleServerError(response))
-      .then((updated_user => {
-        setUser(updated_user)
-        setIsAccountEditable(false)
-      }))
-      .catch(error => console.log(error))
+    let formValidity = validateInputValues(userFormValues),
+      formIsValid = formValidity.valid,
+      formErrors = formValidity.errors;
+
+    if (formIsValid) {
+      fetch(`/api/users/${user.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userFormValues)
+      })
+        .then(response => handleServerError(response))
+        .then((updated_user => {
+          console.log(updated_user)
+          setUser(updated_user)
+          setIsAccountEditable(false)
+        }))
+        .catch(error => setIsServerError(error.errors.username[0]))
+    }
+    else {
+      setAreInputsValid(formErrors)
+    }
+  }
+
+  function validateInputValues(userFormValues) {
+    let formValidated = { valid: true, errors: {} }
+
+    if (userFormValues.username.length == 0) {
+      // setAreInputsValid({ ...areInputsValid, "username": "Username is required." })
+      formValidated.valid = false
+      formValidated.errors.username = "Username is required."
+    }
+    if (userFormValues.username.length < 5) {
+      // setAreInputsValid({ ...areInputsValid, "username": "Must be a minimum of 5 characters long." })
+      formValidated.valid = false
+      formValidated.errors.username = "Must be a minimum of 5 characters long."
+    }
+    if (userFormValues.screenname.length == 0) {
+      // setAreInputsValid({ ...areInputsValid, "screenname": "Screenname is required." })
+      formValidated.valid = false
+      formValidated.errors.screenname = "Screenname is required."
+    }
+    // else {
+    //   formValidated = true
+    // }
+
+    return formValidated
   }
 
   return (
@@ -94,68 +144,72 @@ function Account({ user, setUser, handleServerError }) {
         <div className="card-body pt-0 pb-0">
 
           {/* <!--begin::Details--> */}
-          <div className="row d-flex flex-sm-nowrap mb-3">
+          <div className="row flex-sm-nowrap mb-3">
             {/* <!--begin: Pic--> */}
-            <div className="col-3 mb-4 d-flex align-items-center justify-content-center">
+            <div className="col-3 mb-4 d-flex justify-content-center pt-8">
               <div className="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
                 <img className="account-card-avatar-img" src={user?.avatar_img.length === 0 ? genericAvatar : user?.avatar_img} alt={user?.screenname + "'s profile picture"} />
               </div>
             </div>
             {/* <!--end::Pic--> */}
 
-            <form id="chapter-charter-sign-up-form" className="form col-9 mb-4" action="submit" onSubmit={(e) => e.preventDefault()}>
+            <form id="chapter-charter-sign-up-form" className={"form col-9 mb-4 " + (isAccountEditable ? "editing" : "")} action="submit" onSubmit={(e) => e.preventDefault()}>
 
-              <div className="row d-flex mt-4">
+              <div className="row user-edit-row mt-4">
                 {/* start label */}
-                <div className="col-3 d-flex">
-                  <label className="d-flex align-items-center fs-6 fw-semibold me-4">
-                    <span>Joined:</span>
+                <div className="col-3 d-flex user-edit-label-wrapper">
+                  <label className="d-flex fs-6 fw-semibold me-4">
+                    <span>Joined</span>
                   </label>
                 </div>
                 {/* end label */}
-                <div className="col-9 ps-0">
-                  <input required readOnly type="text" autoComplete="off" className="form-control border-0" placeholder="Joined" name="username" value={moment(user?.created_at).from(new Date())} />
+                <div className="col-9 user-edit-input-wrapper">
+                  <span className="form-control border-0">{moment(user?.created_at).from(new Date())}</span>
                 </div>
               </div>
 
-              <div className="row d-flex mt-4">
+              <div className="row user-edit-row mt-4">
                 {/* start label */}
-                <div className="col-3 d-flex">
+                <div className="col-3 d-flex user-edit-label-wrapper">
                   <label className="d-flex align-items-center fs-6 fw-semibold me-4">
-                    <span>Username</span>
+                    <span className="pe-2">Username</span>
+                    {isAccountEditable ? <ToolTip placement="right" icon="info" message="Must be unique and more than 5 characters long." /> : <></>}
                   </label>
                 </div>
                 {/* end label */}
-                <div className="col-9 ps-0">
+                <div className="col-9 user-edit-input-wrapper">
                   {/* onInvalid={e => e.target.setCustomValidity("Username is required")} onInput={e => e.target.setCustomValidity("")} */}
                   <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} placeholder="Enter Username" name="username" value={userFormValues.username} onChange={(e) => handleUserFormInputs(e)} />
+                  {areInputsValid.username && isAccountEditable && <p className="text-danger error-message">{areInputsValid.username}</p>}
+                  {isServerErrror && isAccountEditable && <p className="text-danger error-message">Username {isServerErrror}, select a new username</p>}
                 </div>
               </div>
 
               {/* <div className="row"> */}
-              <div className=" row d-flex mt-4 pe-0">
+              <div className=" row mt-4 user-edit-row pe-0">
                 {/* start label */}
-                <div className="col-3 d-flex">
+                <div className="col-3 d-flex user-edit-label-wrapper">
                   <label className="d-flex align-items-center fs-6 fw-semibold me-4">
                     <span>Screen Name</span>
                   </label>
                 </div>
                 {/* end label */}
-                <div className="col-9 ps-0">
+                <div className="col-9 user-edit-input-wrapper">
                   <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} name="screenname" placeholder="Enter Screen Name" value={userFormValues.screenname} onChange={(e) => handleUserFormInputs(e)} />
+                  {areInputsValid.screenname && isAccountEditable && <p className="text-danger error-message">{areInputsValid.screenname}</p>}
                 </div>
               </div>
 
-              <div className="row d-flex mt-4 ps-0">
+              <div className="row user-edit-row mt-4 ps-0">
                 {/* start label */}
-                <div className="col-3 d-flex">
+                <div className="col-3 d-flex user-edit-label-wrapper">
                   <label className="d-flex align-items-center fs-6 fw-semibold me-4">
                     <span className="pe-2">Profile Picture</span>
-                    <ToolTip placement="right" icon="info" message="Profile pictures must be links which end in .jpg or .png for the site to render them properly. " />
+                    {isAccountEditable ? <ToolTip placement="right" icon="info" message="Profile pictures must be links which end in .jpg or .png for the site to render them properly. " /> : <></>}
                   </label>
                 </div>
                 {/* end label */}
-                <div className="col-9 ps-0">
+                <div className="col-9 user-edit-input-wrapper">
                   <input readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} name="avatar_img" placeholder="Enter Picture URL" value={userFormValues.avatar_img} onChange={(e) => handleUserFormInputs(e)} />
                 </div>
               </div>

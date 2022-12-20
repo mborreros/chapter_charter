@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import Alert from 'react-bootstrap/Alert';
 
 import ToolTip from "./tool_tip";
 
-function UserAuthForm({ onLogin, onSignup, fetchUserAuth, handleServerError }) {
+function UserAuthForm({ onLogin, onSignup, fetchUserAuth, handleServerError, checkImg }) {
 
   // getting pathname (login or signup) to determine which form to show
   const location = useLocation();
@@ -24,10 +24,8 @@ function UserAuthForm({ onLogin, onSignup, fetchUserAuth, handleServerError }) {
   });
 
   useEffect(() => {
-    // clearing inputValues and error form values on pathname switch between login/signup
+    // clear error form values on pathname switch between login/signup
     clearErrors()
-    // setLoginValues(defaultLogInValues)
-    // setSignUpValues(defaultSignUpValues)
   }, [location.pathname])
 
   function handleUserLogin(data) {
@@ -88,9 +86,9 @@ function UserAuthForm({ onLogin, onSignup, fetchUserAuth, handleServerError }) {
   // }
 
   // validate avatar_img in form
-  function checkImg(url) {
-    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
-  }
+  // function checkImg(url) {
+  //   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+  // }
 
   return (
     <div className="d-flex flex-column flex-root app-root" id="kt_app_root">

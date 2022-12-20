@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :challenge_entries, through: :challenges
 
   validates :username, presence: true, uniqueness: true, length: { minimum: 5 }
-  validates :password, presence: true, length: { minimum: 7 }
   validates :screenname, presence: true
+  validates_length_of :password, minimum: 7, on: :create
 
 end

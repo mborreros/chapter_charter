@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import Alert from 'react-bootstrap/Alert';
-
 import BookSearch from "./book_select_search";
 
 function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys, user, formatDate, selectedCollection, collections, setCollections, handleServerError }) {
 
   const [selectedValue, setSelectedValue] = useState(null);
   const [loadingBooks, setLoadingBooks] = useState(false)
+  // error handling states
   const [isSelectedValue, setIsSelectedValue] = useState(false)
+  const [isServerErrror, setIsServerError] = useState("")
 
   function parseBookData(book) {
-
-    // set error on form to say there is not book selected
-
     return ({
       "title": book.title,
       "author": book.author_name[0],
@@ -24,6 +21,7 @@ function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys,
   }
 
   function createCollection() {
+    // parsing selected books array for nested book & collection entry creation
     let bookData = selectedValue.map(selected_book => parseBookData(selected_book))
 
     fetch("/api/collection_entries", {
@@ -34,19 +32,16 @@ function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys,
         book_data: bookData
       })
     })
-      .then(response => {
-        if (response.ok) {
-          response.json().then((new_collection_entries) => {
-            // console.log(new_collection_entries)
-            new_collection_entries.map((new_entry) => {
-              selectedCollection.books.unshift(new_entry.book)
-            })
-            setCollections(collections.map(collection => collection.id !== new_collection_entries[0].collection.id ? collection : selectedCollection))
-            handleClose()
-          })
-        } else {
-          response.json().then((errors) => console.log(errors))
-        }
+      .then(response => handleServerError(response))
+      .then((new_collection_entries) => {
+        new_collection_entries.map((new_entry) => {
+          selectedCollection.books.unshift(new_entry.book)
+        })
+        setCollections(collections.map(collection => collection.id !== new_collection_entries[0].collection.id ? collection : selectedCollection))
+        handleClose()
+      })
+      .catch(error => {
+        setIsServerError(error.errors)
       })
   }
 
@@ -68,7 +63,9 @@ function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys,
         setJourneys([this_journey, ...journeys])
         handleClose()
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        setIsServerError(error.errors)
+      })
   }
 
   function handleSubmit(e, selectedValue) {
@@ -84,22 +81,26 @@ function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys,
     }
   }
 
-  // toggle state for alert if the user selects a book from BookSearch
+  // toggle state for alerts if the user selects a book from BookSearch
   useEffect(() => {
     setIsSelectedValue(false)
+    setIsServerError("")
   }, [selectedValue])
 
   return (
     <div>
-      <Alert variant="warning" className={"text-center " + (isSelectedValue ? "" : "d-none")}>Book(s) were not selected, please select them from the dropdown.</Alert>
       <form id="book-search-form" className="form" action="submit" autoComplete="off" onSubmit={(e) => handleSubmit(e, selectedValue)}>
 
-        <div className="d-flex flex-column mt-8 mb-8 fv-row">
+        <div className="d-flex flex-column mt-8 fv-row">
           <BookSearch selectedValue={selectedValue} setSelectedValue={setSelectedValue} loadingBooks={loadingBooks} setLoadingBooks={setLoadingBooks} modalType={show} />
         </div>
 
+        {/* conditional form errors */}
+        {isSelectedValue && <p className="text-danger">{show === "new-journey-modal" ? "A book must be selected to begin a Journey" : "A book must be selected to add it to a Collection"}</p>}
+        {isServerErrror.length > 0 && <p className="text-danger">{isServerErrror}</p>}
+
         {/* start action buttons */}
-        <div className="text-end">
+        <div className="text-end mt-4">
           {/* <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3" onClick={(form) => resetModalForm(form)}>Clear</button> */}
           <button type="submit" id="kt_modal_new_target_submit" className="btn btn-primary btn-sm">
             <span className="indicator-label">{show === "new-journey-modal" ? "Start this Journey" : "Add Book(s) to Collection"}</span>

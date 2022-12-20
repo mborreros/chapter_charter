@@ -5,13 +5,10 @@ import Flatpickr from "react-flatpickr";
 import AuthorSearch from "./author_select_search";
 import ToolTip from "./tool_tip";
 
-function ChallengeModal({ handleClose, challenges, setChallenges, collections, user, formatDate, setCollections }) {
-
-  // console.log(collections)
+function ChallengeModal({ handleClose, challenges, setChallenges, collections, user, formatDate, setCollections, handleServerError }) {
 
   const [authorsLoading, setAuthorsLoading] = useState(false)
   const [selectedAuthor, setSelectedAuthor] = useState(null);
-
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
 
@@ -53,7 +50,6 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
           setChallenges([new_challenge, ...challenges])
         })
       })
-
     // modal close after submit
     handleClose()
   };

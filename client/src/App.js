@@ -21,14 +21,19 @@ function App() {
   const [selectedJourney, setSelectedJourney] = useState(null)
 
   // handles server errors shown to user in toasts throughout the application
-  function handleServerError(response) {
-    // console.log("in error handle function")
+  const handleServerError = async (response) => {
     let statusMessage = response.status + ": " + response.statusText
+
     if (!response.ok) {
-      toast.error("There was an error with the request \n" + statusMessage)
-      throw Error(statusMessage)
-    }
-    else {
+      if(response.status == 422) {
+        // console.log("within the 422 error handler")
+        // statusMessage = await response.json()
+        throw await response.json()
+      } else {
+        toast.error("There was an error with the request \n" + statusMessage)
+        throw Error(statusMessage)
+      }
+    } else {
       return response.json()
     }
   }
@@ -99,6 +104,10 @@ function App() {
     return `${year}-${month}-${day}`;
   }
 
+  function checkImg(url) {
+    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+  }
+
   // list-page modal functions and variables
   const [show, setShow] = useState(null);
   const handleClose = () => {
@@ -117,18 +126,18 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home user={user} handleUserLogout={handleUserLogout} />} />
         <Route exact path="/login" element={<UserAuthForm onLogin={setUser} handleServerError={handleServerError} />} />
-        <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} fetchUserAuth={fetchUserAuth} handleServerError={handleServerError} />} />
+        <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} fetchUserAuth={fetchUserAuth} handleServerError={handleServerError} checkImg={checkImg} />} />
 
-        <Route exact path="/collections" element={<ListPage collections={collections} setCollections={setCollections} user={user} show={show} handleClose={handleClose} handleShow={handleShow} handleServerError={handleServerError}/>} />
-        <Route path="/collections/:id" element={<ListPage books={books} setBooks={setBooks} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} handleServerError={handleServerError}/>} />
+        <Route exact path="/collections" element={<ListPage collections={collections} setCollections={setCollections} user={user} show={show} handleClose={handleClose} handleShow={handleShow} handleServerError={handleServerError} />} />
+        <Route path="/collections/:id" element={<ListPage books={books} setBooks={setBooks} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} handleServerError={handleServerError} />} />
 
-        <Route exact path="/journeys" element={<ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} user={user} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} handleServerError={handleServerError}/>} />
-        <Route path="/journeys/:id" element={<ListPage journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} handleServerError={handleServerError}/>} />
+        <Route exact path="/journeys" element={<ListPage journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} user={user} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} handleServerError={handleServerError} />} />
+        <Route path="/journeys/:id" element={<ListPage journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} handleServerError={handleServerError} />} />
 
         <Route exact path="/challenges" element={<ListPage challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleShow={handleShow} show={show} handleClose={handleClose} formatDate={formatDate} user={user} handleServerError={handleServerError} />} />
-        <Route path="/challenges/:id" element={<ListPage challenges={challenges} setChallenges={setChallenges} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} handleServerError={handleServerError} /> }/>
+        <Route path="/challenges/:id" element={<ListPage challenges={challenges} setChallenges={setChallenges} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} handleServerError={handleServerError} />} />
 
-        <Route exact path="/accounts" element={<ListPage user={user} setUser={setUser} handleShow={handleShow} show={show} handleClose={handleClose} handleServerError={handleServerError}/>} />
+        <Route exact path="/accounts" element={<ListPage user={user} setUser={setUser} handleShow={handleShow} show={show} handleClose={handleClose} handleServerError={handleServerError} checkImg={checkImg} />} />
       </Routes>
 
     </>

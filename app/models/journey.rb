@@ -17,7 +17,7 @@ class Journey < ApplicationRecord
   # validates if a user is already reading a book, they cannot create another journey with that same book
   def is_user_already_reading
     if User.find(user_id).journeys.where(book_id: book, completed: false, manually_completed: false).pluck(book_id).include? book_id
-      errors.add(:user, "is already reading this book right now")
+      errors.add(:journey, "is currently being read, select a new book without an active journey and try again")
     end
   end
 

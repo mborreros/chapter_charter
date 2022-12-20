@@ -12,7 +12,7 @@ class CollectionEntry < ApplicationRecord
   # validation: check if the collection already contains the selected, does not allow for duplicate books in a Collection
   def cannot_duplicate_book_in_collection()
     if Collection.find(collection_id).books.ids.include? book_id
-      errors.add(:book, "can only be added to a collection once, select another book and try again.")
+      errors.add(:collection, "already includes one or more of the selected books, review the slected books and try again.")
     end
   end
 

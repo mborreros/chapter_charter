@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     if user
       render json: user, status: :ok
     else
-      render json: { error: "User is not authorized" }, status: :unauthorized 
+      render json: { errors: "User is not authorized" }, status: :unauthorized 
     end
   end
 
@@ -27,8 +27,11 @@ class UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
-    user.update(user_params)
-    render json: user, status: :ok
+    if user.update(user_params)
+      render json: user, status: :ok
+    else
+      render json: { errors: user.errors } , status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -37,7 +40,6 @@ class UsersController < ApplicationController
       head :no_content
   end
   
-
   private
 
   def user_params

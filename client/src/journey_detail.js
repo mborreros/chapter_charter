@@ -40,16 +40,18 @@ function JourneyDetail({ selectedJourney, setSelectedJourney, handleJourneyEntry
   }, [pageParams])
 
   function handleJounreyDelete(journeyId) {
-    fetch(`/api/journey/${journeyId}`, {
-      method: "DELETE"
-    })
-      .then(response => handleServerError(response))
-      .then(() => {
-        let updated_journey_array = journeys.filter(journey => journey.id !== journeyId)
-        setJourneys(updated_journey_array)
-        navigate("../journeys", { replace: true })
+    if (window.confirm("Are you sure you want to permenantly delete this journey?")) {
+      fetch(`/api/journeys/${journeyId}`, {
+        method: "DELETE"
       })
-      .catch(error => console.log(error))
+        .then(response => handleServerError(response))
+        .then(() => {
+          let updated_journey_array = journeys.filter(journey => journey.id !== journeyId)
+          setJourneys(updated_journey_array)
+          navigate("../journeys", { replace: true })
+        })
+        .catch(error => console.log(error))
+    }
   }
 
   // creating reading log plot points

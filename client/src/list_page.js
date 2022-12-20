@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 // page header contents
@@ -15,7 +15,7 @@ import Account from "./user_account";
 // modal wrapper contents
 import ModalWrapper from "./modal-wrapper";
 
-function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, setChallenges, user, setUser, formatDate, show, handleClose, handleShow, selectedJourney, setSelectedJourney, handleServerError }) {
+function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, setChallenges, user, setUser, formatDate, show, handleClose, handleShow, selectedJourney, setSelectedJourney, handleServerError, checkImg }) {
 
   // getting pathname to determine which page to show
   const location = useLocation();
@@ -117,13 +117,12 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "This button needs to be removed"
       break;
     case "accounts":
-      pageContent = <Account user={user} setUser={setUser} handleServerError={handleServerError} />
+      pageContent = <Account user={user} setUser={setUser} handleServerError={handleServerError} checkImg={checkImg} />
       pageTitle = user?.screenname + "'s Account"
       buttonText = "Edit Account Details"
       break;
     default:
       break;
-
   }
 
   return (
@@ -133,7 +132,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
           <div className="app-main flex-column flex-row-fluid" id="kt_app_main">
             <div className="d-flex flex-column flex-column-fluid">
 
-              <HeaderContents pageName={pathSlug} handleShow={handleShow} journeyDetail={selectedJourney} collectionDetail={selectedCollection} pageTitle={pageTitle} buttonText={buttonText} />
+              <HeaderContents pageName={pathSlug} handleShow={handleShow} journeyDetail={selectedJourney} collectionDetail={selectedCollection} pageTitle={pageTitle} buttonText={buttonText} handleServerError={handleServerError} />
 
               <div id="kt_app_content" className="app-content flex-column-fluid">
                 <div id="kt_app_content_container" className="app-container container-xxl">

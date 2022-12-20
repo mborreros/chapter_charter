@@ -11,7 +11,7 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
     let collectionId = selectedChallenge.category === "collection_id" ? selectedChallenge.category_identifier : false
     let thisChallengeId = e.currentTarget.id
 
-    if (window.confirm("Are you sure you want to permenantly delete this challenge")) {
+    if (window.confirm("Are you sure you want to permenantly delete this challenge?")) {
       fetch(`/api/challenges/${thisChallengeId}`, {
         method: "DELETE"
       })

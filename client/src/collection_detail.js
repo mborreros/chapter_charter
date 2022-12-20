@@ -23,16 +23,18 @@ function CollectionDetail({ selectedCollection, setSelectedCollection, collectio
 
   function handleCollectionDelete(e) {
     let thisCollectionId = e.currentTarget.id
-    fetch(`/api/collections/${thisCollectionId}`, {
-      method: "DELETE"
-    })
-      .then(response => handleServerError(response))
-      .then(() => {
-        let updatedCollectionArray = collections.filter((collection) => collection.id !== parseInt(thisCollectionId))
-        setCollections(updatedCollectionArray)
-        navigate("../collections", { replace: true })
+    if (window.confirm("Are you sure you want to permenantly delete this collection?")) {
+      fetch(`/api/collections/${thisCollectionId}`, {
+        method: "DELETE"
       })
-      .catch(error => console.log(error))
+        .then(response => handleServerError(response))
+        .then(() => {
+          let updatedCollectionArray = collections.filter((collection) => collection.id !== parseInt(thisCollectionId))
+          setCollections(updatedCollectionArray)
+          navigate("../collections", { replace: true })
+        })
+        .catch(error => console.log(error))
+    }
   }
 
   let bookListItems

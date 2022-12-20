@@ -63,10 +63,8 @@ function JourneyCards({ journeys, setJourneys, formatDate, show, handleClose, ha
                     null}
                 </span>
               </div>
-
               {/* progress bar */}
               <div className="h-8px mx-3 w-100 bg-white bg-opacity-50 rounded">
-                {/* define width by adding class name w-% <- percentage as an integer */}
                 <div className="bg-white bg-opacity-100 rounded h-8px" style={{ width: journey.current_progress + '%' }} role="progressbar"
                   aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
@@ -74,11 +72,8 @@ function JourneyCards({ journeys, setJourneys, formatDate, show, handleClose, ha
             </div>
           </div>
         </div>
-        {/* <JourneyEntryModal show={show} showJourneyModal={handleShow} handleJourneyModalClose={handleClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={journey} formatDate={formatDate} setCardAnimation={setCardAnimation} /> */}
       </div>
     )
   }))
-
-
 }
 export default JourneyCards

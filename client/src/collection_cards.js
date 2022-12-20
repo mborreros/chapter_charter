@@ -25,7 +25,7 @@ function CollectionCards({ collections, setCollections, show, handleClose }) {
     } else {
       book_covers =
         <div className='text-grey opacity-50'>
-          <span>This collection is empty; to add books: select the Options then Add Books</span>
+          <span>This Collection is empty; to add books: select the Collection's name then Add Books.</span>
         </div>
     }
 
