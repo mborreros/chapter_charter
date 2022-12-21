@@ -40,9 +40,7 @@ function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys,
         setCollections(collections.map(collection => collection.id !== new_collection_entries[0].collection.id ? collection : selectedCollection))
         handleClose()
       })
-      .catch(error => {
-        setIsServerError(error.errors)
-      })
+      .catch(error => setIsServerError(error.errors))
   }
 
   function createJourney() {

@@ -117,10 +117,6 @@ function Account({ user, setUser, handleServerError, checkImg }) {
       formValidated.valid = false
       formValidated.errors.screenname = "Screenname is required."
     }
-    // else {
-    //   formValidated = true
-    // }
-
     return formValidated
   }
 
@@ -179,7 +175,7 @@ function Account({ user, setUser, handleServerError, checkImg }) {
                 {/* end label */}
                 <div className="col-9 user-edit-input-wrapper">
                   {/* onInvalid={e => e.target.setCustomValidity("Username is required")} onInput={e => e.target.setCustomValidity("")} */}
-                  <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} placeholder="Enter Username" name="username" value={userFormValues.username} onChange={(e) => handleUserFormInputs(e)} />
+                  <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid " : "border-0 ") + (areInputsValid.username ? "is-invalid" : "")} placeholder="Enter Username" name="username" value={userFormValues.username} onChange={(e) => handleUserFormInputs(e)} />
                   {areInputsValid.username && isAccountEditable && <p className="text-danger error-message">{areInputsValid.username}</p>}
                   {isServerErrror && isAccountEditable && <p className="text-danger error-message">Username {isServerErrror}, select a new username</p>}
                 </div>
@@ -195,7 +191,7 @@ function Account({ user, setUser, handleServerError, checkImg }) {
                 </div>
                 {/* end label */}
                 <div className="col-9 user-edit-input-wrapper">
-                  <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid" : "border-0")} name="screenname" placeholder="Enter Screen Name" value={userFormValues.screenname} onChange={(e) => handleUserFormInputs(e)} />
+                  <input required readOnly={!isAccountEditable} type="text" autoComplete="off" className={"form-control " + (isAccountEditable ? "form-control-solid " : "border-0 ") + (areInputsValid.screenname ? "is-invalid" : "")} name="screenname" placeholder="Enter Screen Name" value={userFormValues.screenname} onChange={(e) => handleUserFormInputs(e)} />
                   {areInputsValid.screenname && isAccountEditable && <p className="text-danger error-message">{areInputsValid.screenname}</p>}
                 </div>
               </div>

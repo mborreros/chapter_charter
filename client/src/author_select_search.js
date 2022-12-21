@@ -96,6 +96,7 @@ function AuthorSearch({ authorsLoading, setAuthorsLoading, selectedAuthor, setSe
         hideSelectedOptions={false}
         onInputChange={handleInputChange}
         onChange={handleChange}
+        onFocus={() => setSelectedAuthor("")}
         isLoading={authorsLoading}
         onKeyDown={(e) => handleEnterPress(e)}
       />

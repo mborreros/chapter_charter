@@ -225,6 +225,10 @@ code {
   border-color: #f1416c
 }
 
+.form-select-solid.form-select.is-invalid {
+  border-color: #f1416c
+}
+
 .user-edit-row {
   align-items: center;
 }

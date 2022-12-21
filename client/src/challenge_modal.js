@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Flatpickr from "react-flatpickr";
 
@@ -11,6 +11,20 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
   const [selectedAuthor, setSelectedAuthor] = useState(null);
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
+  // error handling states
+  const [isAuthorSelected, setIsAuthorSelected] = useState(false)
+  const [isServerErrror, setIsServerError] = useState("")
+  let defaultChallengeFormErrors = {
+    "name": "",
+    "description": "",
+    "start_date": "",
+    "end_date": "",
+    "goal_number": "",
+    "goal_type": "",
+    "category": "",
+    "category_identifier": ""
+  }
+  const [areChallangeInputsValid, setAreChallangeInputsValid] = useState(defaultChallengeFormErrors)
 
   // default challenge form values
   let defaultChallengeFormValues = {
@@ -30,33 +44,52 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
   // allows second date picker icon to toggle of menu
   const fp = useRef(null);
 
-  function handleCollectionSubmit(e) {
+  function handleChallengeSubmit(e) {
     e.preventDefault()
 
     let formValues = ({ ...challengeFormValues, "user_id": user.id, "start_date": formatDate(startDate), "end_date": endDate ? formatDate(endDate) : null })
     let collectionId = challengeFormValues.category === "collection_id" ? challengeFormValues.category_identifier : false
 
-    fetch("/api/challenges", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formValues)
-    })
-      .then(response => {
-        response.json().then((new_challenge) => {
+    let formValidity = validateChallengeInputs(formValues),
+      formErrors = formValidity.errors,
+      formIsValid = Object.values(formValidity.errors).filter(error => error.length) == 0;
+
+    // console.log("formIsValid")
+    // console.log(formErrors)
+    // console.log("formErrors")
+    // console.log(Object.values(formErrors).filter(error => error.length).length)
+
+    if (formIsValid) {
+      fetch("/api/challenges", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formValues)
+      })
+        .then(response => handleServerError(response))
+        .then((new_challenge) => {
           if (collectionId) {
             let updatedCollectionArray = collections.map((collection) => collection.id == parseInt(collectionId) ? { ...collection, challenge_locked: true } : collection)
             setCollections(updatedCollectionArray)
           }
           setChallenges([new_challenge, ...challenges])
+          handleClose()
         })
-      })
-    // modal close after submit
-    handleClose()
+        .catch(error => setIsServerError(error.errors))
+    } else {
+      setAreChallangeInputsValid(formErrors)
+    }
   };
 
   function handleChallengeInput(e, clearDeps) {
     let updatedValues = challengeFormValues
-
+    // clearing server error message at bottom of from
+    setIsServerError("")
+    if (e.target.name === "category_identifier") {
+      let errorKey = `${e.target.name}_${challengeFormValues.category}`
+      setAreChallangeInputsValid({...areChallangeInputsValid, [errorKey] : ""})
+    } else {
+      setAreChallangeInputsValid({ ...areChallangeInputsValid, [e.target.name]: "" })
+    }
     // resets dependent challengeFormValues on user input
     if (clearDeps == "goal_type") {
       updatedValues.category = "";
@@ -64,27 +97,69 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
     } else if (clearDeps == "category") {
       updatedValues.category_identifier = ""
     }
+    if (clearDeps == "collection_id" && challengeFormValues.category == "collection_id") {
+      updatedValues.category_identifier = ""
+    }
     setChallengeFormValues({ ...updatedValues, [e.target.name]: e.target.value })
   }
 
+  function validateChallengeInputs(formValues) {
+    let formValidated = {errors: {} }
+
+    // console.log(formValues)
+
+    if (formValues.name.length == 0) {
+      formValidated.errors.name = "Challenge name is required"
+    }
+    if (!formValues.goal_type) {
+      formValidated.errors.goal_type = "Goal type must be selected"
+    }
+    if (parseInt(formValues.goal_number) == 0 || formValues.goal_number == null) {
+      formValidated.errors.goal_number = "Number must be greater than 0"
+    }
+    if (formValues.goal_type == "interest" && formValues.category.length == 0) {
+      formValidated.errors.category = "Category must be selected"
+    }
+    if (formValues.goal_type == "interest" && formValues.category == "genre" && formValues.category_identifier.length == 0) {
+      formValidated.errors.category_identifier_genre = "Genre must be specified"
+    }
+    if (challengeFormValues.category == "author" && !selectedAuthor) {
+      formValidated.errors.category_identifier_author = "Author must be specified"
+    }
+    if (formValues.goal_type == "interest" && formValues.category == "collection_id" && formValues.category_identifier.length == 0) {
+      formValidated.errors.category_identifier_collection_id = "Collection must be specified"
+    }
+    return formValidated
+  }
+
+  // toggle state for alerts if the user selects a book from BookSearch
+  useEffect(() => {
+    setIsAuthorSelected(false)
+    setIsServerError("")
+    setAreChallangeInputsValid({ ...areChallangeInputsValid, category_identifier_author: "" })
+  }, [selectedAuthor])
+
   let collectionSelectOptions = collections?.map(collection => {
+    // console.log(collection.books.length)
+    let isDisabled = collection.challenge_locked || parseInt(challengeFormValues.goal_number) > collection.books.length
     return (
-      <option disabled={collection.challenge_locked || parseInt(challengeFormValues.goal_number) < collection.books.length} value={collection.id} key={collection.id}>{collection.name}</option>
+      <option disabled={isDisabled} value={isDisabled ? "" : collection.id} key={collection.id}>{collection.name}</option>
     )
   })
 
+
   return (
-    <form id="kt_modal_new_target_form" className="form" action="submit" onSubmit={(e) => handleCollectionSubmit(e)}>
+    <form id="kt_modal_new_target_form" className="form" action="submit" noValidate onSubmit={(e) => handleChallengeSubmit(e)}>
 
       {/* start challenge name input group */}
       <div className="d-flex flex-column mt-8 mb-8">
         {/* start label */}
         <label className="d-flex align-items-center fs-6 fw-semibold mb-2">
           <span className="required">Challenge Name</span>
-          <i className="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Choose a name for your challenge."></i>
         </label>
         {/* end label */}
-        <input type="text" autoComplete="off" className="form-control form-control-solid" placeholder="Enter Challenge Name" name="name" onChange={(e) => handleChallengeInput(e)} />
+        <input type="text" autoComplete="off" className={"form-control form-control-solid " + (areChallangeInputsValid.name ? "is-invalid" : "")} placeholder="Enter Challenge Name" name="name" onChange={(e) => handleChallengeInput(e)} />
+        {areChallangeInputsValid.name && <p className="text-danger">{areChallangeInputsValid.name}</p>}
       </div>
       {/* end challenge name input group */}
 
@@ -108,8 +183,10 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
             <label className="required fs-6 fw-semibold mb-2 me-4">Goal Type</label>
             <Form.Check
               inline
+              required
               type="radio"
               id="duration"
+              isInvalid={areChallangeInputsValid.goal_type}
               value="duration"
               name="goal_type"
               label="Duration"
@@ -120,10 +197,12 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
               type="radio"
               label="Interest"
               id="interest"
+              isInvalid={areChallangeInputsValid.goal_type}
               value="interest"
               name="goal_type"
               onChange={(e) => handleChallengeInput(e, "goal_type")}
             />
+            {areChallangeInputsValid.goal_type && <p className="text-danger">{areChallangeInputsValid.goal_type}</p>}
           </Form.Group>
         </div>
         {/* end goal_type */}
@@ -135,12 +214,12 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
             <div className="col-5">
               <label className="fs-6 fw-semibold mb-2">
                 <span className="required">Goal Quantity</span>
-                <i className="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Choose this challenge's goal."></i>
               </label>
             </div>
             <div className="col-7">
               {/* end label */}
-              <input type="number" autoComplete="off" className="form-control form-control-solid" placeholder="Book Quantity" name="goal_number" onChange={(e) => handleChallengeInput(e)} />
+              <input type="number" autoComplete="off" min={0} className={"form-control form-control-solid " + (areChallangeInputsValid.goal_number ? "is-invalid" : "")} placeholder="Book Quantity" name="goal_number" onChange={(e) => handleChallengeInput(e, "collection_id")} />
+              {areChallangeInputsValid.goal_number && <p className="text-danger">{areChallangeInputsValid.goal_number}</p>}
             </div>
           </div>
         </div>
@@ -149,29 +228,39 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
       {/* end challenge goal_number & goal_type input group */}
 
       {/* start conditional interest challenge form inputs */}
-      <div className={"row mb-10 " + (challengeFormValues.goal_type == "interest" ? "d-flex" : "d-none")}>
+      <div className={"row mb-10 " + (challengeFormValues.goal_type == "interest" ? "" : "d-none")}>
         <div className="col-5 d-flex align-items-center">
           <label className="required fs-6 fw-semibold mb-2 ms-12 me-8">Interest</label>
-          <Form.Select aria-label="Select interest type" className="form-select form-select-solid" name="category" onChange={e => handleChallengeInput(e, "category")}>
-            <option>Select Type</option>
+          <Form.Select aria-label="Select interest type" className={"form-select-solid " + (areChallangeInputsValid.category ? "is-invalid" : "")} name="category"
+            isInvalid={areChallangeInputsValid.category}
+            onChange={e => handleChallengeInput(e, "category")}>
+            <option value="">Select Type</option>
             <option value="author">Author</option>
             <option value="genre">Genre</option>
-            <option value="collection_id">Collection</option>
+            <option value="collection_id" disabled={collections?.length == 0}>Collection</option>
           </Form.Select>
+          <div className="flex-column">
+            {areChallangeInputsValid.category && <p className="text-danger">{areChallangeInputsValid.category}</p>}
+          </div>
         </div>
 
         <div className={"col-7 align-items-center pe-15 " + (challengeFormValues.category == "collection_id" ? "d-flex" : "d-none")}>
           <div className="col-3">
             <label className="fs-6 fw-semibold mb-2 d-block pe-1 text-end">
               <span className="required pe-1">Collection</span>
-              <ToolTip placement="right" icon="info" message="Collections that contain less books than your Challenge Goal or that are already being used for other Challenges are not available."/>
+              <ToolTip placement="right" icon="info" message="Collections that contain less books than your Challenge Goal or that are already being used for other Challenges are not available." />
             </label>
           </div>
           <div className="col">
-            <Form.Select aria-label="Select collection" className="form-select form-select-solid text-capitalize me-13" name="category_identifier" onChange={e => handleChallengeInput(e)}>
-              <option>Select Collection</option>
+            {<Form.Select aria-label="Select collection" className={"form-select-solid " + (areChallangeInputsValid.category_identifier_collection_id ? "is-invalid" : "") + " text-capitalize me-13"} name="category_identifier"
+              isInvalid={areChallangeInputsValid.category_identifier}
+              onChange={e => handleChallengeInput(e)}>
+              <option value="">Select Collection</option>
               {collectionSelectOptions}
-            </Form.Select>
+            </Form.Select>}
+            <div className="flex-column">
+              {areChallangeInputsValid.category_identifier_collection_id && <p className="text-danger">{areChallangeInputsValid.category_identifier_collection_id}</p>}
+            </div>
           </div>
         </div>
 
@@ -183,6 +272,8 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
           </div>
           <div className="col me-15">
             <AuthorSearch authorsLoading={authorsLoading} setAuthorsLoading={setAuthorsLoading} selectedAuthor={selectedAuthor} setSelectedAuthor={setSelectedAuthor} setChallengeFormValues={setChallengeFormValues} challengeFormValues={challengeFormValues} />
+            {/* {isAuthorSelected && <p className="text-danger">An author must be selected</p>} */}
+            {areChallangeInputsValid.category_identifier_author && <p className="text-danger">{areChallangeInputsValid.category_identifier_author}</p>}
           </div>
         </div>
 
@@ -192,12 +283,12 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
             <label className="align-items-center fs-6 fw-semibold mb-2 me-7 d-block text-end">
               <span className="required pe-1">Genre</span>
               <ToolTip placement="right" icon="info" message="Books have many genres, ranging from the vague to very specific. We recommend you keep your Challenge genre broad so that you can best capture Challenge progress, regardless of the specificity of a book's genre." />
-              <i className="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Choose a genre."></i>
             </label>
           </div>
           {/* end label */}
           <div className="col">
-            <input type="text" autoComplete="off" className="form-control form-control-solid me-13" placeholder="Enter Genre" name="category_identifier" onChange={(e) => handleChallengeInput(e)} />
+            <input type="text" autoComplete="off" className={"me-13 form-control form-control-solid " + (areChallangeInputsValid.category_identifier_genre ? "is-invalid" : "")} placeholder="Enter Genre" name="category_identifier" onChange={(e) => handleChallengeInput(e)} />
+            {areChallangeInputsValid.category_identifier_genre && <p className="text-danger">{areChallangeInputsValid.category_identifier_genre}</p>}
           </div>
         </div>
 
@@ -282,9 +373,11 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
       </div>
       {/* end challenge date input group */}
 
+      <div className="mt-4">
+        {isServerErrror.length > 0 && <p className="text-danger">{isServerErrror + ", please review your challenge and resubmit"}</p>}
+      </div>
       {/* start action buttons */}
       <div className="text-end mt-12">
-        {/* <button type="reset" id="kt_modal_new_target_cancel" className="btn btn-light btn-sm me-3">Clear</button> */}
         <button type="submit" id="kt_modal_new_target_submit" className="btn btn-primary btn-sm">
           <span className="indicator-label">Submit</span>
           <span className="indicator-progress">Please wait...
