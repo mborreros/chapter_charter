@@ -46,7 +46,7 @@ function ChallengeCards({ challenges, setChallenges, formatDate, user, handleSer
             <div className="card-title flex-column">
               <Link to={`${challenge.id}`} state={{ challenge }}><span className="fs-2hx fw-bold text-white lh-1 ls-n2">{challenge.name}</span></Link>
               <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{challenge.description}</span>
-              <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mt-5">started: {challenge.start_date}</span>
+              <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mt-5">start: {challenge.start_date}</span>
               <span className="text-white opacity-75 pt-1 fw-semibold fs-6">{challenge.end_date !== null ? 'complete by: ' + challenge.end_date : ""}</span>
             </div>
           </div>

@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import defaultBook from "./imgs/generic_book.png";
 
-function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, setChallenges, collections, setCollections, handleServerError }) {
+function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, setChallenges, collections, setCollections, handleServerError, formatDate }) {
 
   function handleChallengeDelete(e) {
     let collectionId = selectedChallenge.category === "collection_id" ? selectedChallenge.category_identifier : false
@@ -51,6 +51,27 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
     )
   })
 
+  let collectionName = collections?.filter(collection => collection.id == selectedChallenge?.category_identifier)[0]?.name
+
+  let today = new Date()
+  today.setHours(0, 0, 0, 0)
+  let challengeStartDate = new Date(selectedChallenge?.start_date)
+  challengeStartDate.setHours(0, 0, 0, 0)
+ 
+  let futureChallenge = false
+  let challengeStatusDescription
+  if (challengeStartDate > today) {
+    challengeStatusDescription = <p>Challenge has not yet started</p>
+    futureChallenge = true
+  } else {
+    futureChallenge = false
+    if (selectedChallenge?.active) {
+      challengeStatusDescription = <p>Challenge is currently <span className="fw-bold text-success">active</span></p>
+    } else {
+      challengeStatusDescription = <p>Challenge was <span className={"fw-bold " + (selectedChallenge?.successful ? "text-success" : "text-danger")}>{selectedChallenge?.successful ? "successful" : "unsuccessful"}</span></p>
+    }
+  }
+  
   return (
 
     <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
@@ -79,14 +100,13 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
 
                         {/* start card body */}
                         <div className='card-body pt-4'>
-                          <p>{selectedChallenge?.description}</p>
-                          {
-                            selectedChallenge?.active ?
-                              <p>Challenge is currently <span className="fw-bold text-success">active</span></p> :
-                              <p>Challenge was <span className={"fw-bold " + (selectedChallenge?.successful ? "text-success" : "text-danger")}>{selectedChallenge?.successful ? "successful" : "unsuccessful"}</span></p>
+                          <p className={selectedChallenge?.description.length > 0 ? "" : "d-none"}>{selectedChallenge?.description}</p>
+                          {selectedChallenge?.category.length > 0 ?
+                            <p className='text-capitalize'>Category: {selectedChallenge?.category === "collection_id" ? "Collection" : selectedChallenge?.category} - {selectedChallenge?.category === "collection_id" ? collectionName : selectedChallenge?.category_identifier}</p>
+                            : null
                           }
-
-                          <p className='pt-4 text-muted'>Started {moment(selectedChallenge?.start_date).from(new Date())}</p>
+                          {challengeStatusDescription}
+                          <p className='pt-4 text-muted'>{futureChallenge ? "Starting" : "Started"} {moment(selectedChallenge?.start_date).from(new Date())}</p>
                         </div>
                         {/* end card body */}
                       </div>
