@@ -123,7 +123,7 @@ function App() {
       <Navigation currentUser={user} handleUserLogout={handleUserLogout} />
 
       <Routes>
-        <Route exact path="/" element={<Home user={user} handleUserLogout={handleUserLogout} />} />
+        <Route exact path="/" element={<Home user={user} handleUserLogout={handleUserLogout} journeys={journeys} challenges={challenges} />} />
         <Route exact path="/login" element={<UserAuthForm onLogin={setUser} handleServerError={handleServerError} />} />
         <Route exact path="/signup" element={<UserAuthForm onSignup={setUser} fetchUserAuth={fetchUserAuth} handleServerError={handleServerError} checkImg={checkImg} />} />
 

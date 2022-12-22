@@ -69,27 +69,6 @@ function UserAuthForm({ onLogin, onSignup, fetchUserAuth, handleServerError, che
       })
   }
 
-  //   clearErrors(e.target.name)
-  //   clearErrors("notRegisteredInput")
-  //   let previousLoginValues = loginValues
-  //   setLoginValues({ ...previousLoginValues, [e.target.name]: e.target.value })
-  // }
-
-  // function handleSignUpInputs(e) {
-  //   clearErrors(e.target.name)
-  //   clearErrors("notRegisteredInput")
-  //   let previousSignUpValues = signUpValues
-  //   // only set avatar_img if it is a valid image, else set to default "" (blank string)
-  //   if (e.target.name === "avatar_img") {
-  //     checkImg(e.target.value) ? setSignUpValues({ ...previousSignUpValues, [e.target.name]: e.target.value }) : setSignUpValues({ ...previousSignUpValues })
-  //   } else { setSignUpValues({ ...previousSignUpValues, [e.target.name]: e.target.value }) }
-  // }
-
-  // validate avatar_img in form
-  // function checkImg(url) {
-  //   return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
-  // }
-
   return (
     <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
       <div className="app-page flex-column flex-column-fluid" id="kt_app_page">

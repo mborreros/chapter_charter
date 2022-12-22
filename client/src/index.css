@@ -171,21 +171,6 @@ code {
   background-position: center center;
 }
 
-/* start custom login button coloring for home page */
-/* .btn-login-button {
-  color: #e3e3e3;
-  background-color: #C8A2C8 !important
-}
-
-.btn-login-button:active,
-.btn-login-button:hover,
-.btn-login-button:focus
-.btn-login:active:focus {
-  color: #e3e3e3;
-  background-color: #a98ca9 !important
-} */
-/* end custom login button coloring for home page */
-
 .user-button-container {
   width: 450px;
 }
@@ -255,6 +240,27 @@ code {
 
 #chapter-charter-sign-up-form.editing {
   padding-top: 1rem;
+}
+
+.journey-overview-card.card.card-flush {
+  background-color: #e1ad0178;
+}
+
+.challenge-overview-card.card.card-flush {
+  background-color: #e495508b;
+}
+
+.future-challenge-overview-card.card.card-flush {
+  background-color: #94a4aab7;
+}
+
+.completed-journey-overview-card.card.card-flush {
+  background-color: #b2ac88b3;
+  /* background-color: #9aad6a; */
+}
+
+.successful-challenge-overview-card.card.card-flush {
+  background-color: #93a43e82;
 }
 
 @keyframes heartBeat {
