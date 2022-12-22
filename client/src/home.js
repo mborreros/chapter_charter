@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Chart } from "react-google-charts";
+import { Link } from 'react-router-dom';
 import _ from "lodash";
 import moment from 'moment';
 
@@ -65,8 +66,9 @@ function Home({ user, journeys, challenges }) {
     height: 250,
     legend: "none",
     pieSliceText: "label",
-    colors: ["#b8b4bd", '#b1a8ba', '#aa9db8', '#a292b6', '#9b87b3','#bfbfbf'],
-    chartArea: {left: 0, top: 0, width: "100%", height: "100%"},
+    colors: ["#b8b4bd", '#b1a8ba', '#aa9db8', '#a292b6', '#9b87b3', '#bfbfbf'],
+    chartArea: { left: 0, top: 0, width: "100%", height: "100%" },
+    fontName: "Helvetica Neue"
   };
 
   // preparing and formatting author bar chart data/options
@@ -84,12 +86,13 @@ function Home({ user, journeys, challenges }) {
       },
       baselineColor: "#CCC"
     },
-    chartArea: {left: "25%", top: "5%", width: "100%", height: "90%"},
+    chartArea: { left: "25%", top: "5%", width: "100%", height: "90%" },
     animation: {
       startup: true,
       duration: 1000,
       easing: "in"
-    }
+    },
+    fontName: "Helvetica Neue"
   };
 
   let authorGroupJourneys = _.countBy(
@@ -110,15 +113,16 @@ function Home({ user, journeys, challenges }) {
 
   let authorBarChartData = authorJourneyData.map(data => {
     let completed_data = []
-    completed_data.push(data[0], data[1], "#9DB5B2", null)
+    completed_data.push(data[0], data[1], "#9DB5B2", `${data[1]} books`, null)
     return completed_data
   })
 
   let barChartData = [
     [
       "Author",
-      "No. of Books Completed",
+      "Books",
       { role: "style" },
+      { type: 'string', role: 'tooltip' },
       {
         sourceColumn: 0,
         role: "annotation",
@@ -163,12 +167,13 @@ function Home({ user, journeys, challenges }) {
         color: "#CCC"
       }
     },
-    chartArea: {left: 0, top: 0, width: "100%", height: "95%"}, 
+    chartArea: { left: 0, top: 0, width: "100%", height: "95%" },
     animation: {
       startup: true,
       duration: 1000,
       easing: "in"
-    }
+    },
+    fontName: "Helvetica Neue"
   };
 
   // preparing and formatting challenge category types data/options
@@ -193,7 +198,7 @@ function Home({ user, journeys, challenges }) {
 
   let formatedChallengeCategories = Object.entries(challengeCategories).map(challenge => {
     let category_data = []
-    category_data.push(challenge[0], challenge[1], "#dba09c", null)
+    category_data.push(challenge[0], challenge[1],"#dba09c", `${challenge[1]} challenges` ,null)
     return category_data
   }
   )
@@ -203,6 +208,7 @@ function Home({ user, journeys, challenges }) {
       "Category",
       "No. of Challenges",
       { role: "style" },
+      { type: 'string', role: 'tooltip' },
       {
         sourceColumn: 0,
         role: "annotation",
@@ -227,12 +233,13 @@ function Home({ user, journeys, challenges }) {
       },
       baselineColor: "#CCC"
     },
-    chartArea: {left: 0, top: "5%", width: "100%", height: "85%"},
+    chartArea: { left: 0, top: "5%", width: "100%", height: "85%" },
     animation: {
       startup: true,
       duration: 1000,
       easing: "in"
-    }
+    },
+    fontName: "Helvetica Neue"
   };
 
   return (
@@ -266,27 +273,31 @@ function Home({ user, journeys, challenges }) {
               </div>
               {/* page title end */}
 
-              <div className='row'>
+              <div className='row align-items-stretch mb-5'>
                 <div className='col-sm-3'>
-                  <div className="journey-overview-card  card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
-                    <div className="card-header pt-5">
-                      <div className="card-title d-flex flex-column">
-                        <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{activeJourneys?.length}</span>
-                        <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Active Journey{activeJourneys?.length > 1 ? "s" : ""}</span>
+                  <Link to="/journeys">
+                    <div className="journey-overview-card  card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
+                      <div className="card-header pt-5">
+                        <div className="card-title d-flex flex-column">
+                          <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{activeJourneys?.length}</span>
+                          <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Active Journey{activeJourneys?.length > 1 ? "s" : ""}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="completed-journey-overview-card  card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
-                    <div className="card-header pt-5">
-                      <div className="card-title d-flex flex-column">
-                        <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{completedJourneys?.length}</span>
-                        <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Completed Journey{completedJourneys?.length > 1 ? "s" : ""}</span>
+                  </Link>
+                  <Link to="/journeys">
+                    <div className="completed-journey-overview-card  card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
+                      <div className="card-header pt-5">
+                        <div className="card-title d-flex flex-column">
+                          <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{completedJourneys?.length}</span>
+                          <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Completed Journey{completedJourneys?.length > 1 ? "s" : ""}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
                 <div className='col-sm-5'>
-                  <div className="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
+                  <div className="card card-flush h-100">
                     {/* <!--begin::Header--> */}
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
@@ -297,19 +308,21 @@ function Home({ user, journeys, challenges }) {
                     {/* <!--end::Header--> */}
                     {/* <!--begin::Card body--> */}
                     <div className="card-body d-flex align-items-end pt-0">
-                      <Chart
-                        chartType="LineChart"
-                        width="100%"
-                        height="400px"
-                        data={bookLineGraphData}
-                        options={bookLineGraphOptions}
-                      />
+                      {
+                        bookLineGraphData.length > 1 ?
+                          <Chart
+                            chartType="LineChart"
+                            data={bookLineGraphData}
+                            options={bookLineGraphOptions}
+                          /> :
+                          <></>
+                      }
                     </div>
                     {/* <!--end::Card body--> */}
                   </div>
                 </div>
                 <div className='col-sm-4'>
-                  <div className="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
+                  <div className="card card-flush h-100">
                     {/* <!--begin::Header--> */}
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
@@ -334,41 +347,12 @@ function Home({ user, journeys, challenges }) {
                 </div>
               </div>
 
-              <div className='row'>
-                <div className='col-sm-3'>
-                  <div className="challenge-overview-card card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
-                    {/* <!--begin::Header--> */}
-                    <div className="card-header pt-5">
-                      <div className="card-title d-flex flex-column">
-                        <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{activeChallenges?.length}</span>
-                        <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Active Challenge{activeChallenges?.length > 1 ? "s" : ""}</span>
-                      </div>
-                    </div>
-                    {/* <!--end::Header--> */}
-                  </div>
-                  <div className="future-challenge-overview-card card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
-                    {/* <!--begin::Header--> */}
-                    <div className="card-header pt-5">
-                      <div className="card-title d-flex flex-column">
-                        <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{futureChallenges?.length}</span>
-                        <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Future Challenge{futureChallenges?.length > 1 ? "s" : ""}</span>
-                      </div>
-                    </div>
-                    {/* <!--end::Header--> */}
-                  </div>
-                  <div className="successful-challenge-overview-card card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
-                    {/* <!--begin::Header--> */}
-                    <div className="card-header pt-5">
-                      <div className="card-title d-flex flex-column">
-                        <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{successfulChallenges?.length}</span>
-                        <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Successful Challenge{successfulChallenges?.length > 1 ? "s" : ""}</span>
-                      </div>
-                    </div>
-                    {/* <!--end::Header--> */}
-                  </div>
-                </div>
+              <hr className='my-10 mx-15 border-gray-500 border-dotted' />
+
+              <div className='row align-items-stretch'>
+
                 <div className='col-sm-5'>
-                  <div className="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
+                  <div className="card card-flush h-100">
                     {/* <!--begin::Header--> */}
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
@@ -379,17 +363,21 @@ function Home({ user, journeys, challenges }) {
                     {/* <!--end::Header--> */}
                     {/* <!--begin::Card body--> */}
                     <div className="card-body d-flex align-items-end pt-0">
-                      <Chart
-                        chartType="ColumnChart"
-                        data={challengeCategoryBarGraphData}
-                        options={challengeCategoryBarGraphOptions}
-                      />
+                      {challengeCategoryBarGraphData.length > 1 ?
+                        <Chart
+                          chartType="ColumnChart"
+                          data={challengeCategoryBarGraphData}
+                          options={challengeCategoryBarGraphOptions}
+                        /> :
+                        <></>
+                      }
+
                     </div>
                     {/* <!--end::Card body--> */}
                   </div>
                 </div>
                 <div className='col-sm-4'>
-                  <div className="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
+                  <div className="card card-flush h-100">
                     {/* <!--begin::Header--> */}
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
@@ -399,16 +387,58 @@ function Home({ user, journeys, challenges }) {
                     {/* <!--end::Header--> */}
                     {/* <!--begin::Card body--> */}
                     <div className="card-body d-flex align-items-end pt-0">
-                      <Chart
-                        chartType="BarChart"
-                        width="100%"
-                        height="250px"
-                        data={barChartData}
-                        options={barChartOptions}
-                      />
+                      {barChartData.length > 1 ?
+                        <Chart
+                          chartType="BarChart"
+                          width="100%"
+                          height="250px"
+                          data={barChartData}
+                          options={barChartOptions}
+                        /> :
+                        <></>
+                      }
+
                     </div>
                     {/* <!--end::Card body--> */}
                   </div>
+                </div>
+                <div className='col-sm-3'>
+                  <Link to="/challenges">
+                    <div className="challenge-overview-card card card-flush mb-5 mb-xl-10">
+                      {/* <!--begin::Header--> */}
+                      <div className="card-header pt-5">
+                        <div className="card-title d-flex flex-column">
+                          <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{activeChallenges?.length}</span>
+                          <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Active Challenge{activeChallenges?.length > 1 ? "s" : ""}</span>
+                        </div>
+                      </div>
+                      {/* <!--end::Header--> */}
+                    </div>
+                  </Link>
+                  <Link to="/challenges">
+                    <div className="future-challenge-overview-card card card-flush mb-5 mb-xl-10">
+                      {/* <!--begin::Header--> */}
+                      <div className="card-header pt-5">
+                        <div className="card-title d-flex flex-column">
+                          <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{futureChallenges?.length}</span>
+                          <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Future Challenge{futureChallenges?.length > 1 ? "s" : ""}</span>
+                        </div>
+                      </div>
+                      {/* <!--end::Header--> */}
+                    </div>
+                  </Link>
+                  <Link to="/challenges">
+                    <div className="successful-challenge-overview-card card card-flush">
+                      {/* <!--begin::Header--> */}
+                      <div className="card-header pt-5">
+                        <div className="card-title d-flex flex-column">
+                          <span className="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{successfulChallenges?.length}</span>
+                          <span className="text-white opacity-75 pt-1 fw-semibold fs-6 mb-8">Successful Challenge{successfulChallenges?.length > 1 ? "s" : ""}</span>
+                        </div>
+                      </div>
+                      {/* <!--end::Header--> */}
+                    </div>
+                  </Link>
                 </div>
 
               </div>
