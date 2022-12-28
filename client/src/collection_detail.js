@@ -19,7 +19,14 @@ function CollectionDetail({ selectedCollection, setSelectedCollection, collectio
 
   const [isCollectionEditable, setIsCollectionEditable] = useState(false)
 
-  useEffect(() => { setSelectedCollection(collectionLocation?.state.collection) }, [])
+  useEffect(() => {
+    if (collectionLocation?.state) {
+      setSelectedCollection(collectionLocation?.state.collection)
+    }
+    else {
+      navigate("../not_found", { replace: true })
+    }
+  }, [])
 
   function handleCollectionDelete(e) {
     let thisCollectionId = e.currentTarget.id

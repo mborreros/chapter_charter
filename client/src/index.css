@@ -171,6 +171,11 @@ code {
   background-position: center center;
 }
 
+.page-not-found-background {
+  background-color: rgba(170, 198, 217, 0.451);
+  background-image: url('imgs/not_found_book.png');
+}
+
 .user-button-container {
   width: 450px;
 }

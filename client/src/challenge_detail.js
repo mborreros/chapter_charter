@@ -32,7 +32,13 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
   const challengeLocation = useLocation()
   const navigate = useNavigate();
 
-  useEffect(() => { setSelectedChallenge(challengeLocation?.state.challenge) }, [])
+  useEffect(() => { 
+    if (challengeLocation?.state) {
+      setSelectedChallenge(challengeLocation?.state.challenge) 
+    } else {
+      navigate("../not_found", { replace: true })
+    }
+  }, [])
 
   let bookProgressList
   bookProgressList = selectedChallenge?.books?.map((book) => {

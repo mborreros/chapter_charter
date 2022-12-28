@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 function CollectionModal({ handleClose, collections, setCollections, user, handleServerError }) {

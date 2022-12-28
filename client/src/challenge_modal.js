@@ -127,7 +127,6 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
   function validateChallengeInputs(formValues) {
     let formValidated = { errors: {} }
 
-    // console.log(formValues)
     if (formValues.name.length == 0) {
       formValidated.errors.name = "Challenge name is required"
     }
@@ -166,7 +165,6 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
   }, [selectedAuthor])
 
   let collectionSelectOptions = collections?.map(collection => {
-    // collectionMax = collection.books.length
     return (
       <option disabled={collection.challenge_locked || collection.books.length == 0} value={collection.id} key={collection.id}>{collection.name}</option>
     )

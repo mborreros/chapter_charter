@@ -21,9 +21,10 @@ function JourneyDetail({ selectedJourney, setSelectedJourney, handleJourneyEntry
   const [areEntriesEditable, setAreEntriesEditable] = useState(false)
 
   // sorting and setting user selected journey for journey detail page
-  useEffect(() => { findSelectedJourney(pageParams.id) }
-    // eslint-disable-next-line
-    , [])
+  useEffect(() => {
+
+    findSelectedJourney(pageParams.id) 
+  }, [])
 
   useEffect(() => {
     if (selectedJourney) {

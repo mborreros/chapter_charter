@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import { Routes, Route } from "react-router-dom";
+import { useNavigate, Routes, Route, Router, Switch } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 import Home from './home';
 import UserAuthForm from './user_auth_form';
 import ListPage from './list_page';
 import Navigation from './navigation';
+import PageNotFound from "./page_not_found";
 
 function App() {
 
@@ -137,6 +137,9 @@ function App() {
         <Route path="/challenges/:id" element={<ListPage challenges={challenges} setChallenges={setChallenges} handleShow={handleShow} show={show} handleClose={handleClose} collections={collections} setCollections={setCollections} handleServerError={handleServerError} formatDate={formatDate} />} />
 
         <Route exact path="/accounts" element={<ListPage user={user} setUser={setUser} handleShow={handleShow} show={show} handleClose={handleClose} handleServerError={handleServerError} checkImg={checkImg} />} />
+
+        <Route path="/not_found" element={<PageNotFound />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
 
     </>

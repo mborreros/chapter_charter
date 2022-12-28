@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 // page header contents
@@ -19,6 +19,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
 
   // getting pathname to determine which page to show
   const location = useLocation();
+  const navigate = useNavigate();
   // parsing pathname to just the dynamic text for render conditional logic
   const pathSlug = location.pathname.split('/')
 
@@ -29,9 +30,14 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
 
   // sorting and setting user selected journey for journey detail page
   function findSelectedJourney(thisPageId) {
-    let currentJourneyDetails = journeys.filter(journey => journey.id == thisPageId)[0]
-    setSelectedJourney(currentJourneyDetails)
-    setSelectedJourneyEntries(currentJourneyDetails.journey_entries)
+    let currentJourneyDetails
+    if (journeys) {
+      currentJourneyDetails = journeys.filter(journey => journey.id == thisPageId)[0]
+      setSelectedJourney(currentJourneyDetails)
+      setSelectedJourneyEntries(currentJourneyDetails.journey_entries)
+    }
+    else 
+    navigate("../not_found", { replace: true })
   }
 
   // used on journey detail page, at this level to control journey state rendered on list_page
