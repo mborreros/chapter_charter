@@ -197,7 +197,7 @@ function ChallengeModal({
             <span>Challenge Description</span>
           </label>
           {/* end label */}
-          <textarea className="form-control form-control-solid" rows="3" name="description" placeholder="Type Challange Description" onChange={(e) => handleChallengeInput(e)}></textarea>
+          <textarea className="form-control form-control-solid" rows="3" name="description" placeholder="Type Challenge Description" onChange={(e) => handleChallengeInput(e)}></textarea>
         </div>
         {/* end challenge description input group */}
 

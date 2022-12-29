@@ -106,8 +106,8 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
 
                         {/* start card body */}
                         <div className='card-body pt-4'>
-                          <p className={selectedChallenge?.description.length > 0 ? "" : "d-none"}>{selectedChallenge?.description}</p>
-                          {selectedChallenge?.category.length > 0 ?
+                          <p className={selectedChallenge?.description.length > 0 ? "" : "d-none"}>{selectedChallenge?.description.length > 0}</p>
+                          {selectedChallenge?.category ?
                             <p className='text-capitalize'>Category: {selectedChallenge?.category === "collection_id" ? "Collection" : selectedChallenge?.category} - {selectedChallenge?.category === "collection_id" ? collectionName : selectedChallenge?.category_identifier}</p>
                             : null
                           }

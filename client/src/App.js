@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import { useNavigate, Routes, Route } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
@@ -78,7 +78,7 @@ function App() {
 
   return (
     <>
-      <Navigation currentUser={user} handleUserLogout={handleUserLogout} />
+        <Navigation currentUser={user} handleUserLogout={handleUserLogout} />
 
       <Routes>
         <Route exact path="/" element={<Home user={user} handleUserLogout={handleUserLogout} journeys={journeys} challenges={challenges} />} />
@@ -106,3 +106,4 @@ function App() {
 }
 
 export default App;
+// export { App, ThemeContext };

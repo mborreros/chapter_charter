@@ -37,7 +37,6 @@ function BookSearch({ selectedValue, setSelectedValue, loadingBooks, setLoadingB
   function formatOptionLabel(option) {
     let pagesPublished = []
     if (option.number_of_pages_median) { pagesPublished.push(`${option.number_of_pages_median} pages`) }
-
     return (
       <div className="row">
 
@@ -78,6 +77,8 @@ function BookSearch({ selectedValue, setSelectedValue, loadingBooks, setLoadingB
   return (
     <div>
       <AsyncSelect
+        className="form-control form-control-solid p-1 border-0"
+        classNamePrefix="book-search"
         value={selectedValue || ""}
         getOptionLabel={option => option.title}
         getOptionValue={option => option}
@@ -89,7 +90,9 @@ function BookSearch({ selectedValue, setSelectedValue, loadingBooks, setLoadingB
         onFocus={() => setSelectedValue("")}
         isLoading={loadingBooks}
         onKeyDown={(e) => handleEnterPress(e)}
-        isMulti={modalType === "new-collection-entry-modal" ? true : false} 
+        // menuIsOpen={true}
+        // onMenuOpen={() => {debugger}}
+        isMulti={modalType === "new-collection-entry-modal" ? true : false}
       />
       {/* allows to visualize selected value on user click, to be deleted once functionality is finsihed */}
       {/* <pre>Selected Value: {JSON.stringify(selectedValue || {}, null, 2)}</pre> */}

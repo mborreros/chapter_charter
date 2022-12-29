@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import { Toaster } from 'react-hot-toast';
 
-function ChallengeCards({ challenges, setChallenges, formatDate, user, handleServerError }) {
+function ChallengeCards({ challenges, setChallenges, user, handleServerError }) {
 
   useEffect(() => {
     document.title = "Challenges"

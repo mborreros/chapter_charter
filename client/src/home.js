@@ -4,14 +4,25 @@ import { Chart } from "react-google-charts";
 import { Link } from 'react-router-dom';
 import _ from "lodash";
 import moment from 'moment';
+import { useTheme } from "./theme_context";
 
 function Home({ user, journeys, challenges }) {
+
+  const { theme, changeTheme } = useTheme()
 
   useEffect(() => {
     if (user) {
       document.title = "Dashboard"
     }
   }, [user])
+  let colors = {
+    light: ["#b8b4bd", '#b1a8ba', '#aa9db8', '#a292b6', '#9b87b3', '#bfbfbf', "#9DB5B2", '#9aad6a', "#dba09c"],
+    dark: ["#b48ce5", '#b17fe3', '#a872e3', '#9d66e2', '#9759e1', '#bd9ec6', "#53aa9f", '#84AB22', "#EC7B73"],
+    text: {
+      light: '#000',
+      dark: '#fff'
+    }
+  }
 
   // finding active journeys and active challenges
   let activeJourneys, activeChallenges, completedJourneys, futureChallenges, successfulChallenges
@@ -29,7 +40,73 @@ function Home({ user, journeys, challenges }) {
   })
   successfulChallenges = challenges?.filter(challenge => challenge.active == false && challenge.successful == true)
 
-  // preparing and formatting page count pie chart data/options
+  let defaultOptions = {
+    width: "100%",
+    height: "100%",
+    legend: "none",
+    backgroundColor: 'transparent',
+    colors: colors[theme],
+    chartArea: { left: 0, top: 0, width: "100%", height: "100%" },
+    vAxis: {
+      textStyle: {
+        color: "transparent"
+      },
+      gridlines: {
+        count: 0
+      },
+      baselineColor: "#CCC"
+    },
+    animation: {
+      startup: true,
+      duration: 1000,
+      easing: "in"
+    },
+    fontName: "Helvetica Neue"
+  };
+
+  let pieChartOptions = { ...defaultOptions, pieSliceText: "label", chartArea: { left: 0, top: "5%", width: "100%", height: "90%" } }
+  let authorBarChartOptions = {
+    ...defaultOptions,
+    bar: { groupWidth: "75%" },
+    vAxis: {
+      textStyle: {
+        color: colors.text[theme]
+      }
+    },
+    hAxis: {
+      textStyle: {
+        color: "transparent"
+      },
+      gridlines: {
+        count: 0
+      },
+      baselineColor: "#CCC"
+    },
+    chartArea: { left: "25%", top: "5%", width: "100%", height: "90%" },
+  }
+  let challengeCategoryBarGraphOptions = {
+    ...defaultOptions,
+    bar: { groupWidth: "75%" },
+    chartArea: { left: 0, top: "5%", width: "100%", height: "85%" },
+    hAxis: {
+      textStyle: {
+        color: colors.text[theme]
+      }
+    }
+  }
+  let bookLineGraphOptions = {
+    ...defaultOptions,
+    curveType: "function",
+    hAxis: {
+      textStyle: {
+        color: "#CCC"
+      }
+    },
+    chartArea: { left: 0, top: 0, width: "100%", height: "95%" },
+    colors: defaultOptions.colors.slice(-2, -1)
+  }
+
+  // preparing page count pie chart data
   let groupedJourneys = _.countBy(
     completedJourneys,
     (journey => {
@@ -59,41 +136,17 @@ function Home({ user, journeys, challenges }) {
     ["400+", groupedJourneys.greatedThan400],
     ["Unknown", groupedJourneys.unknown]
   ];
+  //   width: 350,
+  //   height: 250,
+  //   legend: "none",
+  //   backgroundColor: 'transparent',
+  //   pieSliceText: "label",
+  //   colors: ["#b8b4bd", '#b1a8ba', '#aa9db8', '#a292b6', '#9b87b3', '#bfbfbf'],
+  //   chartArea: { left: 0, top: "5%", width: "100%", height: "90%" },
+  //   fontName: "Helvetica Neue"
+  // };
 
-  const pieChartOptions = {
-    width: 350,
-    height: 250,
-    legend: "none",
-    pieSliceText: "label",
-    colors: ["#b8b4bd", '#b1a8ba', '#aa9db8', '#a292b6', '#9b87b3', '#bfbfbf'],
-    chartArea: { left: 0, top: 0, width: "100%", height: "100%" },
-    fontName: "Helvetica Neue"
-  };
-
-  // preparing and formatting author bar chart data/options
-  const barChartOptions = {
-    width: 350,
-    height: 250,
-    bar: { groupWidth: "75%" },
-    legend: "none",
-    hAxis: {
-      textStyle: {
-        color: "transparent"
-      },
-      gridlines: {
-        count: 0
-      },
-      baselineColor: "#CCC"
-    },
-    chartArea: { left: "25%", top: "5%", width: "100%", height: "90%" },
-    animation: {
-      startup: true,
-      duration: 1000,
-      easing: "in"
-    },
-    fontName: "Helvetica Neue"
-  };
-
+  // preparing author data
   let authorGroupJourneys = _.countBy(
     completedJourneys,
     (journey => {
@@ -112,7 +165,7 @@ function Home({ user, journeys, challenges }) {
 
   let authorBarChartData = authorJourneyData.map(data => {
     let completed_data = []
-    completed_data.push(data[0], data[1], "#9DB5B2", `${data[1]} books`, null)
+    completed_data.push(data[0], data[1], defaultOptions.colors.slice(-3, -2)[0], `${data[1]} books`, null)
     return completed_data
   })
 
@@ -132,7 +185,7 @@ function Home({ user, journeys, challenges }) {
   ]
   barChartData = barChartData.concat(authorBarChartData)
 
-  // preparing and formatting book completion over time line graph data/options
+  // preparing book completion over time line graph data
   let bookCompletionsByDate = _.countBy(
     completedJourneys,
     (journey => {
@@ -146,36 +199,7 @@ function Home({ user, journeys, challenges }) {
 
   bookLineGraphData = bookLineGraphData.concat(Object.entries(bookCompletionsByDate).reverse())
 
-  const bookLineGraphOptions = {
-    width: "100%",
-    height: "100%",
-    curveType: "function",
-    legend: "none",
-    colors: ['#9aad6a'],
-    vAxis: {
-      textStyle: {
-        color: "transparent"
-      },
-      gridlines: {
-        count: 0
-      },
-      baselineColor: "#CCC"
-    },
-    hAxis: {
-      textStyle: {
-        color: "#CCC"
-      }
-    },
-    chartArea: { left: 0, top: 0, width: "100%", height: "95%" },
-    animation: {
-      startup: true,
-      duration: 1000,
-      easing: "in"
-    },
-    fontName: "Helvetica Neue"
-  };
-
-  // preparing and formatting challenge category types data/options
+  // preparing challenge category types data
   let challengeCategories = _.countBy(
     challenges,
     (challenge => {
@@ -197,7 +221,7 @@ function Home({ user, journeys, challenges }) {
 
   let formatedChallengeCategories = Object.entries(challengeCategories).map(challenge => {
     let category_data = []
-    category_data.push(challenge[0], challenge[1], "#dba09c", `${challenge[1]} challenges`, null)
+    category_data.push(challenge[0], challenge[1], defaultOptions.colors.slice(-1)[0], `${challenge[1]} challenges`, null)
     return category_data
   }
   )
@@ -216,30 +240,31 @@ function Home({ user, journeys, challenges }) {
       },
     ]
   ];
-  challengeCategoryBarGraphData = challengeCategoryBarGraphData.concat(formatedChallengeCategories)
 
-  const challengeCategoryBarGraphOptions = {
-    width: "100%",
-    height: "100%",
-    bar: { groupWidth: "75%" },
-    legend: "none",
-    vAxis: {
-      textStyle: {
-        color: "transparent"
-      },
-      gridlines: {
-        count: 0
-      },
-      baselineColor: "#CCC"
-    },
-    chartArea: { left: 0, top: "5%", width: "100%", height: "85%" },
-    animation: {
-      startup: true,
-      duration: 1000,
-      easing: "in"
-    },
-    fontName: "Helvetica Neue"
-  };
+  challengeCategoryBarGraphData = challengeCategoryBarGraphData.concat(formatedChallengeCategories)
+  //   width: "100%",
+  //   height: "100%",
+  //   bar: { groupWidth: "75%" },
+  //   legend: "none",
+  //   backgroundColor: 'transparent',
+  //   colors: ["#b8b4bd", '#b1a8ba', '#aa9db8', '#a292b6', '#9b87b3', '#bfbfbf', "#dba09c"],
+  //   vAxis: {
+  //     textStyle: {
+  //       color: "transparent"
+  //     },
+  //     gridlines: {
+  //       count: 0
+  //     },
+  //     baselineColor: "#CCC"
+  //   },
+  //   chartArea: { left: 0, top: "5%", width: "100%", height: "85%" },
+  //   animation: {
+  //     startup: true,
+  //     duration: 1000,
+  //     easing: "in"
+  //   },
+  //   fontName: "Helvetica Neue"
+  // };
 
   return (
     <>
@@ -253,7 +278,7 @@ function Home({ user, journeys, challenges }) {
 
                     <p className="text-center fw-bold fs-1">📖 Welcome to Chapter Charter 📖</p>
                     <p className="text-center fs-6 text-gray-700">
-                      We are helping readers keep <span className="fw-bold text-black">track</span> of their current reads, <span className="fw-bold text-black">organize</span> their books into lists, <span className="fw-bold text-black">challenge</span> themselves to reach their full reading potential, and <span className="fw-bold text-black">visualize</span> their reading journeys!
+                      We are helping readers keep <span className="fw-bold ">track</span> of their current reads, <span className="fw-bold ">organize</span> their books into lists, <span className="fw-bold ">challenge</span> themselves to reach their full reading potential, and <span className="fw-bold ">visualize</span> their reading journeys!
                     </p>
 
                   </div>
@@ -299,7 +324,7 @@ function Home({ user, journeys, challenges }) {
                   <div className="card card-flush h-100">
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
-                        <span className="fs-2hx fw-bold text-black me-2 lh-1 ls-n2">journey completion</span>
+                        <span className="fs-2hx fw-bold  me-2 lh-1 ls-n2">journey completion</span>
                       </div>
                     </div>
                     <div className={"card-body d-flex " + (bookLineGraphData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
@@ -319,20 +344,20 @@ function Home({ user, journeys, challenges }) {
                   <div className="card card-flush h-100">
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
-                        <span className="fs-2hx fw-bold text-black me-2 lh-1 ls-n2">completed journeys</span>
-                        <span className="text-black opacity-75 pt-1 fw-semibold fs-6">by page number</span>
+                        <span className="fs-2hx fw-bold  me-2 lh-1 ls-n2">completed journeys</span>
+                        <span className=" opacity-75 pt-1 fw-semibold fs-6">by page number</span>
                       </div>
                     </div>
                     <div className={"card-body d-flex " + (completedJourneys?.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
-                     {completedJourneys?.length > 1 ?
-                      <Chart
-                        width="100%"
-                        height="250px"
-                        chartType="PieChart"
-                        data={pieChartData}
-                        options={pieChartOptions}
-                      /> :
-                      <p className='pb-4'>you have not completed any journeys, hit the books!</p>}
+                      {completedJourneys?.length > 1 ?
+                        <Chart
+                          width="100%"
+                          height="250px"
+                          chartType="PieChart"
+                          data={pieChartData}
+                          options={pieChartOptions}
+                        /> :
+                        <p className='pb-4'>you have not completed any journeys, hit the books!</p>}
                     </div>
                   </div>
                 </div>
@@ -346,8 +371,8 @@ function Home({ user, journeys, challenges }) {
                   <div className="card card-flush h-100">
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
-                        <span className="fs-2hx fw-bold text-black me-2 lh-1 ls-n2">challenges</span>
-                        <span className="text-black opacity-75 pt-1 fw-semibold fs-6">by category</span>
+                        <span className="fs-2hx fw-bold  me-2 lh-1 ls-n2">challenges</span>
+                        <span className=" opacity-75 pt-1 fw-semibold fs-6">by category</span>
                       </div>
                     </div>
                     <div className={"card-body d-flex " + (challengeCategoryBarGraphData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
@@ -366,7 +391,7 @@ function Home({ user, journeys, challenges }) {
                   <div className="card card-flush h-100">
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
-                        <span className="fs-2hx fw-bold text-black me-2 lh-1 ls-n2">most read authors</span>
+                        <span className="fs-2hx fw-bold  me-2 lh-1 ls-n2">most read authors</span>
                       </div>
                     </div>
                     <div className={"card-body d-flex " + (barChartData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
@@ -376,7 +401,7 @@ function Home({ user, journeys, challenges }) {
                           width="100%"
                           height="250px"
                           data={barChartData}
-                          options={barChartOptions}
+                          options={authorBarChartOptions}
                         /> :
                         <p>you have not read any author more than once, get reading!</p>
                       }

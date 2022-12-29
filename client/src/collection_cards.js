@@ -5,7 +5,7 @@ import ToolTip from './tool_tip';
 
 import defaultBook from "./imgs/generic_book.png";
 
-function CollectionCards({ collections, setCollections, show, handleClose }) {
+function CollectionCards({ collections }) {
 
   useEffect(() => {
     document.title = "Collections"

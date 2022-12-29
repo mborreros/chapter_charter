@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/esm/Row";
 import BookSearch from "./book_select_search";
 
 function JourneyCollectionEntryModal({
@@ -95,9 +97,15 @@ function JourneyCollectionEntryModal({
     <div>
       <form id="book-search-form" className="form" action="submit" autoComplete="off" onSubmit={(e) => handleSubmit(e, selectedValue)}>
 
-        <div className="d-flex flex-column mt-8 fv-row">
+        {/* <div className="d-flex flex-column mt-8 fv-row">
           <BookSearch selectedValue={selectedValue} setSelectedValue={setSelectedValue} loadingBooks={loadingBooks} setLoadingBooks={setLoadingBooks} modalType={show} />
-        </div>
+        </div> */}
+
+        <Form.Group controlId="book-select" as={Row} className="book-search-select">
+          <div>
+            <BookSearch selectedValue={selectedValue} setSelectedValue={setSelectedValue} loadingBooks={loadingBooks} setLoadingBooks={setLoadingBooks} modalType={show} />
+          </div>
+        </Form.Group>
 
         {/* conditional form errors */}
         {isSelectedValue && <p className="text-danger">{show === "new-journey-modal" ? "A book must be selected to begin a Journey" : "A book must be selected to add it to a Collection"}</p>}

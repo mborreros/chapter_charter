@@ -185,13 +185,52 @@ code {
   flex-grow: 1;
 }
 
-.author-search-select .author-search__control {
+.author-search-select .author-search__control,
+.book-search-select .book-search__control {
   border: none !important;
   box-shadow: none !important;
   background-color: transparent;
 }
 
-.author-search-select .author-search__indicator-separator {
+[data-theme="dark"] .author-search-select .author-search__menu,
+[data-theme="dark"] .book-search-select .book-search__menu {
+  background-color: #23232C;
+}
+
+[data-theme="dark"] .author-search-select .author-search__option:hover,
+[data-theme="dark"] .author-search-select .author-search__option.author-search__option--is-focused,
+[data-theme="dark"] .book-search-select .book-search__option.book-search__option--is-focused,
+
+[data-theme="dark"] .book-search-select .book-search__option:hover {
+  background-color: #343443;
+}
+
+[data-theme="dark"] .author-search-select .author-search__option:active,
+[data-theme="dark"] .book-search-select .book-search__option:active {
+  background-color: #56566a;
+}
+
+[data-theme="dark"] .author-search-select .author-search__input,
+[data-theme="dark"] .book-search-select .book-search__input {
+  color: #808080 !important;
+}
+
+[data-theme="dark"] .author-search-select .author-search__single-value,
+[data-theme="dark"] .book-search-select .book-search__single-value {
+  color: #808080 !important;
+}
+
+[data-theme="dark"] .book-search-select .book-search__multi-value {
+  background-color: #6c6c81 !important;
+}
+
+[data-theme="dark"] .book-search-select .book-search__multi-value__label {
+  color: #FFF !important;
+}
+
+
+.author-search-select .author-search__indicator-separator,
+.book-search-select .book-search__indicator-separator {
   display: none;
 }
 
@@ -265,6 +304,29 @@ code {
 
 .successful-challenge-overview-card.card.card-flush {
   background-color: #93a43e82;
+}
+
+.theme-toggle .dropdown-toggle::after {
+  border: none;
+}
+
+#theme-dropdown-button {
+  padding-left: 9px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.dropdown-menu.show {
+  min-width: 80px;
+}
+
+.dropdown-menu svg {
+  fill: rgb(63, 63, 63);
+}
+
+[data-theme="dark"] .dropdown-menu svg {
+  fill: rgb(225, 225, 225);
 }
 
 @keyframes heartBeat {
