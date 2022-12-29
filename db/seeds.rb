@@ -7,11 +7,11 @@ puts "Seeding book test data 📔"
 puts "Finished seeding book test data 📔✨"
 
 puts "Seeding user test data 👤"
-  User.create!(username: "adam_user_test", password_digest: BCrypt::Password.create("password"), screenname: "Adam", avatar_img: "https://picsum.photos/200/300?blur=2")
-  User.create!(username: "beth_user_test", password_digest: BCrypt::Password.create("password"), screenname: "Beth", avatar_img: "https://picsum.photos/200/300?blur=2")
-  User.create!(username: "cleo_user_test", password_digest: BCrypt::Password.create("password"), screenname: "Cleo", avatar_img: "https://picsum.photos/200/300?blur=2")
-  User.create!(username: "david_user_test", password_digest: BCrypt::Password.create("password"), screenname: "David", avatar_img: "https://picsum.photos/200/300?blur=2")
-  User.create!(username: "elaine_user_test", password_digest: BCrypt::Password.create("password"), screenname: "Elaine", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "adam_user_test", password: "password", password_digest: BCrypt::Password.create("password"), screenname: "Adam", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "beth_user_test", password: "password", password_digest: BCrypt::Password.create("password"), screenname: "Beth", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "cleo_user_test", password: "password", password_digest: BCrypt::Password.create("password"), screenname: "Cleo", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "david_user_test", password: "password", password_digest: BCrypt::Password.create("password"), screenname: "David", avatar_img: "https://picsum.photos/200/300?blur=2")
+  User.create!(username: "elaine_user_test", password: "password", password_digest: BCrypt::Password.create("password"), screenname: "Elaine", avatar_img: "https://picsum.photos/200/300?blur=2")
 puts "Finished seeding user test data 👤✨"
 
 puts "Seeding collection test data 📚"
@@ -36,9 +36,6 @@ puts "Finished seeding collection entries test data 📋✨"
 puts "Seeding journey test data 🌐"
 random_date = Date.new(2022, 9, 27)
 completion_date = random_date.next_month
-  # creating 2 manually completed journeys
-  Journey.create!(book_id: book_ids.sample, user_id: 4, start_date: random_date.to_fs(:db), end_date: completion_date.to_fs(:db), manually_completed: true)
-  Journey.create!(book_id: book_ids.sample, user_id: 1, start_date: random_date.to_fs(:db), end_date: completion_date.to_fs(:db), manually_completed: true)
   # creating active journeys
   Journey.create!(book_id: 1, user_id: 1, start_date: Date.new(2022, 10, 01).to_fs(:db), end_date: nil, manually_completed: false)
   Journey.create!(book_id: 2, user_id: 2, start_date: Date.new(2022, 10, 30).to_fs(:db), end_date: nil, manually_completed: false)

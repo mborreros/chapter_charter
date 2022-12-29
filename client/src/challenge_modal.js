@@ -6,7 +6,11 @@ import Flatpickr from "react-flatpickr";
 import AuthorSearch from "./author_select_search";
 import ToolTip from "./tool_tip";
 
-function ChallengeModal({ handleClose, challenges, setChallenges, collections, user, formatDate, setCollections, handleServerError }) {
+function ChallengeModal({
+  user,
+  challenges, setChallenges,
+  collections, setCollections,
+  formatDate, handleClose, handleServerError }) {
 
   const [authorsLoading, setAuthorsLoading] = useState(false)
   const [selectedAuthor, setSelectedAuthor] = useState(null);
@@ -58,7 +62,7 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
 
     if (formIsValid) {
       let formValues = {
-        ...challengeFormValues, 
+        ...challengeFormValues,
         "user_id": user.id,
         "start_date": startDate ? formatDate(startDate) : null,
         "end_date": endDate ? formatDate(endDate) : null,
@@ -328,7 +332,7 @@ function ChallengeModal({ handleClose, challenges, setChallenges, collections, u
                   onReady={() => {
                     let today = new Date()
                     setStartDate(today)
-                    setChallengeFormValues({...challengeFormValues, start_date: formatDate(today)})
+                    setChallengeFormValues({ ...challengeFormValues, start_date: formatDate(today) })
                   }}
                   onChange={value => {
                     if (value) {

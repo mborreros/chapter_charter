@@ -5,15 +5,16 @@ import JourneyEntryModal from './journey_entry_modal';
 import ChallengeModal from './challenge_modal';
 // import AccountModal from './account_modal';
 
-function ModalWrapper({ pathSlug, show, handleClose, user, setUser, handleServerError,
+function ModalWrapper({
+  user, show, handleClose, handleServerError, formatDate,
   // collection modal props
   collections, setCollections,
   // journey_collection_entry_modal clicked from journey props
-  journeys, setJourneys, books, setBooks, formatDate,
+  journeys, setJourneys,
   // journey entry progress modal props
-  selectedJourney, cardAnimation, setCardAnimation, thisJourney, setThisJourney, thisJourneyEntries, setThisJourneyEntries,
+  selectedJourney, setCardAnimation,
   // journey_collection_entry_modal clicked from collection detail props
-  setSelectedCollection, selectedCollection,
+  selectedCollection,
   //  if page is challenge, using this data
   challenges, setChallenges }) {
 
@@ -54,11 +55,11 @@ function ModalWrapper({ pathSlug, show, handleClose, user, setUser, handleServer
 
         {show === "new-journey-modal" ? <p className="text-muted fw-semibold fs-6 text-center">Begin by searching our library and selecting your next book. Then let the literary adventure begin!</p> : <div></div>}
 
-        {show === "new-journey-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} handleServerError={handleServerError} /> : null}
-        {show === "new-collection-modal" ? <CollectionModal handleClose={handleClose} collections={collections} setCollections={setCollections} user={user} handleServerError={handleServerError} /> : null}
-        {show === "new-journey-entry-modal" ? <JourneyEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} formatDate={formatDate} setCardAnimation={setCardAnimation} thisJourney={thisJourney} setThisJourney={setThisJourney} thisJourneyEntries={thisJourneyEntries} setThisJourneyEntries={setThisJourneyEntries} handleServerError={handleServerError} /> : null}
-        {show === "new-collection-entry-modal" ? <JourneyCollectionEntryModal show={show} handleClose={handleClose} journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} user={user} formatDate={formatDate} setSelectedCollection={setSelectedCollection} selectedCollection={selectedCollection} collections={collections} setCollections={setCollections} handleServerError={handleServerError} /> : null}
-        {show === "new-challenge-modal" ? <ChallengeModal show={show} handleClose={handleClose} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} formatDate={formatDate} user={user} handleServerError={handleServerError} /> : null}
+        {show === "new-journey-modal" ? <JourneyCollectionEntryModal user={user} journeys={journeys} setJourneys={setJourneys} show={show} handleClose={handleClose} formatDate={formatDate} handleServerError={handleServerError} /> : null}
+        {show === "new-collection-modal" ? <CollectionModal user={user} collections={collections} setCollections={setCollections} handleClose={handleClose} handleServerError={handleServerError} /> : null}
+        {show === "new-journey-entry-modal" ? <JourneyEntryModal journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setCardAnimation={setCardAnimation} handleClose={handleClose} formatDate={formatDate} handleServerError={handleServerError} /> : null}
+        {show === "new-collection-entry-modal" ? <JourneyCollectionEntryModal user={user} collections={collections} setCollections={setCollections} selectedCollection={selectedCollection} show={show} handleClose={handleClose} handleServerError={handleServerError} /> : null}
+        {show === "new-challenge-modal" ? <ChallengeModal user={user} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} formatDate={formatDate} handleClose={handleClose} handleServerError={handleServerError} /> : null}
 
       </Modal.Body>
 

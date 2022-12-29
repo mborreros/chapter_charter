@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import defaultBook from "./imgs/generic_book.png";
 
-function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, setChallenges, collections, setCollections, handleServerError, formatDate }) {
+function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, setChallenges, collections, setCollections, handleServerError }) {
 
   function handleChallengeDelete(e) {
     let collectionId = selectedChallenge.category === "collection_id" ? selectedChallenge.category_identifier : false

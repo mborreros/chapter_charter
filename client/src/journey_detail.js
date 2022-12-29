@@ -8,7 +8,7 @@ import moment from 'moment'
 import toast from 'react-hot-toast';
 import defaultBook from "./imgs/generic_book.png";
 
-function JourneyDetail({ selectedJourney, setSelectedJourney, handleJourneyEntryDelete, findSelectedJourney, journeys, setJourneys, handleServerError }) {
+function JourneyDetail({ selectedJourney, handleJourneyEntryDelete, findSelectedJourney, journeys, setJourneys, handleServerError }) {
 
   // importing font awesome icons
   library.add(faGenderless);

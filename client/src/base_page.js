@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
@@ -15,7 +15,12 @@ import Account from "./user_account";
 // modal wrapper contents
 import ModalWrapper from "./modal-wrapper";
 
-function ListPage({ journeys, setJourneys, books, setBooks, collections, setCollections, challenges, setChallenges, user, setUser, formatDate, show, handleClose, handleShow, selectedJourney, setSelectedJourney, handleServerError, checkImg }) {
+function BasePage({
+  user, setUser,
+  journeys, setJourneys,
+  challenges, setChallenges,
+  handleServerError
+}) {
 
   // getting pathname to determine which page to show
   const location = useLocation();
@@ -24,9 +29,41 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
   const pathSlug = location.pathname.split('/')
 
   const [cardAnimation, setCardAnimation] = useState(null)
+  const [show, setShow] = useState(null);
+
+  const [collections, setCollections] = useState(null);
+
+  const [selectedJourney, setSelectedJourney] = useState(null)
   const [selectedJourneyEntries, setSelectedJourneyEntries] = useState([])
   const [selectedCollection, setSelectedCollection] = useState(null)
   const [selectedChallenge, setSelectedChallenge] = useState(null)
+
+  // get user's collections
+  useEffect(() => {
+    if (user) {
+      fetch(`api/users/${user?.id}/collections`)
+        .then(response => handleServerError(response))
+        .then(user_collections => setCollections(user_collections))
+        .catch(error => console.log(error))
+    }
+  }, [user]);
+
+  function formatDate(date = new Date()) {
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+  }
+
+  // modal functions
+  const handleClose = () => {
+    // resetting state variables which control validation of react-select element 
+    setShow(false);
+  };
+
+  function handleShow(e) {
+    setShow(e.currentTarget.id)
+  }
 
   // sorting and setting user selected journey for journey detail page
   function findSelectedJourney(thisPageId) {
@@ -36,8 +73,8 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       setSelectedJourney(currentJourneyDetails)
       setSelectedJourneyEntries(currentJourneyDetails.journey_entries)
     }
-    else 
-    navigate("../not_found", { replace: true })
+    else
+      navigate("../not_found", { replace: true })
   }
 
   // used on journey detail page, at this level to control journey state rendered on list_page
@@ -58,7 +95,10 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
   // used on collection detail page, at this level to control collection state rendered on list_page
   function handleCollectionEntryDelete(e) {
     let bookIdForRemoval = e.currentTarget.id
-    let entryToRemove = selectedCollection.collection_entries.filter(collection_entry => collection_entry.book_id == bookIdForRemoval)[0]
+    let entryToRemove = selectedCollection.collection_entries.filter(collection_entry => {
+      return collection_entry.book_id == parseInt(bookIdForRemoval)
+    })[0]
+    console.log(entryToRemove)
 
     fetch(`/api/collection_entries/${entryToRemove.id}`, {
       method: "DELETE"
@@ -98,7 +138,7 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "Start a new Journey"
       break;
     case "journey-detail":
-      pageContent = <JourneyDetail journeys={journeys} setJourneys={setJourneys} setSelectedJourney={setSelectedJourney} handleShow={handleShow} selectedJourney={selectedJourney} handleJourneyEntryDelete={handleJourneyEntryDelete} setThisJourney={setSelectedJourney} selectedJourneyEntries={selectedJourneyEntries} setThisJourneyEntries={setSelectedJourneyEntries} findSelectedJourney={findSelectedJourney} handleServerError={handleServerError} />
+      pageContent = <JourneyDetail journeys={journeys} setJourneys={setJourneys} handleShow={handleShow} selectedJourney={selectedJourney} handleJourneyEntryDelete={handleJourneyEntryDelete} findSelectedJourney={findSelectedJourney} handleServerError={handleServerError} />
       pageTitle = selectedJourney?.book.title + " Journey"
       buttonText = "Add Reading Journey Progress"
       break;
@@ -113,17 +153,17 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       buttonText = "Add Books to this Collection"
       break;
     case "challenges":
-      pageContent = <ChallengeCards challenges={challenges} setChallenges={setChallenges} formatDate={formatDate} user={user} handleServerError={handleServerError}/>
+      pageContent = <ChallengeCards challenges={challenges} setChallenges={setChallenges} formatDate={formatDate} user={user} handleServerError={handleServerError} />
       pageTitle = "Challenges"
       buttonText = "Start a new Challenge"
       break;
     case "challenge-detail":
-      pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleServerError={handleServerError} formatDate={formatDate}/>
+      pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleServerError={handleServerError} />
       pageTitle = selectedChallenge?.name + " Challenge"
       buttonText = "This button needs to be removed"
       break;
     case "accounts":
-      pageContent = <Account user={user} setUser={setUser} handleServerError={handleServerError} checkImg={checkImg} />
+      pageContent = <Account user={user} setUser={setUser} handleServerError={handleServerError} />
       pageTitle = user?.screenname + "'s Account"
       buttonText = "Edit Account Details"
       break;
@@ -155,11 +195,11 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
       </div>
 
       <ModalWrapper
-        pathSlug={pathSlug} show={show} handleClose={handleClose} handleServerError={handleServerError}
+        user={user} show={show} handleClose={handleClose} handleServerError={handleServerError} formatDate={formatDate}
         // if page is collection, using this data
-        collections={collections} setCollections={setCollections} user={user} setUser={setUser}
+        collections={collections} setCollections={setCollections}
         // if page is journey, using this data
-        journeys={journeys} setJourneys={setJourneys} books={books} setBooks={setBooks} formatDate={formatDate}
+        journeys={journeys} setJourneys={setJourneys} 
         // if click is journey entry progress, using this data
         selectedJourney={selectedJourney} setCardAnimation={setCardAnimation} selectedJourneyEntries={selectedJourneyEntries}
         // if click is add book(s) to colelction, using this data
@@ -174,4 +214,4 @@ function ListPage({ journeys, setJourneys, books, setBooks, collections, setColl
   );
 }
 
-export default ListPage;
+export default BasePage;

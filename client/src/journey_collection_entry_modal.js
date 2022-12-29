@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import BookSearch from "./book_select_search";
 
-function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys, user, formatDate, selectedCollection, collections, setCollections, handleServerError }) {
+function JourneyCollectionEntryModal({
+  user,
+  journeys, setJourneys,
+  collections, setCollections, selectedCollection,
+  show, handleClose,
+  formatDate, handleServerError }) {
 
   const [selectedValue, setSelectedValue] = useState(null);
   const [loadingBooks, setLoadingBooks] = useState(false)
@@ -34,7 +39,8 @@ function JourneyCollectionEntryModal({ show, handleClose, journeys, setJourneys,
     })
       .then(response => handleServerError(response))
       .then((new_collection_entries) => {
-        new_collection_entries.map((new_entry) => {
+        new_collection_entries.forEach((new_entry) => {
+          selectedCollection.collection_entries.unshift({ id: new_entry.id, collection_id: new_entry.collection_id, book_id: new_entry.book_id })
           selectedCollection.books.unshift(new_entry.book)
         })
         setCollections(collections.map(collection => collection.id !== new_collection_entries[0].collection.id ? collection : selectedCollection))

@@ -14,11 +14,10 @@ function Home({ user, journeys, challenges }) {
   }, [user])
 
   // finding active journeys and active challenges
-  let activeJourneys, activeChallenges, completedJourneys, completedChallenges, futureChallenges, successfulChallenges
+  let activeJourneys, activeChallenges, completedJourneys, futureChallenges, successfulChallenges
   activeJourneys = journeys?.filter(journey => journey.completed == false)
   completedJourneys = journeys?.filter(journey => journey.completed == true)
   activeChallenges = challenges?.filter(challenge => challenge.active == true)
-  completedChallenges = challenges?.filter(challenge => challenge.active == false)
   futureChallenges = challenges?.filter(challenge => {
     let today = new Date()
     today.setHours(0, 0, 0, 0)
@@ -198,7 +197,7 @@ function Home({ user, journeys, challenges }) {
 
   let formatedChallengeCategories = Object.entries(challengeCategories).map(challenge => {
     let category_data = []
-    category_data.push(challenge[0], challenge[1],"#dba09c", `${challenge[1]} challenges` ,null)
+    category_data.push(challenge[0], challenge[1], "#dba09c", `${challenge[1]} challenges`, null)
     return category_data
   }
   )
@@ -298,16 +297,12 @@ function Home({ user, journeys, challenges }) {
                 </div>
                 <div className='col-sm-5'>
                   <div className="card card-flush h-100">
-                    {/* <!--begin::Header--> */}
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
                         <span className="fs-2hx fw-bold text-black me-2 lh-1 ls-n2">journey completion</span>
-                        {/* <span className="text-black opacity-75 pt-1 fw-semibold fs-6">line graph</span> */}
                       </div>
                     </div>
-                    {/* <!--end::Header--> */}
-                    {/* <!--begin::Card body--> */}
-                    <div className="card-body d-flex align-items-end pt-0">
+                    <div className={"card-body d-flex " + (bookLineGraphData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
                       {
                         bookLineGraphData.length > 1 ?
                           <Chart
@@ -315,34 +310,30 @@ function Home({ user, journeys, challenges }) {
                             data={bookLineGraphData}
                             options={bookLineGraphOptions}
                           /> :
-                          <></>
+                          <p>you have not completed any journeys, it's reading time!</p>
                       }
                     </div>
-                    {/* <!--end::Card body--> */}
                   </div>
                 </div>
                 <div className='col-sm-4'>
                   <div className="card card-flush h-100">
-                    {/* <!--begin::Header--> */}
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
                         <span className="fs-2hx fw-bold text-black me-2 lh-1 ls-n2">completed journeys</span>
                         <span className="text-black opacity-75 pt-1 fw-semibold fs-6">by page number</span>
                       </div>
                     </div>
-                    {/* <!--end::Header--> */}
-                    {/* <!--begin::Card body--> */}
-                    <div className="card-body d-flex align-items-end pt-0">
+                    <div className={"card-body d-flex " + (completedJourneys?.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
+                     {completedJourneys?.length > 1 ?
                       <Chart
                         width="100%"
                         height="250px"
                         chartType="PieChart"
                         data={pieChartData}
                         options={pieChartOptions}
-
-                      />
+                      /> :
+                      <p className='pb-4'>you have not completed any journeys, hit the books!</p>}
                     </div>
-                    {/* <!--end::Card body--> */}
                   </div>
                 </div>
               </div>
@@ -353,40 +344,32 @@ function Home({ user, journeys, challenges }) {
 
                 <div className='col-sm-5'>
                   <div className="card card-flush h-100">
-                    {/* <!--begin::Header--> */}
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
                         <span className="fs-2hx fw-bold text-black me-2 lh-1 ls-n2">challenges</span>
                         <span className="text-black opacity-75 pt-1 fw-semibold fs-6">by category</span>
                       </div>
                     </div>
-                    {/* <!--end::Header--> */}
-                    {/* <!--begin::Card body--> */}
-                    <div className="card-body d-flex align-items-end pt-0">
+                    <div className={"card-body d-flex " + (challengeCategoryBarGraphData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
                       {challengeCategoryBarGraphData.length > 1 ?
                         <Chart
                           chartType="ColumnChart"
                           data={challengeCategoryBarGraphData}
                           options={challengeCategoryBarGraphOptions}
                         /> :
-                        <></>
+                        <p className='pb-5'>you do not have any challenges, get some reading competition going!</p>
                       }
-
                     </div>
-                    {/* <!--end::Card body--> */}
                   </div>
                 </div>
                 <div className='col-sm-4'>
                   <div className="card card-flush h-100">
-                    {/* <!--begin::Header--> */}
                     <div className="card-header pt-5">
                       <div className="card-title d-flex flex-column">
                         <span className="fs-2hx fw-bold text-black me-2 lh-1 ls-n2">most read authors</span>
                       </div>
                     </div>
-                    {/* <!--end::Header--> */}
-                    {/* <!--begin::Card body--> */}
-                    <div className="card-body d-flex align-items-end pt-0">
+                    <div className={"card-body d-flex " + (barChartData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
                       {barChartData.length > 1 ?
                         <Chart
                           chartType="BarChart"
@@ -395,7 +378,7 @@ function Home({ user, journeys, challenges }) {
                           data={barChartData}
                           options={barChartOptions}
                         /> :
-                        <></>
+                        <p>you have not read any author more than once, get reading!</p>
                       }
 
                     </div>

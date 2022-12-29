@@ -2,7 +2,10 @@ import { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-function JourneyEntryModal({ handleClose, journeys, setJourneys, selectedJourney, formatDate, setCardAnimation, selectedJourneyEntries, handleServerError }) {
+function JourneyEntryModal({
+  journeys, setJourneys, selectedJourney,
+  setCardAnimation,
+  handleClose, formatDate, handleServerError }) {
 
   const [updatedProgress, setUpdatedProgress] = useState(null)
 
@@ -15,7 +18,7 @@ function JourneyEntryModal({ handleClose, journeys, setJourneys, selectedJourney
       "date": formatDate(),
       "progress": parseInt(updatedProgress)
     }
-  
+
     fetch("/api/journey_entries", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -43,7 +46,7 @@ function JourneyEntryModal({ handleClose, journeys, setJourneys, selectedJourney
       })
       .catch(error => console.log(error))
     // card animation on progress update, not set if not on journeys page
-    selectedJourneyEntries ? handleClose() : setCardAnimation(selectedJourney.id)
+    setCardAnimation(selectedJourney.id)
     // close modal after submisson
     handleClose()
 

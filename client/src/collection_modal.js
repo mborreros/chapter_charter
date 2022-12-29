@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 
-function CollectionModal({ handleClose, collections, setCollections, user, handleServerError }) {
+function CollectionModal({
+  user,
+  collections, setCollections,
+  handleClose, handleServerError }) {
 
   // form error handling functions and variables
   const { register, handleSubmit, formState: { errors } } = useForm({

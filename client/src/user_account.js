@@ -5,7 +5,7 @@ import moment from 'moment'
 import ToolTip from "./tool_tip";
 import genericAvatar from "./imgs/generic_avatar_img.png"
 
-function Account({ user, setUser, handleServerError, checkImg }) {
+function Account({ user, setUser, handleServerError }) {
 
   useEffect(() => {
     document.title = "Account"
