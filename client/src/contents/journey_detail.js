@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import moment from 'moment'
 import toast from 'react-hot-toast';
-import defaultBook from "./imgs/generic_book.png";
+import defaultBook from "../assets/img/generic_book.png";
 
 function JourneyDetail({ selectedJourney, handleJourneyEntryDelete, findSelectedJourney, journeys, setJourneys, handleServerError }) {
 

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import ToolTip from './tool_tip';
+import ToolTip from '../utilities/tool_tip';
 
-import defaultBook from "./imgs/generic_book.png";
+import defaultBook from "../assets/img/generic_book.png";
 
 function CollectionCards({ collections }) {
 

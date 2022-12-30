@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from 'moment'
 
-import ToolTip from "./tool_tip";
-import genericAvatar from "./imgs/generic_avatar_img.png"
+import ToolTip from "../utilities/tool_tip";
+import genericAvatar from "../assets/img/generic_avatar_img.png"
 
 function Account({ user, setUser, handleServerError }) {
 

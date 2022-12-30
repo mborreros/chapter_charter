@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 import moment from 'moment'
 
-import defaultBook from "./imgs/generic_book.png";
+import defaultBook from "../assets/img/generic_book.png";
 
 function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, setChallenges, collections, setCollections, handleServerError }) {
 

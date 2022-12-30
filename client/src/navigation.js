@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useTheme } from "./theme_context";
+import { useTheme } from "./context/theme_context";
 
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -7,9 +7,9 @@ import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-import textLogo from "./imgs/logo_text.png";
-import lightLogo from "./imgs/logo_light.png";
-import genericAvatar from "./imgs/generic_avatar_img.png"
+import textLogo from "./assets/img/logo_text.png";
+import lightLogo from "./assets/img/logo_light.png";
+import genericAvatar from "./assets/img/generic_avatar_img.png"
 
 
 function Navigation({ currentUser, handleUserLogout }) {

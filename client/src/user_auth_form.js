@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import Alert from 'react-bootstrap/Alert';
 
-import ToolTip from "./tool_tip";
+import ToolTip from "./utilities/tool_tip";
 
 function UserAuthForm({ onLogin, onSignup, fetchUserAuth, handleServerError, checkImg }) {
 

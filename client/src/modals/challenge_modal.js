@@ -3,8 +3,8 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Flatpickr from "react-flatpickr";
 
-import AuthorSearch from "./author_select_search";
-import ToolTip from "./tool_tip";
+import AuthorSearch from "../utilities/author_select_search";
+import ToolTip from "../utilities/tool_tip";
 
 function ChallengeModal({
   user,

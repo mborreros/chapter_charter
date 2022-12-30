@@ -4,7 +4,7 @@ import { Chart } from "react-google-charts";
 import { Link } from 'react-router-dom';
 import _ from "lodash";
 import moment from 'moment';
-import { useTheme } from "./theme_context";
+import { useTheme } from "./context/theme_context";
 
 function Home({ user, journeys, challenges }) {
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/esm/Row";
-import BookSearch from "./book_select_search";
+import BookSearch from "../utilities/book_select_search";
 
 function JourneyCollectionEntryModal({
   user,

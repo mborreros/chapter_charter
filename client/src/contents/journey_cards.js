@@ -1,4 +1,4 @@
-import defaultBook from "./imgs/generic_book.png";
+import defaultBook from "../assets/img/generic_book.png";
 
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

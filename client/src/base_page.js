@@ -3,17 +3,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 // page header contents
-import HeaderContents from "./header_list_page";
+import HeaderContents from "./contents/header_list_page";
 // page body contents
-import JourneyCards from "./journey_cards";
-import CollectionCards from "./collection_cards";
-import ChallengeCards from "./challenge_cards";
-import JourneyDetail from "./journey_detail";
-import CollectionDetail from "./collection_detail";
-import ChallengeDetail from "./challenge_detail";
-import Account from "./user_account";
+import JourneyCards from "./contents/journey_cards";
+import CollectionCards from "./contents/collection_cards";
+import ChallengeCards from "./contents/challenge_cards";
+import JourneyDetail from "./contents/journey_detail";
+import CollectionDetail from "./contents/collection_detail";
+import ChallengeDetail from "./contents/challenge_detail";
+import Account from "./contents/user_account";
 // modal wrapper contents
-import ModalWrapper from "./modal-wrapper";
+import ModalWrapper from "./modals/modal-wrapper";
 
 function BasePage({
   user, setUser,

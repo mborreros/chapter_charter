@@ -162,7 +162,7 @@ code {
 /* end reading journey indicator colors*/
 
 .home-screen {
-  background-image: url('imgs/library.png');
+  background-image: url('img/library.png');
   background-repeat: no-repeat;
   background-size: cover;
   height: 620px;
@@ -173,7 +173,7 @@ code {
 
 .page-not-found-background {
   background-color: rgba(170, 198, 217, 0.451);
-  background-image: url('imgs/not_found_book.png');
+  background-image: url('img/not_found_book.png');
 }
 
 .user-button-container {

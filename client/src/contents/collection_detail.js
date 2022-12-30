@@ -5,9 +5,9 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import moment from 'moment'
-import defaultBook from "./imgs/generic_book.png";
+import defaultBook from "../assets/img/generic_book.png";
 
-import ToolTip from './tool_tip';
+import ToolTip from '../utilities/tool_tip';
 
 function CollectionDetail({ selectedCollection, setSelectedCollection, collections, setCollections, handleCollectionEntryDelete, handleServerError }) {
 
