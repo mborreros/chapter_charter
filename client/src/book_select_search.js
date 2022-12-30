@@ -1,4 +1,4 @@
-import { useState, React, useCallback, useEffect } from "react";
+import { useState, React, useCallback } from "react";
 import AsyncSelect from 'react-select/async'
 
 import { debounce } from "lodash"

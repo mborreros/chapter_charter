@@ -1,4 +1,4 @@
-import { useState, React, useCallback, useEffect } from "react";
+import { useState, React, useCallback } from "react";
 import AsyncSelect from 'react-select/async'
 
 import { debounce } from "lodash"
@@ -100,8 +100,6 @@ function AuthorSearch({ authorsLoading, setAuthorsLoading, selectedAuthor, setSe
         isLoading={authorsLoading}
         onKeyDown={(e) => handleEnterPress(e)}
       />
-      {/* allows to visualize selected value on user click, to be deleted once functionality is finsihed */}
-      {/* <pre>Selected Value: {JSON.stringify(selectedAuthor || {}, null, 2)}</pre> */}
     </div>
   )
 

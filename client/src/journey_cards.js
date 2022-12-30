@@ -3,10 +3,10 @@ import defaultBook from "./imgs/generic_book.png";
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function JourneyCards({ journeys, setJourneys, formatDate, show, handleClose, handleShow, setSelectedJourney, selectedJourney, cardAnimation }) {
+function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation }) {
 
   useEffect(() => {
     document.title = "Journeys"

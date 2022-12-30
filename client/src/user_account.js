@@ -88,7 +88,6 @@ function Account({ user, setUser, handleServerError }) {
       })
         .then(response => handleServerError(response))
         .then((updated_user => {
-          console.log(updated_user)
           setUser(updated_user)
           setIsAccountEditable(false)
         }))

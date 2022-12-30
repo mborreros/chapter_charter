@@ -14,7 +14,13 @@ class JourneyEntriesController < ApplicationController
   end
 
   def create
+    if params[:progress] == 100
+      journey = Journey.find(params[:journey_id])
+      journey.update!(end_date: params[:date], completed: true)
+    end
+
     new_journey_entry = JourneyEntry.create!(journey_entry_params)
+
     render json: new_journey_entry, status: :ok
   end
 

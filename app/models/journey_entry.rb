@@ -1,6 +1,5 @@
 class JourneyEntry < ApplicationRecord
 
-  after_create :update_journey_completion
   after_create :check_challenges
 
   belongs_to :journey
@@ -26,14 +25,6 @@ class JourneyEntry < ApplicationRecord
     end
   end
 
-  def update_journey_completion
-    # if statement updates the Jouney once the Journey Entry is created to completed:true and fills in the end date based on the appropriate Journey Entry if that entry is progress is 100 
-    if self.progress == 100
-      journey = Journey.find(self.journey_id)
-      journey.update!(end_date: self.date, completed: true)
-    end
-  end
-
   def check_challenges
     @all_active_challenges = self.user.challenges.where(active: true)
     if self.progress == 100 && @all_active_challenges.count >0
@@ -46,7 +37,7 @@ class JourneyEntry < ApplicationRecord
   def create_appropriate_challenge_entries(challenge_id, goal_type, category = nil, category_identifier = nil)
     if goal_type == "duration" || # duration challenge
       (goal_type == "interest" && category == "author" && self.book.author == category_identifier) || # author challenge
-      (goal_type == "interest" && category == "genre" && self.book.genre.include?(category_identifier)) || # genre challenge 
+      (goal_type == "interest" && category == "genre" && self.book.genre && self.book.genre.any? {|string| string.downcase.include? category_identifier.downcase}) || # genre challenge 
       (category == "collection_id" && CollectionEntry.where(book_id: self.book.id, collection_id: category_identifier.to_i).exists?) # collection challenge 
       begin
         ChallengeEntry.create!(book_id: self.book.id, challenge_id: challenge_id, journey_entry_id: self.id)

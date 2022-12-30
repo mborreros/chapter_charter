@@ -98,7 +98,6 @@ function BasePage({
     let entryToRemove = selectedCollection.collection_entries.filter(collection_entry => {
       return collection_entry.book_id == parseInt(bookIdForRemoval)
     })[0]
-    console.log(entryToRemove)
 
     fetch(`/api/collection_entries/${entryToRemove.id}`, {
       method: "DELETE"

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Chart } from "react-google-charts";
 import { Link } from 'react-router-dom';
@@ -24,22 +24,29 @@ function Home({ user, journeys, challenges }) {
     }
   }
 
-  // finding active journeys and active challenges
-  let activeJourneys, activeChallenges, completedJourneys, futureChallenges, successfulChallenges
-  activeJourneys = journeys?.filter(journey => journey.completed == false)
-  completedJourneys = journeys?.filter(journey => journey.completed == true)
-  activeChallenges = challenges?.filter(challenge => challenge.active == true)
-  futureChallenges = challenges?.filter(challenge => {
-    let today = new Date()
-    today.setHours(0, 0, 0, 0)
-    let challengeStartDate = new Date(challenge.start_date)
-    challengeStartDate.setHours(0, 0, 0, 0)
-    if (challenge.active == false && challengeStartDate > today) {
-      return challenge
-    }
-  })
-  successfulChallenges = challenges?.filter(challenge => challenge.active == false && challenge.successful == true)
+  const [completedJourneys, setCompletedJourneys] = useState([])
+  const [activeJourneys, setActiveJourneys] = useState([])
+  const [activeChallenges, setActiveChallenges] = useState([])
+  const [futureChallenges, setFutureChallenges] = useState([])
+  const [successfulChallenges, setSuccessfulChallenges] = useState([])
 
+  useEffect(() => {
+    setCompletedJourneys(journeys?.filter(journey => journey.completed == true))
+    setActiveJourneys(journeys?.filter(journey => journey.completed == false))
+
+    setActiveChallenges(challenges?.filter(challenge => challenge.active == true))
+    setSuccessfulChallenges(challenges?.filter(challenge => challenge.active == false && challenge.successful == true))
+    setFutureChallenges(challenges?.filter(challenge => {
+      let today = new Date()
+      today.setHours(0, 0, 0, 0)
+      let challengeStartDate = new Date(challenge.start_date)
+      challengeStartDate.setHours(0, 0, 0, 0)
+      if (challenge.active == false && challengeStartDate > today) {
+        return challenge
+      }
+    }))
+  }, [journeys, challenges])
+  
   let defaultOptions = {
     width: "100%",
     height: "100%",
@@ -200,6 +207,8 @@ function Home({ user, journeys, challenges }) {
   bookLineGraphData = bookLineGraphData.concat(Object.entries(bookCompletionsByDate).reverse())
 
   // preparing challenge category types data
+  
+  // preparing challenge category bar graph data
   let challengeCategories = _.countBy(
     challenges,
     (challenge => {
