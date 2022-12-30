@@ -58,7 +58,7 @@ function ChallengeModal({
 
     let formValidity = validateChallengeInputs(challengeFormValues),
       formErrors = formValidity.errors,
-      formIsValid = Object.values(formValidity.errors).filter(error => error.length) == 0;
+      formIsValid = Object.values(formValidity.errors).length === 0;
 
     if (formIsValid) {
       let formValues = {
@@ -66,7 +66,7 @@ function ChallengeModal({
         "user_id": user.id,
         "start_date": startDate ? formatDate(startDate) : null,
         "end_date": endDate ? formatDate(endDate) : null,
-        "active": startDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)
+        "active": startDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)
       }
       fetch("/api/challenges", {
         method: "POST",
@@ -76,7 +76,7 @@ function ChallengeModal({
         .then(response => handleServerError(response))
         .then((new_challenge) => {
           if (collectionId) {
-            let updatedCollectionArray = collections.map((collection) => collection.id == parseInt(collectionId) ? { ...collection, challenge_locked: true } : collection)
+            let updatedCollectionArray = collections.map((collection) => collection.id === parseInt(collectionId) ? { ...collection, challenge_locked: true } : collection)
             setCollections(updatedCollectionArray)
           }
           setChallenges([new_challenge, ...challenges])
@@ -99,23 +99,23 @@ function ChallengeModal({
       setAreChallangeInputsValid({ ...areChallangeInputsValid, [e.target.name]: "" })
     }
     // resets dependent challengeFormValues on user input
-    if (clearDeps == "goal_type") {
+    if (clearDeps === "goal_type") {
       updatedValues.category = "";
       updatedValues.category_identifier = ""
       setSelectedAuthor(null)
-    } else if (clearDeps == "category") {
+    } else if (clearDeps === "category") {
       updatedValues.category_identifier = ""
       setSelectedAuthor(null)
     }
 
     // setting goal_number max
-    if (e.target.name == "goal_type" || e.target.name == "category" || e.target.name == "category_identifier") {
+    if (e.target.name === "goal_type" || e.target.name === "category" || e.target.name === "category_identifier") {
       let bookNum = 999
       // setting goal_number max if a category of collection_id and a collection is selected
       if (updatedValues.category === "collection_id" && e.target.name === "category_identifier") {
         if (e.target.value.length > 0) {
           let collectionId = parseInt(e.target.value)
-          let collectionSelection = collections.filter(collection => collection.id == collectionId)[0]
+          let collectionSelection = collections.filter(collection => collection.id === collectionId)[0]
           bookNum = collectionSelection.books.length
           if (updatedValues.goal_number > bookNum) {
             updatedValues.goal_number = bookNum
@@ -131,28 +131,28 @@ function ChallengeModal({
   function validateChallengeInputs(formValues) {
     let formValidated = { errors: {} }
 
-    if (formValues.name.length == 0) {
+    if (formValues.name.length === 0) {
       formValidated.errors.name = "Challenge name is required"
     }
     if (!formValues.goal_type) {
       formValidated.errors.goal_type = "Goal type must be selected"
     }
-    if (parseInt(formValues.goal_number) == 0 || formValues.goal_number == "") {
+    if (parseInt(formValues.goal_number) === 0 || formValues.goal_number === "") {
       formValidated.errors.goal_number = "Number must be greater than 0"
     }
     if (parseInt(formValues.goal_number) > bookCountInCollection) {
       formValidated.errors.goal_number = "Number cannot be more than books in selected Collection"
     }
-    if (formValues.goal_type == "interest" && formValues.category.length == 0) {
+    if (formValues.goal_type === "interest" && formValues.category.length === 0) {
       formValidated.errors.category = "Category must be selected"
     }
-    if (formValues.goal_type == "interest" && formValues.category == "genre" && formValues.category_identifier.length == 0) {
+    if (formValues.goal_type === "interest" && formValues.category === "genre" && formValues.category_identifier.length === 0) {
       formValidated.errors.category_identifier_genre = "Genre must be specified"
     }
-    if (challengeFormValues.category == "author" && !selectedAuthor) {
+    if (challengeFormValues.category === "author" && !selectedAuthor) {
       formValidated.errors.category_identifier_author = "Author must be specified"
     }
-    if (formValues.goal_type == "interest" && formValues.category == "collection_id" && formValues.category_identifier.length == 0) {
+    if (formValues.goal_type === "interest" && formValues.category === "collection_id" && formValues.category_identifier.length === 0) {
       formValidated.errors.category_identifier_collection_id = "Collection must be specified"
     }
     if (!formValues.start_date) {
@@ -166,11 +166,12 @@ function ChallengeModal({
     setIsAuthorSelected(false)
     setIsServerError("")
     setAreChallangeInputsValid({ ...areChallangeInputsValid, category_identifier_author: "" })
+    // eslint-disable-next-line
   }, [selectedAuthor])
 
   let collectionSelectOptions = collections?.map(collection => {
     return (
-      <option disabled={collection.challenge_locked || collection.books.length == 0} value={collection.id} key={collection.id}>{collection.name}</option>
+      <option disabled={collection.challenge_locked || collection.books.length === 0} value={collection.id} key={collection.id}>{collection.name}</option>
     )
   })
 
@@ -234,7 +235,7 @@ function ChallengeModal({
         {/* end challenge goal_number & goal_type input group */}
 
         {/* start conditional interest challenge form inputs */}
-        <div className={"row mt-4 mb-7 " + (challengeFormValues.goal_type == "interest" ? "" : "d-none")}>
+        <div className={"row mt-4 mb-7 " + (challengeFormValues.goal_type === "interest" ? "" : "d-none")}>
           <div className="col-6">
             <Form.Group controlId="interest-select" as={Row}>
               <Form.Label column sm="4" className="required fs-6 fw-semibold mb-2">Interest</Form.Label>
@@ -246,14 +247,14 @@ function ChallengeModal({
                   <option value="">Select Type</option>
                   <option value="author">Author</option>
                   <option value="genre">Genre</option>
-                  <option value="collection_id" disabled={collections?.length == 0}>Collection</option>
+                  <option value="collection_id" disabled={collections?.length === 0}>Collection</option>
                 </Form.Select>
                 {areChallangeInputsValid.category && <p className="text-danger mb-0">{areChallangeInputsValid.category}</p>}
               </div>
             </Form.Group>
           </div>
 
-          <div className={"col-6 " + (challengeFormValues.category == "collection_id" ? "" : "d-none")}>
+          <div className={"col-6 " + (challengeFormValues.category === "collection_id" ? "" : "d-none")}>
             <Form.Group controlId="collection-id-select" as={Row}>
               <Form.Label column sm="4" className="fs-6 fw-semibold mb-2">
                 <span className="required pe-1">Collection</span>
@@ -272,7 +273,7 @@ function ChallengeModal({
             </Form.Group>
           </div>
 
-          <div className={"col-6 author-search-select " + (challengeFormValues.category == "author" ? "" : "d-none")}>
+          <div className={"col-6 author-search-select " + (challengeFormValues.category === "author" ? "" : "d-none")}>
             <Form.Group controlId="author-select" as={Row}>
               <Form.Label column sm="4" className="fs-6 fw-semibold mb-2">
                 <span className="required">Author</span>
@@ -285,7 +286,7 @@ function ChallengeModal({
             </Form.Group>
           </div>
 
-          <div className={"col-6 " + (challengeFormValues.category == "genre" ? "" : "d-none")}>
+          <div className={"col-6 " + (challengeFormValues.category === "genre" ? "" : "d-none")}>
             <Form.Group controlId="genre-select" as={Row}>
               <Form.Label column sm="4" className="fs-6 fw-semibold mb-2">
                 <span className="required pe-1">Genre</span>
@@ -335,9 +336,13 @@ function ChallengeModal({
                     setChallengeFormValues({ ...challengeFormValues, start_date: formatDate(today) })
                   }}
                   onChange={value => {
-                    if (value) {
+                    
+                    let newValue = ""
+                    if (value[0]) {
                       setAreChallangeInputsValid({ ...areChallangeInputsValid, start_date: "" })
-                    }
+                      newValue = formatDate(value[0])
+                    } 
+                    setChallengeFormValues({ ...challengeFormValues, start_date: newValue})
                     setStartDate(value[0])
                   }}
                   options={{

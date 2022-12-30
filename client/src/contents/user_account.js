@@ -40,6 +40,7 @@ function Account({ user, setUser, handleServerError }) {
     if (user) {
       resetFormValuesToUser(user)
     }
+    // eslint-disable-next-line
   }, [user])
 
   const [isAccountEditable, setIsAccountEditable] = useState(false)
@@ -101,18 +102,15 @@ function Account({ user, setUser, handleServerError }) {
   function validateInputValues(userFormValues) {
     let formValidated = { valid: true, errors: {} }
 
-    if (userFormValues.username.length == 0) {
-      // setAreInputsValid({ ...areInputsValid, "username": "Username is required." })
+    if (userFormValues.username.length === 0) {
       formValidated.valid = false
       formValidated.errors.username = "Username is required."
     }
     if (userFormValues.username.length < 5) {
-      // setAreInputsValid({ ...areInputsValid, "username": "Must be a minimum of 5 characters long." })
       formValidated.valid = false
       formValidated.errors.username = "Must be a minimum of 5 characters long."
     }
-    if (userFormValues.screenname.length == 0) {
-      // setAreInputsValid({ ...areInputsValid, "screenname": "Screenname is required." })
+    if (userFormValues.screenname.length === 0) {
       formValidated.valid = false
       formValidated.errors.screenname = "Screenname is required."
     }
@@ -122,7 +120,6 @@ function Account({ user, setUser, handleServerError }) {
   return (
     <div className="col-md-12 d-flex justify-content-center">
       <div className="account-card card w-1000px mb-xl-10">
-        {/* start header */}
         <div className='card-header align-items-center border-0 mt-4'>
           <h3 className='card-title align-items-start flex-column'>
             <span className='fw-bold mb-2 text-dark text-center'>Account Details</span>

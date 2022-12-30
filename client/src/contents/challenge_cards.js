@@ -15,7 +15,8 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
         .then(user_challenges => setChallenges(user_challenges))
         .catch(error => console.log(error))
     }
-  }, []);
+    // eslint-disable-next-line
+  }, [user]);
 
   return (challenges?.map((challenge) => {
 

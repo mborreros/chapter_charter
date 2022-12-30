@@ -46,6 +46,7 @@ function BasePage({
         .then(user_collections => setCollections(user_collections))
         .catch(error => console.log(error))
     }
+    // eslint-disable-next-line
   }, [user]);
 
   function formatDate(date = new Date()) {
@@ -69,7 +70,7 @@ function BasePage({
   function findSelectedJourney(thisPageId) {
     let currentJourneyDetails
     if (journeys) {
-      currentJourneyDetails = journeys.filter(journey => journey.id == thisPageId)[0]
+      currentJourneyDetails = journeys.filter(journey => journey.id === parseInt(thisPageId))[0]
       setSelectedJourney(currentJourneyDetails)
       setSelectedJourneyEntries(currentJourneyDetails.journey_entries)
     }
@@ -88,6 +89,7 @@ function BasePage({
         let updated_journey_entries = selectedJourney.journey_entries.filter(journey_entry => journey_entry.id !== parseInt(journeyEntryId))
         selectedJourney.journey_entries = updated_journey_entries
         setJourneys(journeys.map(journey => journey.id !== updatedJourney.id ? journey : updatedJourney))
+        setSelectedJourney(updatedJourney)
       })
       .catch(error => console.log(error))
   }
@@ -96,7 +98,7 @@ function BasePage({
   function handleCollectionEntryDelete(e) {
     let bookIdForRemoval = e.currentTarget.id
     let entryToRemove = selectedCollection.collection_entries.filter(collection_entry => {
-      return collection_entry.book_id == parseInt(bookIdForRemoval)
+      return collection_entry.book_id === parseInt(bookIdForRemoval)
     })[0]
 
     fetch(`/api/collection_entries/${entryToRemove.id}`, {
@@ -105,7 +107,7 @@ function BasePage({
       .then(response => handleServerError(response))
       .then(updated_collection => {
         setSelectedCollection(updated_collection)
-        let revised_collection_array = collections.map(collection => collection.id == updated_collection.id ? updated_collection : collection)
+        let revised_collection_array = collections.map(collection => collection.id === updated_collection.id ? updated_collection : collection)
         setCollections(revised_collection_array)
       })
       .catch(error => console.log(error))
@@ -116,13 +118,13 @@ function BasePage({
     if (path[1] === "journeys") {
       pageTitle = path[2] ? "journey-detail" : "journeys"
     }
-    else if (path[1] == "collections") {
+    else if (path[1] === "collections") {
       pageTitle = path[2] ? "collection-detail" : "collections"
     }
-    else if (path[1] == "challenges") {
+    else if (path[1] === "challenges") {
       pageTitle = path[2] ? "challenge-detail" : "challenges"
     }
-    else if (path[1] == "accounts") {
+    else if (path[1] === "accounts") {
       pageTitle = path[1]
     }
     return pageTitle
@@ -198,7 +200,7 @@ function BasePage({
         // if page is collection, using this data
         collections={collections} setCollections={setCollections}
         // if page is journey, using this data
-        journeys={journeys} setJourneys={setJourneys} 
+        journeys={journeys} setJourneys={setJourneys}
         // if click is journey entry progress, using this data
         selectedJourney={selectedJourney} setCardAnimation={setCardAnimation} selectedJourneyEntries={selectedJourneyEntries}
         // if click is add book(s) to colelction, using this data

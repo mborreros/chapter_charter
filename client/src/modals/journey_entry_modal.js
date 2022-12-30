@@ -37,7 +37,7 @@ function JourneyEntryModal({
         selectedJourney.journey_entries.unshift(this_new_entry)
         // updating progress value on user updated journey based on id from POST request
         setJourneys(journeys.map(journey => {
-          if (journey.id == new_journey_entry.journey.id) {
+          if (journey.id === new_journey_entry.journey.id) {
             journey.current_progress = new_journey_entry.journey.current_progress
             journey.completed = new_journey_entry.journey.completed
             journey.end_date = new_journey_entry.journey.end_date

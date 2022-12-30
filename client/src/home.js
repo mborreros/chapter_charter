@@ -31,18 +31,20 @@ function Home({ user, journeys, challenges }) {
   const [successfulChallenges, setSuccessfulChallenges] = useState([])
 
   useEffect(() => {
-    setCompletedJourneys(journeys?.filter(journey => journey.completed == true))
-    setActiveJourneys(journeys?.filter(journey => journey.completed == false))
+    setCompletedJourneys(journeys?.filter(journey => journey.completed === true))
+    setActiveJourneys(journeys?.filter(journey => journey.completed === false))
 
-    setActiveChallenges(challenges?.filter(challenge => challenge.active == true))
-    setSuccessfulChallenges(challenges?.filter(challenge => challenge.active == false && challenge.successful == true))
+    setActiveChallenges(challenges?.filter(challenge => challenge.active === true))
+    setSuccessfulChallenges(challenges?.filter(challenge => challenge.active === false && challenge.successful === true))
     setFutureChallenges(challenges?.filter(challenge => {
       let today = new Date()
       today.setHours(0, 0, 0, 0)
       let challengeStartDate = new Date(challenge.start_date)
       challengeStartDate.setHours(0, 0, 0, 0)
-      if (challenge.active == false && challengeStartDate > today) {
+      if (challenge.active === false && challengeStartDate > today) {
         return challenge
+      } else {
+        return null
       }
     }))
   }, [journeys, challenges])

@@ -22,8 +22,8 @@ function JourneyDetail({ selectedJourney, handleJourneyEntryDelete, findSelected
 
   // sorting and setting user selected journey for journey detail page
   useEffect(() => {
-
     findSelectedJourney(pageParams.id) 
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {

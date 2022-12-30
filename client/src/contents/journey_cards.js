@@ -18,7 +18,7 @@ function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation 
   let this_journey
   function handleJourneyEdit(e, journeyId) {
     handleShow(e)
-    this_journey = journeys.filter(journey => journey.id == journeyId)
+    this_journey = journeys.filter(journey => journey.id === journeyId)
     setSelectedJourney(this_journey[0])
   }
 
@@ -38,7 +38,7 @@ function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation 
 
     return (
       <div className="col-md-6 mb-md-5 mb-xl-10" key={journey.id}>
-        <div className={'journey-card card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color + (cardAnimation == journey.id ? " progress-animation" : "")}>
+        <div className={'journey-card card bgi-no-repeat bgi-size-contain bgi-position-x-end mb-xl-10 ' + card_progress_color + (cardAnimation === journey.id ? " progress-animation" : "")}>
           <div className="card-header pt-5 align-items-start flex-nowrap">
             {/* book cover */}
             <div className="card-title col-3 book-cover-image flex-column">

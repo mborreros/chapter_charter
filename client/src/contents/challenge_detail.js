@@ -19,7 +19,7 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
         .then(() => {
           let updatedChallengeArray = challenges.filter((challenges) => challenges.id !== parseInt(thisChallengeId))
           if (collectionId) {
-            let updatedCollectionArray = collections.map((collection) => collection.id == parseInt(collectionId) ? { ...collection, challenge_locked: false } : collection)
+            let updatedCollectionArray = collections.map((collection) => collection.id === parseInt(collectionId) ? { ...collection, challenge_locked: false } : collection)
             setCollections(updatedCollectionArray)
           }
           setChallenges(updatedChallengeArray)
@@ -32,13 +32,14 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
   const challengeLocation = useLocation()
   const navigate = useNavigate();
 
-  useEffect(() => { 
+  useEffect(() => {
     if (challengeLocation?.state) {
-      setSelectedChallenge(challengeLocation?.state.challenge) 
+      setSelectedChallenge(challengeLocation?.state.challenge)
     } else {
       navigate("../not_found", { replace: true })
     }
-  }, [])
+    // eslint-disable-next-line
+  }, [challengeLocation?.state])
 
   let bookProgressList
   bookProgressList = selectedChallenge?.books?.map((book) => {
@@ -57,13 +58,13 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
     )
   })
 
-  let collectionName = collections?.filter(collection => collection.id == selectedChallenge?.category_identifier)[0]?.name
+  let collectionName = collections?.filter(collection => collection.id === parseInt(selectedChallenge?.category_identifier))[0]?.name
 
   let today = new Date()
   today.setHours(0, 0, 0, 0)
   let challengeStartDate = new Date(selectedChallenge?.start_date)
   challengeStartDate.setHours(0, 0, 0, 0)
- 
+
   let futureChallenge = false
   let challengeStatusDescription
   if (challengeStartDate > today) {
@@ -77,7 +78,7 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
       challengeStatusDescription = <p>Challenge was <span className={"fw-bold " + (selectedChallenge?.successful ? "text-success" : "text-danger")}>{selectedChallenge?.successful ? "successful" : "unsuccessful"}</span></p>
     }
   }
-  
+
   return (
 
     <div className="d-flex flex-column flex-root app-root" id="kt_app_root">
@@ -127,7 +128,7 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
                         <div className='card-header align-items-center border-0 mt-4'>
                           <h3 className='card-title align-items-start flex-column'>
                             <span className='fw-bold mb-2 text-dark'>Progress</span>
-                            <span className='text-muted fw-semibold fs-7'>{selectedChallenge?.books.length} of {selectedChallenge?.goal_number} Book{selectedChallenge?.goal_number == 1 ? "" : "s"} completed</span>
+                            <span className='text-muted fw-semibold fs-7'>{selectedChallenge?.books.length} of {selectedChallenge?.goal_number} Book{selectedChallenge?.goal_number === 1 ? "" : "s"} completed</span>
                           </h3>
                           <div>
                             <button id={selectedChallenge?.id} className="btn btn-sm btn-danger mx-4" onClick={(e) => handleChallengeDelete(e)}>Delete Challenge</button>

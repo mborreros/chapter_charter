@@ -26,6 +26,7 @@ function UserAuthForm({ onLogin, onSignup, fetchUserAuth, handleServerError, che
   useEffect(() => {
     // clear error form values on pathname switch between login/signup
     clearErrors()
+    // eslint-disable-next-line
   }, [location.pathname])
 
   function handleUserLogin(data) {

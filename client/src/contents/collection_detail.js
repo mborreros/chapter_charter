@@ -26,7 +26,8 @@ function CollectionDetail({ selectedCollection, setSelectedCollection, collectio
     else {
       navigate("../not_found", { replace: true })
     }
-  }, [])
+    // eslint-disable-next-line
+  }, [collectionLocation?.state])
 
   function handleCollectionDelete(e) {
     let thisCollectionId = e.currentTarget.id
@@ -119,7 +120,7 @@ function CollectionDetail({ selectedCollection, setSelectedCollection, collectio
                         <div className='card-header align-items-center border-0 mt-4'>
                           <h3 className='card-title align-items-start flex-column'>
                             <span className='fw-bold mb-2 text-dark'>Shelf</span>
-                            <span className='text-muted fw-semibold fs-7'>{selectedCollection?.books.length} Book{selectedCollection?.books.length == 1 ? "" : "s"}</span>
+                            <span className='text-muted fw-semibold fs-7'>{selectedCollection?.books.length} Book{selectedCollection?.books.length === 1 ? "" : "s"}</span>
                           </h3>
                           <div>
                             <button id={selectedCollection?.id} className={"btn btn-sm btn-danger mx-4 " + (isCollectionEditable ? "" : "d-none")} onClick={(e) => handleCollectionDelete(e)}>Delete Collection</button>

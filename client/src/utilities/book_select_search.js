@@ -29,9 +29,7 @@ function BookSearch({ selectedValue, setSelectedValue, loadingBooks, setLoadingB
           callback(data.docs)
           setLoadingBooks(false)
         })
-    }, 500),
-    []
-  );
+    }, 500), []);
 
   // styling the options that appear on user input into search bar
   function formatOptionLabel(option) {
