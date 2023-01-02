@@ -21,7 +21,7 @@ class ChallengeEntry < ApplicationRecord
   end
 
   # marks challenges inactive and successful immediately after challenge_entry creation
-  # catches any progress that would go over 100% before the scheduled challenge_status.rake is run at 12:00AM every night
+  # catches any progress that would go over 100% before the scheduled challenge_status.raketa is run at 12:00AM every night
   def mark_challenges_completed
     challenge = Challenge.find(self.challenge_id)
     if challenge.books.count == challenge.goal_number

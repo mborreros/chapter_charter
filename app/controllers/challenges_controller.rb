@@ -3,8 +3,6 @@ class ChallengesController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
-  skip_before_action :authorized, only: [:index, :show, :update]
-
   def index 
     if params[:user_id]
       this_user = User.find(params[:user_id])
