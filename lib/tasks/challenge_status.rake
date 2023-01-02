@@ -4,12 +4,16 @@ namespace :challenge_status do
     today = Date.current.to_fs(:db)
     puts 'starting check of challenges for ' + today
     challenges_to_end = Challenge.where("active = true AND end_date < ?", today)
+    puts "challenges_to_end.length"
+    puts challenges_to_end.length
     challenges_to_end.each do |challenge|
       entries_count = challenge.challenge_entries.count
       is_successful = entries_count < challenge.goal_number ? false : true
       challenge.update!(active: false, successful: is_successful)
     end
     challenges_to_start = Challenge.where("active = false AND start_date = ?", today)
+    puts "challenges_to_start.length"
+    puts challenges_to_start.length
     challenges_to_start.each do |challenge|
       challenge.update!(active: true)
     end

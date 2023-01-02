@@ -46,7 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_15_160811) do
     t.string "goal_type"
     t.string "category_identifier"
     t.boolean "successful"
-    t.boolean "active", default: true
+    t.boolean "active"
   end
 
   create_table "collection_entries", force: :cascade do |t|
@@ -78,10 +78,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_15_160811) do
     t.integer "user_id"
     t.date "start_date"
     t.date "end_date"
-    t.boolean "manually_completed"
+    t.boolean "completed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "completed", default: false
+    t.boolean "manually_completed"
   end
 
   create_table "users", force: :cascade do |t|

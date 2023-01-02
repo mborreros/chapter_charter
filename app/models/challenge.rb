@@ -25,6 +25,6 @@ class Challenge < ApplicationRecord
         errors.add(:challenge, "is of the duration type, so it cannot specify a category and interest.")
       end
     end
-end
+  end
 
 end
