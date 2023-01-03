@@ -82,3 +82,142 @@ puts "Seeding journey entry test data 📍"
   JourneyEntry.create!(journey_id: 3, date: Date.new(2022, 11, 21).to_fs(:db), progress: 100)
   JourneyEntry.create!(journey_id: 4, date: Date.new(2022, 11, 8).to_fs(:db), progress: 100)
 puts "Finished journey entry test data 📍✨"
+
+puts "Seeding admin account for demo 💅🏻"
+
+# create admin user
+User.create!(username: "maya_admin", password: "maya_admin", password_digest: BCrypt::Password.create("maya_admin"), screenname: "Maya", avatar_img: "https://picsum.photos/200/300?blur=2")
+
+# add 5 books
+Book.create!(
+  title: "Cleopatra and Frankenstein", 
+  author: "Coco Mellors", 
+  length: 370, 
+  genre: [
+    "romance",
+    "relationships"
+  ], 
+  cover_img: "https://covers.openlibrary.org/b/id/12888169-S.jpg", 
+  book_api_num: "OL25345096W"
+)
+
+Book.create!(
+  title: "One Flew Over the Cuckoo's Nest", 
+  author: "Ken Kesey",
+  length: 311, 
+  genre: [
+    "Allegories",
+    "psychiatric nursing",
+    "medical novels",
+    "Belletristische Darstellung",
+    "Psychiatrische Klinik",
+    "Fiction",
+    "Psychiatric nurses in fiction",
+    "Psychiatric hospital patients in fiction",
+    "Psychiatric hospital patients",
+    "Psychiatric nurses",
+    "Mentally ill",
+    "Mentally ill in fiction",
+    "Psychiatric hospitals",
+    "Oregon in fiction",
+    "Psychiatric hospitals in fiction",
+    "Classic Literature",
+    "psychological fiction",
+    "satire",
+    "Psychiatric hospital patients -- Fiction",
+    "Psychiatric hospitals -- Fiction",
+    "Psychiatric nurses -- Fiction",
+    "Mentally ill -- Fiction",
+    "Oregon -- Fiction",
+    "Fiction, psychological",
+    "American fiction (fictional works by one author)",
+    "Large type books",
+    "Roman américain",
+    "American literature",
+    "Friendship",
+    "Interpersonal relations",
+    "FICTION",
+    "Literary",
+    "Classics",
+    "Psychological",
+    "Kesey, ken, 1935-2001",
+    "Criticism and interpretation",
+    "Minorities in literature",
+    "One flew over the cuckoo's nest (Kesey, Ken)"
+  ], 
+  cover_img: "https://covers.openlibrary.org/b/id/9272688-S.jpg", 
+  book_api_num: "OL2944469W"
+)
+
+Book.create!(
+  title: "Severance", 
+  author: "Ling Ma", 
+  length: 304, 
+  genre: [
+    "Fiction, dystopian",
+    "New york (n.y.), fiction",
+    "Fiction, satire",
+    "Fiction",
+    "Literature",
+    "Science Fiction"
+  ], 
+  cover_img: "https://covers.openlibrary.org/b/id/10088754-S.jpg", 
+  book_api_num: "OL20794410W"
+)
+
+Book.create!(
+  title: "Vladimir", 
+  author: "Julia May Jonas",
+  length: 256, 
+  genre: [
+    "Married people",
+    "Fiction",
+    "Open marriage",
+    "College teachers",
+    "Sexual harassment",
+    "College students",
+    "Man-woman relationships",
+    "FICTION / Literary",
+    "FICTION / Family Life / Marriage & Divorce",
+    "FICTION / Feminist"
+  ], 
+  cover_img: "https://covers.openlibrary.org/b/id/12587630-S.jpg", 
+  book_api_num: "OL25448287W"
+)
+
+Book.create!(
+  title: "A Psalm for the Wild-Built", 
+  author: "Becky Chambers",
+  length: 160, 
+  genre: [
+    "American literature"
+  ], 
+  cover_img: "https://covers.openlibrary.org/b/id/10476616-S.jpg",
+  book_api_num: "OL22561871W"
+)
+
+# add 5 journeys
+maya_user_id = User.where("username = 'maya_admin'")[0].id
+
+Journey.create!(book_id: Book.where("book_api_num = ?", "OL22561871W")[0].id, user_id: maya_user_id, start_date: Date.new(2023, 1, 3).to_fs(:db), end_date: nil, manually_completed: false, completed: false)
+Journey.create!(book_id: Book.where("book_api_num = ?", "OL20794410W")[0].id, user_id: maya_user_id, start_date: Date.new(2022, 11, 17).to_fs(:db), end_date: nil, manually_completed: false)
+Journey.create!(book_id: Book.where("book_api_num = ?", "OL25448287W")[0].id, user_id: maya_user_id, start_date: Date.new(2022, 12, 22).to_fs(:db), end_date: nil, manually_completed: false)
+Journey.create!(book_id: Book.where("book_api_num = ?", "OL2944469W")[0].id, user_id: maya_user_id, start_date: Date.new(2022, 9, 19).to_fs(:db), end_date: nil, manually_completed: false)
+Journey.create!(book_id: Book.where("book_api_num = ?", "OL25345096W")[0].id, user_id: maya_user_id, start_date: Date.new(2022, 11, 8).to_fs(:db), end_date: nil, manually_completed: false)
+
+# add 4 journey entries of completion
+JourneyEntry.create!(journey_id: Journey.where("book_id = ?", Book.where("book_api_num = ?", "OL20794410W")[0].id)[0].id, date: Date.new(2022, 12, 21).to_fs(:db), progress: 100)
+JourneyEntry.create!(journey_id: Journey.where("book_id = ?", Book.where("book_api_num = ?", "OL25448287W")[0].id)[0].id, date: Date.new(2023, 1, 2).to_fs(:db), progress: 100)
+JourneyEntry.create!(journey_id: Journey.where("book_id = ?", Book.where("book_api_num = ?", "OL2944469W")[0].id)[0].id, date: Date.new(2022, 11, 29).to_fs(:db), progress: 100)
+JourneyEntry.create!(journey_id: Journey.where("book_id = ?", Book.where("book_api_num = ?", "OL25345096W")[0].id)[0].id, date: Date.new(2022, 11, 13).to_fs(:db), progress: 100)
+
+# update initial journeys for completion
+Journey.where("book_id = ?", Book.where("book_api_num = ?", "OL20794410W")[0].id)[0].update!(completed: true, end_date: Date.new(2022, 12, 21).to_fs(:db))
+Journey.where("book_id = ?", Book.where("book_api_num = ?", "OL25448287W")[0].id)[0].update!(completed: true, end_date: Date.new(2023, 1, 2).to_fs(:db))
+Journey.where("book_id = ?", Book.where("book_api_num = ?", "OL2944469W")[0].id)[0].update!(completed: true, end_date: Date.new(2022, 11, 29).to_fs(:db))
+Journey.where("book_id = ?", Book.where("book_api_num = ?", "OL25345096W")[0].id)[0].update!(completed: true, end_date: Date.new(2022, 11, 13).to_fs(:db))
+
+# add annual reading challenge
+Challenge.create!(name: "2023 Reading Challenge", description: "read 35 books during 2023 (5 more than 2022's goal)", start_date: Date.new(2023, 1, 1).to_fs(:db), end_date: Date.new(2023, 12, 31).to_fs(:db), user_id: maya_user_id, goal_number: 35, goal_type: "duration", category: nil, category_identifier: nil, active: true, successful: nil)
+
+puts "Finished seeding admin account for demo 💅🏻"

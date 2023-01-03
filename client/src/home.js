@@ -198,15 +198,24 @@ function Home({ user, journeys, challenges }) {
   let bookCompletionsByDate = _.countBy(
     completedJourneys,
     (journey => {
-      return moment(journey.end_date).format("MMM D")
+      return journey.end_date
     })
   )
+
+  // sorting data chronologically from oldest to newest completions
+  const orderedDates = {};
+  Object.keys(bookCompletionsByDate).sort(function(a, b) {
+    return a.split('/').reverse().join('').localeCompare(b.split('/').reverse().join(''));
+  }).forEach(function(key) {
+    orderedDates[moment(key).format("MMM D")] = bookCompletionsByDate[key];
+  })
 
   let bookLineGraphData = [
     ["Date", "Completions"]
   ]
 
-  bookLineGraphData = bookLineGraphData.concat(Object.entries(bookCompletionsByDate).reverse())
+  bookLineGraphData = bookLineGraphData.concat(Object.entries(orderedDates))
+
   
   // preparing challenge category bar graph data
   let challengeCategories = _.countBy(
@@ -334,7 +343,7 @@ function Home({ user, journeys, challenges }) {
                         <span className="fs-2hx fw-bold  me-2 lh-1 ls-n2">journey completion</span>
                       </div>
                     </div>
-                    <div className={"card-body d-flex " + (bookLineGraphData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
+                    <div className={"card-body d-flex " + (bookLineGraphData.length > 1 ? "align-items-end" : "align-items-center text-center")}>
                       {
                         bookLineGraphData.length > 1 ?
                           <Chart
@@ -355,7 +364,7 @@ function Home({ user, journeys, challenges }) {
                         <span className=" opacity-75 pt-1 fw-semibold fs-6">by page number</span>
                       </div>
                     </div>
-                    <div className={"card-body d-flex " + (completedJourneys?.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
+                    <div className={"card-body d-flex " + (completedJourneys?.length > 1 ? "align-items-end" : "align-items-center text-center")}>
                       {completedJourneys?.length > 1 ?
                         <Chart
                           width="100%"
@@ -382,7 +391,7 @@ function Home({ user, journeys, challenges }) {
                         <span className=" opacity-75 pt-1 fw-semibold fs-6">by category</span>
                       </div>
                     </div>
-                    <div className={"card-body d-flex " + (challengeCategoryBarGraphData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
+                    <div className={"card-body d-flex " + (challengeCategoryBarGraphData.length > 1 ? "align-items-end" : "align-items-center text-center")}>
                       {challengeCategoryBarGraphData.length > 1 ?
                         <Chart
                           chartType="ColumnChart"
@@ -401,7 +410,7 @@ function Home({ user, journeys, challenges }) {
                         <span className="fs-2hx fw-bold  me-2 lh-1 ls-n2">most read authors</span>
                       </div>
                     </div>
-                    <div className={"card-body d-flex " + (barChartData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
+                    <div className={"card-body d-flex " + (barChartData.length > 1 ? "align-items-end" : "align-items-center text-center")}>
                       {barChartData.length > 1 ?
                         <Chart
                           chartType="BarChart"

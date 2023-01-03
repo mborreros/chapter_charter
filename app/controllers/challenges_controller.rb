@@ -6,7 +6,7 @@ class ChallengesController < ApplicationController
   def index 
     if params[:user_id]
       this_user = User.find(params[:user_id])
-      challenges = this_user.challenges.order(created_at: :desc)
+      challenges = this_user.challenges.order(start_date: :asc)
     else 
       challenges = Challenge.all
     end

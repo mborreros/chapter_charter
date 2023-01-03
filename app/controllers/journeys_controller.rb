@@ -6,7 +6,7 @@ class JourneysController < ApplicationController
   def index
     if params[:user_id]
       this_user = User.find(params[:user_id])
-      journeys = this_user.journeys.order(created_at: :desc)
+      journeys = this_user.journeys.order(start_date: :desc)
     else 
       journeys = Journey.all
     end

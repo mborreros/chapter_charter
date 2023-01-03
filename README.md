@@ -626,6 +626,7 @@ Note: validation to ensure that no duplicate challenge entries with the same boo
 | :-------- | :------- | :------------------------- |
 | `id` | `integer` | id of challenge entry to delete |
 
+## Graphics
 
 ![Standard Logo](https://i.postimg.cc/fyC11yTF/chapter-charter-logo.png)
 ![Dark Theme Logo](https://i.postimg.cc/FRg6JzcR/logo-light.png)
