@@ -12,12 +12,15 @@ In Chapter Charter, users are given more freedom with how they choose to challen
 ## Demo
 
 Full Demo (click to view video)
+
 [![Chapter Charter Full Demo](https://i.postimg.cc/B6fYN9Ty/Screen-Shot-2023-01-03-at-11-51-22-AM.png)](https://www.youtube.com/watch?v=WQimyUZ3EEw&t=13s)
 
 Challenge Form Demo (click to view video)
+
 [![Chapter Charter Challenge Form Demo](https://i.postimg.cc/MTyZHQbL/Screen-Shot-2023-01-03-at-11-54-05-AM.png)](https://www.youtube.com/watch?v=DLXRlkkaVC8&t=3s)
 
 Theme/Modes Demo (click to view video)
+
 [![Chapter Charter Theme Demo](https://i.postimg.cc/hP8m6Xkp/Screen-Shot-2023-01-03-at-11-53-16-AM.png)](https://www.youtube.com/watch?v=q2unjd6xqKw)
 
 
