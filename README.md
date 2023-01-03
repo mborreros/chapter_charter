@@ -9,21 +9,16 @@ In current state, a user can create challenges in Storygraph for any prompt of t
 
 In Chapter Charter, users are given more freedom with how they choose to challenge themselves as readers. A user can create many types of challenges: duration (books over a period of time), author (books by a selected author), genre (books within a chosen genre), or collection (books within a collection that the user has created). There are endless possibilities of what the reader can do and how they can reach their next reading level!
 
-
-## Demos
+## Demo
 
 Full Demo (click to view video)
-
 [![Chapter Charter Full Demo](https://i.postimg.cc/B6fYN9Ty/Screen-Shot-2023-01-03-at-11-51-22-AM.png)](https://www.youtube.com/watch?v=WQimyUZ3EEw&t=13s)
 
 Challenge Form Demo (click to view video)
-
 [![Chapter Charter Challenge Form Demo](https://i.postimg.cc/MTyZHQbL/Screen-Shot-2023-01-03-at-11-54-05-AM.png)](https://www.youtube.com/watch?v=DLXRlkkaVC8&t=3s)
 
 Theme/Modes Demo (click to view video)
-
 [![Chapter Charter Theme Demo](https://i.postimg.cc/hP8m6Xkp/Screen-Shot-2023-01-03-at-11-53-16-AM.png)](https://www.youtube.com/watch?v=q2unjd6xqKw)
-
 
 
 ## Installation
@@ -638,7 +633,6 @@ Note: validation to ensure that no duplicate challenge entries with the same boo
 | :-------- | :------- | :------------------------- |
 | `id` | `integer` | id of challenge entry to delete |
 
-## Graphics
 
 ![Standard Logo](https://i.postimg.cc/fyC11yTF/chapter-charter-logo.png)
 ![Dark Theme Logo](https://i.postimg.cc/FRg6JzcR/logo-light.png)
@@ -662,23 +656,33 @@ Note: validation to ensure that no duplicate challenge entries with the same boo
  - [Lorem Ipsum Image - for seed data stock imagery](https://picsum.photos/)
  - [Flatiron Academy](https://flatironschool.com/welcome-to-flatiron-school/?utm_source=Google&utm_medium=ppc&utm_campaign=12728169833&utm_content=127574232664&utm_term=flatiron%20academy&uqaid=513747011248&Cj0KCQiAnsqdBhCGARIsAAyjYjTDWuCPjplszXr00lPCCtviILk_1I4yZj76DQToDRgjyVLZ9cj_pYsaAlF6EALw_wcB&gclid=Cj0KCQiAnsqdBhCGARIsAAyjYjTDWuCPjplszXr00lPCCtviILk_1I4yZj76DQToDRgjyVLZ9cj_pYsaAlF6EALw_wcB)
 
-## Roadmap
-
-This project is dear to my heart and I hope to continue working on adding new features and optimizing its current functionality.
-
-In the future, I am considering adding:
-- Reviews: users can submit reviews upon finishing a book that other users can see. This will add new information to books that user's are generating and contributing to. 
-- Spice level: something I am sensitive to in books it the level of explicit romance that occurs. I would love to add a way for user's to rank the spiciness of books they have read. This will allow readers to see before starting a journey or creating a collection what level of spice other readers found in the book(s).
-- Recommendations: the ability for a user to complete a book and then recommend it to another user on the platform, not necessarily a "social media" vibe but just a little poke to connect users and their interests. 
-- Parsing genre data that comes in from OpenLibary Books API: as much as the Books API served me in this project, the database architecture it runs on is not ideal; I would like to create functions that can filter through the genre data that the API has availble and select only the best and most appropriate ones. 
-- Sorting on all pages: adding a button to allow users to sort journey, collections, and challenges by active/inactive, progress low to high/high to low, newest to oldest/oldest to newest, etc.
-
-
 ## Feedback
 
 If you have any feedback, please don't hesitate to reach out to me by email at maya.borrero@outlook.com. 
 
 I appreciate your interest in time in advance!
+
+
+## Process & Planning
+Brainstorming the data structures and each of the client views prior to beginning this project was incredibly helpful in remaining on track and focus on a specific desired outcome. I attribute a lot of my ability to accomplish this all quickly to my planning process. 
+
+Here are some images to give you a feel for what that process looks like. You can really see how much my initial thoughts came to life through this app. 
+
+![Views Planning 1 of 3](https://i.postimg.cc/MTvBctrG/Screen-Shot-2023-01-03-at-11-58-47-AM.png)
+
+
+![Views Planning 2 of 3](https://i.postimg.cc/4ypmt0vX/Screen-Shot-2023-01-03-at-11-59-14-AM.png)
+
+
+![Views Planning 3 of 3](https://i.postimg.cc/dtB0Yr4N/Screen-Shot-2023-01-03-at-11-59-36-AM.png)
+
+
+![Data Structure Planning 1 of 2](https://i.postimg.cc/HWtmcHXV/Screen-Shot-2023-01-03-at-12-00-31-PM.png)
+
+
+![Data Structure Planning 2 of 2](https://i.postimg.cc/52XWRCGC/Screen-Shot-2023-01-03-at-12-00-46-PM.png)
+
+
 
 
 ## Authors
