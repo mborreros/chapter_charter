@@ -10,7 +10,7 @@ In current state, a user can create challenges in Storygraph for any prompt of t
 In Chapter Charter, users are given more freedom with how they choose to challenge themselves as readers. A user can create many types of challenges: duration (books over a period of time), author (books by a selected author), genre (books within a chosen genre), or collection (books within a collection that the user has created). There are endless possibilities of what the reader can do and how they can reach their next reading level!
 
 
-## Demo
+## Demos
 
 Full Demo (click to view video)
 
