@@ -1,4 +1,4 @@
-function HeaderContents({ pageName, handleShow, journeyDetail, collectionDetail, pageTitle, buttonText }) {
+function HeaderContents({ pageName, handleShow, journeyDetail, collectionDetail, pageTitle, buttonText, pageSubHeader }) {
 
   // determines if button on journey detail page is disabled for that journey
   let journeyEntryDetailButton
@@ -9,6 +9,7 @@ function HeaderContents({ pageName, handleShow, journeyDetail, collectionDetail,
       <div id="kt_app_toolbar_container" className="app-container container-xxl d-flex flex-stack">
         <div className="page-title d-flex flex-column justify-content-center flex-wrap me-3">
           <h1 className="text-capitalize">{pageTitle}</h1>
+          <span className="text-muted w-lg-1000px">{pageSubHeader}</span>
         </div>
 
         <div className="d-flex align-items-center gap-2 gap-lg-3">

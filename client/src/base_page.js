@@ -131,42 +131,49 @@ function BasePage({
   }
 
   // conditonal page content rendering based on pathname
-  let pageContent, pageTitle, buttonText
+  let pageContent, pageTitle, buttonText, pageSubHeader
   switch (pagePath(pathSlug)) {
     case "journeys":
       pageContent = <JourneyCards journeys={journeys} setJourneys={setJourneys} selectedJourney={selectedJourney} setSelectedJourney={setSelectedJourney} formatDate={formatDate} show={show} handleClose={handleClose} handleShow={handleShow} cardAnimation={cardAnimation} />
       pageTitle = "Journeys"
       buttonText = "Start a new Journey"
+      pageSubHeader = `A way to caputure and track your individual reading experiences. Use the "Start a new Journey" button on the right to being tracking a new Journey. Once you have begun a Journey, you can see your Journey and log your reading progress on this page.`
       break;
     case "journey-detail":
       pageContent = <JourneyDetail journeys={journeys} setJourneys={setJourneys} handleShow={handleShow} selectedJourney={selectedJourney} handleJourneyEntryDelete={handleJourneyEntryDelete} findSelectedJourney={findSelectedJourney} handleServerError={handleServerError} />
       pageTitle = selectedJourney?.book.title + " Journey"
       buttonText = "Add Reading Journey Progress"
+      pageSubHeader = `A detailed view of your reading Journey with a book. From this page you can: view your individual Journey progress entries, add/remove progress from a Journey and delete the Journey.`
       break;
     case "collections":
       pageContent = <CollectionCards collections={collections} setCollections={setCollections} show={show} handleClose={handleClose} />
       pageTitle = "Collections"
       buttonText = "Start a new Collection"
+      pageSubHeader = <span>A way to organize books into curated lists that suits your reading needs. Click the "Start a new Collection" button to create a collection. <br/> Some ideas for your collections: To-Be-Read (TBR), Did-Not-Finish (DNF), lists of books to recommend, recommendations you've received, and book club ideas.</span>
       break;
     case "collection-detail":
       pageContent = <CollectionDetail selectedCollection={selectedCollection} setSelectedCollection={setSelectedCollection} collections={collections} setCollections={setCollections} handleCollectionEntryDelete={handleCollectionEntryDelete} handleServerError={handleServerError} />
       pageTitle = selectedCollection?.name + " Collection"
       buttonText = "Add Books to this Collection"
+      pageSubHeader = `A detailed view of your book Collections. From this page you can: add/remove books from your Collection, view the books within your Collection, see if the Collection is associated with a Challenge, and delete the Collection.`
       break;
     case "challenges":
       pageContent = <ChallengeCards challenges={challenges} setChallenges={setChallenges} formatDate={formatDate} user={user} handleServerError={handleServerError} />
       pageTitle = "Challenges"
       buttonText = "Start a new Challenge"
+      pageSubHeader = `A way to introduce some personal competition and motivation into your reading journeys. Use the button to create a new challenge ranging from a number of books to complete within a month to reading a certain number of books by your favorite author.`
       break;
     case "challenge-detail":
       pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleServerError={handleServerError} />
       pageTitle = selectedChallenge?.name + " Challenge"
       buttonText = "This button needs to be removed"
+      pageSubHeader = `A detailed view of your reading Challenge. From this page you can: view the books that have counted towards your Challenge progress, see your Challenge status, and delete the Challenge.`
       break;
     case "accounts":
       pageContent = <Account user={user} setUser={setUser} handleServerError={handleServerError} />
       pageTitle = user?.screenname + "'s Account"
       buttonText = "Edit Account Details"
+      pageSubHeader = false
       break;
     default:
       break;
@@ -179,7 +186,7 @@ function BasePage({
           <div className="app-main flex-column flex-row-fluid" id="kt_app_main">
             <div className="d-flex flex-column flex-column-fluid">
 
-              <HeaderContents pageName={pathSlug} handleShow={handleShow} journeyDetail={selectedJourney} collectionDetail={selectedCollection} pageTitle={pageTitle} buttonText={buttonText} handleServerError={handleServerError} />
+              <HeaderContents pageName={pathSlug} handleShow={handleShow} journeyDetail={selectedJourney} collectionDetail={selectedCollection} pageTitle={pageTitle} buttonText={buttonText} pageSubHeader={pageSubHeader} />
 
               <div id="kt_app_content" className="app-content flex-column-fluid">
                 <div id="kt_app_content_container" className="app-container container-xxl">
