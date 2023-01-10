@@ -375,7 +375,7 @@ function Home({ user, journeys, challenges }) {
                           data={challengeCategoryBarGraphData}
                           options={challengeCategoryBarGraphOptions}
                         /> :
-                        <p className='pb-5'>you do not have any challenges, get some reading competition going!</p>
+                        <p className='pb-5'>you do not have any challenges, challenge yourself!</p>
                       }
                     </div>
                   </div>
