@@ -653,7 +653,7 @@ Note: validation to ensure that no duplicate challenge entries with the same boo
  - [React Select - specifically Async Select](https://react-select.com/async)
  - [Google Charts](https://developers.google.com/chart)
  - [Whenever gem for scheduled Cron tasks](https://github.com/javan/whenever)
- - [moment gem for forating dates](https://momentjs.com/)
+ - [moment gem for formating dates](https://momentjs.com/)
  - [Canva - for graphics generators](https://www.canva.com/create/logos/)
  - [Lorem Ipsum Image - for seed data stock imagery](https://picsum.photos/)
  - [Flatiron Academy](https://flatironschool.com/welcome-to-flatiron-school/?utm_source=Google&utm_medium=ppc&utm_campaign=12728169833&utm_content=127574232664&utm_term=flatiron%20academy&uqaid=513747011248&Cj0KCQiAnsqdBhCGARIsAAyjYjTDWuCPjplszXr00lPCCtviILk_1I4yZj76DQToDRgjyVLZ9cj_pYsaAlF6EALw_wcB&gclid=Cj0KCQiAnsqdBhCGARIsAAyjYjTDWuCPjplszXr00lPCCtviILk_1I4yZj76DQToDRgjyVLZ9cj_pYsaAlF6EALw_wcB)
