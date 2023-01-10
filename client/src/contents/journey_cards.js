@@ -6,7 +6,14 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import React, { useState } from 'react';
+// import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
+
 function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation }) {
+
+  const [journeyFilter, setJourneyFilter] = useState("all")
 
   useEffect(() => {
     document.title = "Journeys"
@@ -22,7 +29,20 @@ function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation 
     setSelectedJourney(this_journey[0])
   }
 
-  return (journeys?.map((journey) => {
+  let filteredJourneys
+  switch (journeyFilter) {
+    case "all":
+      filteredJourneys = journeys
+      break;
+    case "active":
+      filteredJourneys = journeys?.filter(journey => journey.completed === false)
+      break;
+    case "complete":
+      filteredJourneys = journeys?.filter(journey => journey.completed === true)
+      break;
+  }
+
+  let journeyCards = filteredJourneys?.map((journey) => {
 
     // establishes class to define card color based on journey progress
     let card_progress_color
@@ -74,6 +94,29 @@ function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation 
         </div>
       </div>
     )
-  }))
+  })
+
+  return (
+    <div id="kt_app_content_container" className="app-container container-xxl">
+      <div className="row mb-6">
+        <div className="col d-flex justify-content-start">
+          <ToggleButtonGroup type="radio" name="journey-sort-toggle-options" defaultValue={journeyFilter} onChange={e => setJourneyFilter(e)}>
+            <ToggleButton size="sm" id="journey-sort-toggle-all" variant='outline-secondary' name="journey-toggle-all" value="all">
+              all
+            </ToggleButton>
+            <ToggleButton size="sm" id="journey-sort-toggle-active" variant='outline-secondary' name="journey-toggle-active" value="active">
+              active
+            </ToggleButton>
+            <ToggleButton size="sm" id="journey-sort-toggle-complete" variant='outline-secondary' name="journey-toggle-complete" value="complete">
+              complete
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </div>
+      <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
+        {journeyCards}
+      </div>
+    </div>
+  )
 }
 export default JourneyCards

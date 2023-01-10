@@ -20,7 +20,7 @@ class JourneysController < ApplicationController
 
   def create
     book = find_and_create_book(params[:book_id])
-    new_journey = Journey.create!(user_id: params[:user_id], book_id: book.id, start_date: params[:start_date], manually_completed: params[:manually_completed])
+    new_journey = Journey.create!(user_id: params[:user_id], book_id: book.id, start_date: params[:start_date], manually_completed: params[:manually_completed], completed: params[:completed])
     render json: new_journey, status: :ok
   end
 

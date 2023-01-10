@@ -5,6 +5,7 @@ import App from './App';
 import { ThemeProvider } from './context/theme_context';
 import reportWebVitals from './assets/reportWebVitals';
 
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/styles.css';
 import './assets/index.css';
 

@@ -188,14 +188,14 @@ function BasePage({
 
               <HeaderContents pageName={pathSlug} handleShow={handleShow} journeyDetail={selectedJourney} collectionDetail={selectedCollection} pageTitle={pageTitle} buttonText={buttonText} pageSubHeader={pageSubHeader} />
 
-              <div id="kt_app_content" className="app-content flex-column-fluid">
-                <div id="kt_app_content_container" className="app-container container-xxl">
-                  <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
+              <div id="kt_app_content" className="app-content flex-column-fluid pt-5">
+                {/* <div id="kt_app_content_container" className="app-container container-xxl"> */}
+                  {/* <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch"> */}
 
                     {pageContent}
 
-                  </div>
-                </div>
+                  {/* </div> */}
+                {/* </div> */}
               </div>
             </div>
           </div>

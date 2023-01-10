@@ -57,7 +57,8 @@ function JourneyCollectionEntryModal({
       "user_id": user.id,
       "book_id": parseBookData(selectedValue),
       "start_date": formatDate(),
-      "manually_completed": false
+      "manually_completed": false,
+      "completed": false
     }
     fetch("/api/journeys", {
       method: "POST",
