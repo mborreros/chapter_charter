@@ -643,7 +643,6 @@ Note: validation to ensure that no duplicate challenge entries with the same boo
 ![Favicon](https://i.postimg.cc/RZHXHqxB/book.png)
 
 
-
 ## Acknowledgements
 
  - [The Storygraph - for reigniting my love for reading](https://www.thestorygraph.com/)
@@ -658,6 +657,16 @@ Note: validation to ensure that no duplicate challenge entries with the same boo
  - [Canva - for graphics generators](https://www.canva.com/create/logos/)
  - [Lorem Ipsum Image - for seed data stock imagery](https://picsum.photos/)
  - [Flatiron Academy](https://flatironschool.com/welcome-to-flatiron-school/?utm_source=Google&utm_medium=ppc&utm_campaign=12728169833&utm_content=127574232664&utm_term=flatiron%20academy&uqaid=513747011248&Cj0KCQiAnsqdBhCGARIsAAyjYjTDWuCPjplszXr00lPCCtviILk_1I4yZj76DQToDRgjyVLZ9cj_pYsaAlF6EALw_wcB&gclid=Cj0KCQiAnsqdBhCGARIsAAyjYjTDWuCPjplszXr00lPCCtviILk_1I4yZj76DQToDRgjyVLZ9cj_pYsaAlF6EALw_wcB)
+
+
+## Additional Feature Plans
+
+- ~~sorting of journeys/challenges/collections~~ (added 1/10/2023)
+- click of dashboard chart's leads users to that specific view on the respective card/detail page
+- users can review books and organize by reviews
+- graphs showing user reviews
+- users can recommend a book to one another
+
 
 ## Feedback
 
