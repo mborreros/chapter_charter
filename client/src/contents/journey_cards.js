@@ -39,6 +39,9 @@ function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation 
     case "complete":
       filteredJourneys = journeys?.filter(journey => journey.completed === true)
       break;
+    default:
+      filteredJourneys = journeys
+      break
   }
 
   let journeyCards = filteredJourneys?.map((journey) => {
@@ -74,7 +77,7 @@ function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation 
             <div className="d-flex align-items-center flex-column mt-3 w-100">
               <div className="d-flex justify-content-between fw-bold fs-6 text-white opacity-75 w-100 mt-auto mb-1">
                 <span>{journey.start_date}</span>
-                <span>{journey.book.length + ' pages'} | {journey.current_progress + '% completed'}
+                <span>{journey.book.length !== null ? journey.book.length + ' pages | ' : ""} {journey.current_progress + '% completed'}
                   {journey.current_progress < 100 ?
                     <button id="new-journey-entry-modal" className="btn btn-sm px-2 py-0 add-journey-entry-button mb-1" onClick={(e) => handleJourneyEdit(e, journey.id)}>
                       <FontAwesomeIcon icon="fa-solid fa-pen-to-square" />

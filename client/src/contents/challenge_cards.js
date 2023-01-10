@@ -45,6 +45,9 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
         }
       })
       break;
+    default:
+      filteredChallenges = challenges
+      break
   }
   switch (typeFilter) {
     case "all":
@@ -62,6 +65,9 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
     case "genre":
       filteredChallengeByType = filteredChallenges.filter(challenge => challenge.goal_type === "interest" && challenge.category === "genre")
       break;
+    default:
+      filteredChallengeByType = filteredChallenges
+      break
   }
 
   let challengeCards = filteredChallengeByType?.map((challenge) => {
@@ -136,7 +142,7 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
           </ToggleButtonGroup>
 
           <ToggleButtonGroup type="radio" name="challenge-type-toggle-options" defaultValue={typeFilter} onChange={e => setTypeFilter(e)} className="ms-6">
-          <ToggleButton size="sm" id="challenge-type-label" variant='outline-secondary' name="challenge-type-label" value="label" disabled className='text-gray-900'>
+            <ToggleButton size="sm" id="challenge-type-label" variant='outline-secondary' name="challenge-type-label" value="label" disabled className='text-gray-900'>
               categories:
             </ToggleButton>
             <ToggleButton size="sm" id="challenge-type-toggle-all" variant='outline-secondary' name="challenge-type-toggle-all" value="all">

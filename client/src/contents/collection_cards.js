@@ -26,6 +26,9 @@ function CollectionCards({ collections }) {
     case "challenge-unlocked":
       filteredCollections = collections?.filter(collection => collection.challenge_locked === false)
       break;
+    default:
+      filteredCollections = collections
+      break
   }
 
   let collectionCards = filteredCollections?.map((collection) => {

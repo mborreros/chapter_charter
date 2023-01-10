@@ -662,7 +662,7 @@ Note: validation to ensure that no duplicate challenge entries with the same boo
 ## Additional Feature Plans
 
 - ~~sorting of journeys/challenges/collections~~ (added 1/10/2023)
-- click of dashboard chart's leads users to that specific view on the respective card/detail page
+- click of dashboard charts leads users to that specific view on the respective card/detail page
 - users can review books and organize by reviews
 - graphs showing user reviews
 - users can recommend a book to one another

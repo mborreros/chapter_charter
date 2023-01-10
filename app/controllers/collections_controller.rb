@@ -35,6 +35,20 @@ class CollectionsController < ApplicationController
       render json: { message: "Successful deletion of collection" }, status: :ok
   end
 
+  def self.check_if_challenge_for_collection(params)
+    if params[:category] === "collection_id"
+      selected_collection = Collection.find_by(id: params[:category_identifier])
+      if params[:action] === "create"
+        selected_collection.update!(challenge_locked: true)
+      end
+    end
+  end
+
+  def self.update_collection_after_challenge_delete(collection_id) 
+    collection = Collection.find(collection_id)
+    collection.update(challenge_locked: false)
+  end
+
   private
 
   def collection_params

@@ -122,9 +122,9 @@ function JourneyDetail({ selectedJourney, handleJourneyEntryDelete, findSelected
                                 <h2 className='fw-normal text-capitalize'>{selectedJourney?.book.title}</h2>
                                 <h4 className='fw-normal text-muted text-capitalize'>{selectedJourney?.book.author}</h4>
                                 <p className='fs-8 mb-0'>{bookDetails.published}</p>
-                                <p className='fs-8 mb-6'>{selectedJourney?.book.length} pages</p>
+                                <p className='fs-8 mb-6'>{selectedJourney?.book.length !== null ? selectedJourney?.book.length + ' pages' : ""}</p>
                                 <p className='mb-6'>{bookDetails.description}</p>
-                                <p className='fs-8 mt-auto'>Genres: <span className='text-muted'>{bookDetails.genres}</span></p>
+                                {selectedJourney?.book.genre !== null ? <p className='fs-8 mt-auto text-lowercase'>Genres: <span className='text-muted'>{selectedJourney?.book.genre.join(', ')}</span></p> : ""}
                               </div>
                             </div>
                           </div>
