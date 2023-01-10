@@ -1,17 +1,34 @@
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToolTip from '../utilities/tool_tip';
 
 import defaultBook from "../assets/img/generic_book.png";
 
 function CollectionCards({ collections }) {
 
+  const [collectionFilter, setCollectionFilter] = useState("all")
+
   useEffect(() => {
     document.title = "Collections"
   }, [])
 
-  return (collections?.map((collection) => {
+  let filteredCollections
+  switch (collectionFilter) {
+    case "all":
+      filteredCollections = collections
+      break;
+    case "challenge-locked":
+      filteredCollections = collections?.filter(collection => collection.challenge_locked === true)
+      break;
+    case "challenge-unlocked":
+      filteredCollections = collections?.filter(collection => collection.challenge_locked === false)
+      break;
+  }
+
+  let collectionCards = filteredCollections?.map((collection) => {
 
     // getting collection book covers for card
     let book_covers
@@ -41,7 +58,7 @@ function CollectionCards({ collections }) {
             {collection.challenge_locked ?
               <div className='me-4 mt-3'>
                 <span className='text-gray-800 fs-2'>
-                <ToolTip placement="left" icon="flag" message="This Collection is involved in a Challenge!" />
+                  <ToolTip placement="left" icon="flag" message="This Collection is involved in a Challenge!" />
                 </span>
               </div>
               :
@@ -64,6 +81,29 @@ function CollectionCards({ collections }) {
         </div>
       </div>
     )
-  }))
+  })
+
+  return (
+    <div id="kt_app_content_container" className="app-container container-xxl">
+      <div className="row mb-6">
+        <div className="col d-flex justify-content-start">
+          <ToggleButtonGroup type="radio" name="journey-sort-toggle-options" defaultValue={collectionFilter} onChange={e => setCollectionFilter(e)}>
+            <ToggleButton size="sm" id="collection-sort-toggle-all" variant='outline-secondary' name="collection-toggle-all" value="all">
+              all
+            </ToggleButton>
+            <ToggleButton size="sm" id="collection-sort-toggle-challenge-locked" variant='outline-secondary' name="collection-toggle-challenge-locked" value="challenge-locked">
+              linked to challenges
+            </ToggleButton>
+            <ToggleButton size="sm" id="collection-sort-toggle-challenge-unlocked" variant='outline-secondary' name="collection-toggle-challenge-locked" value="challenge-unlocked">
+              not linked to challenges
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </div>
+      <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
+        {collectionCards}
+      </div>
+    </div>
+  )
 }
 export default CollectionCards

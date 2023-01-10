@@ -1,7 +1,13 @@
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
 function ChallengeCards({ challenges, setChallenges, user, handleServerError }) {
+
+  const [challengeFilter, setChallengeFilter] = useState("all")
+  const [typeFilter, setTypeFilter] = useState("all")
 
   useEffect(() => {
     document.title = "Challenges"
@@ -18,7 +24,47 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
     // eslint-disable-next-line
   }, [user]);
 
-  return (challenges?.map((challenge) => {
+  let filteredChallenges, filteredChallengeByType
+  switch (challengeFilter) {
+    case "all":
+      filteredChallenges = challenges
+      break;
+    case "active":
+      filteredChallenges = challenges?.filter(challenge => challenge.active === true)
+      break;
+    case "future":
+      filteredChallenges = challenges?.filter(challenge => {
+        let today = new Date()
+        today.setHours(0, 0, 0, 0)
+        let challengeStartDate = new Date(challenge.start_date)
+        challengeStartDate.setHours(0, 0, 0, 0)
+        if (challenge.active === false && challengeStartDate > today) {
+          return challenge
+        } else {
+          return null
+        }
+      })
+      break;
+  }
+  switch (typeFilter) {
+    case "all":
+      filteredChallengeByType = filteredChallenges
+      break;
+    case "duration":
+      filteredChallengeByType = filteredChallenges.filter(challenge => challenge.goal_type === "duration")
+      break;
+    case "author":
+      filteredChallengeByType = filteredChallenges.filter(challenge => challenge.goal_type === "interest" && challenge.category === "author")
+      break;
+    case "collection":
+      filteredChallengeByType = filteredChallenges.filter(challenge => challenge.goal_type === "interest" && challenge.category === "collection_id")
+      break;
+    case "genre":
+      filteredChallengeByType = filteredChallenges.filter(challenge => challenge.goal_type === "interest" && challenge.category === "genre")
+      break;
+  }
+
+  let challengeCards = filteredChallengeByType?.map((challenge) => {
 
     // establishes class to define card color based on journey progress
     let card_progress_color
@@ -71,6 +117,51 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
         </div>
       </div>
     )
-  }))
+  })
+
+  return (
+    <div id="kt_app_content_container" className="app-container container-xxl">
+      <div className="row mb-6">
+        <div className="col d-flex justify-content-start">
+          <ToggleButtonGroup type="radio" name="challenge-sort-toggle-options" defaultValue={challengeFilter} onChange={e => setChallengeFilter(e)}>
+            <ToggleButton size="sm" id="challenge-sort-toggle-all" variant='outline-secondary' name="challenge-toggle-all" value="all">
+              all
+            </ToggleButton>
+            <ToggleButton size="sm" id="challenge-sort-toggle-active" variant='outline-secondary' name="challenge-toggle-active" value="active">
+              active
+            </ToggleButton>
+            <ToggleButton size="sm" id="challenge-sort-toggle-challenge-future" variant='outline-secondary' name="challenge-toggle-challenge-future" value="future">
+              future
+            </ToggleButton>
+          </ToggleButtonGroup>
+
+          <ToggleButtonGroup type="radio" name="challenge-type-toggle-options" defaultValue={typeFilter} onChange={e => setTypeFilter(e)} className="ms-6">
+          <ToggleButton size="sm" id="challenge-type-label" variant='outline-secondary' name="challenge-type-label" value="label" disabled className='text-gray-900'>
+              categories:
+            </ToggleButton>
+            <ToggleButton size="sm" id="challenge-type-toggle-all" variant='outline-secondary' name="challenge-type-toggle-all" value="all">
+              all
+            </ToggleButton>
+            <ToggleButton size="sm" id="challenge-type-toggle-duration" variant='outline-secondary' name="challenge-type-toggle-duration" value="duration">
+              duration
+            </ToggleButton>
+            <ToggleButton size="sm" id="challenge-type-toggle-challenge-author" variant='outline-secondary' name="challenge-type-toggle-author" value="author">
+              author
+            </ToggleButton>
+            <ToggleButton size="sm" id="challenge-type-toggle-challenge-collection" variant='outline-secondary' name="challenge-type-toggle-collection" value="collection">
+              collection
+            </ToggleButton>
+            <ToggleButton size="sm" id="challenge-type-toggle-challenge-genre" variant='outline-secondary' name="challenge-type-toggle-genre" value="genre">
+              genre
+            </ToggleButton>
+          </ToggleButtonGroup>
+
+        </div>
+      </div>
+      <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
+        {challengeCards}
+      </div>
+    </div>
+  )
 }
 export default ChallengeCards

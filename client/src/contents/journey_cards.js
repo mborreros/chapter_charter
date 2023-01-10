@@ -6,8 +6,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import React, { useState } from 'react';
-// import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import { useState } from 'react';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
