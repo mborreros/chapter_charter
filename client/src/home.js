@@ -260,29 +260,6 @@ function Home({ user, journeys, challenges }) {
   ];
 
   challengeCategoryBarGraphData = challengeCategoryBarGraphData.concat(formatedChallengeCategories)
-  //   width: "100%",
-  //   height: "100%",
-  //   bar: { groupWidth: "75%" },
-  //   legend: "none",
-  //   backgroundColor: 'transparent',
-  //   colors: ["#b8b4bd", '#b1a8ba', '#aa9db8', '#a292b6', '#9b87b3', '#bfbfbf', "#dba09c"],
-  //   vAxis: {
-  //     textStyle: {
-  //       color: "transparent"
-  //     },
-  //     gridlines: {
-  //       count: 0
-  //     },
-  //     baselineColor: "#CCC"
-  //   },
-  //   chartArea: { left: 0, top: "5%", width: "100%", height: "85%" },
-  //   animation: {
-  //     startup: true,
-  //     duration: 1000,
-  //     easing: "in"
-  //   },
-  //   fontName: "Helvetica Neue"
-  // };
 
   return (
     <>
@@ -343,7 +320,7 @@ function Home({ user, journeys, challenges }) {
                         <span className="fs-2hx fw-bold  me-2 lh-1 ls-n2">journey completion</span>
                       </div>
                     </div>
-                    <div className={"card-body d-flex " + (bookLineGraphData.length > 1 ? "align-items-end" : "align-items-center text-center")}>
+                    <div className={"card-body d-flex " + (bookLineGraphData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
                       {
                         bookLineGraphData.length > 1 ?
                           <Chart
@@ -364,7 +341,7 @@ function Home({ user, journeys, challenges }) {
                         <span className=" opacity-75 pt-1 fw-semibold fs-6">by page number</span>
                       </div>
                     </div>
-                    <div className={"card-body d-flex " + (completedJourneys?.length > 1 ? "align-items-end" : "align-items-center text-center")}>
+                    <div className={"card-body d-flex " + (completedJourneys?.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
                       {completedJourneys?.length > 1 ?
                         <Chart
                           width="100%"
@@ -373,7 +350,7 @@ function Home({ user, journeys, challenges }) {
                           data={pieChartData}
                           options={pieChartOptions}
                         /> :
-                        <p className='pb-4'>you have not completed any journeys, hit the books!</p>}
+                        <p className='pb-5'>you have not completed any journeys, hit the books!</p>}
                     </div>
                   </div>
                 </div>
@@ -391,7 +368,7 @@ function Home({ user, journeys, challenges }) {
                         <span className=" opacity-75 pt-1 fw-semibold fs-6">by category</span>
                       </div>
                     </div>
-                    <div className={"card-body d-flex " + (challengeCategoryBarGraphData.length > 1 ? "align-items-end" : "align-items-center text-center")}>
+                    <div className={"card-body d-flex " + (challengeCategoryBarGraphData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
                       {challengeCategoryBarGraphData.length > 1 ?
                         <Chart
                           chartType="ColumnChart"
@@ -410,7 +387,7 @@ function Home({ user, journeys, challenges }) {
                         <span className="fs-2hx fw-bold  me-2 lh-1 ls-n2">most read authors</span>
                       </div>
                     </div>
-                    <div className={"card-body d-flex " + (barChartData.length > 1 ? "align-items-end" : "align-items-center text-center")}>
+                    <div className={"card-body d-flex " + (barChartData.length > 1 ? "align-items-end" : "align-items-center justify-content-center")}>
                       {barChartData.length > 1 ?
                         <Chart
                           chartType="BarChart"
@@ -419,7 +396,7 @@ function Home({ user, journeys, challenges }) {
                           data={barChartData}
                           options={authorBarChartOptions}
                         /> :
-                        <p>you have not read any author more than once, get reading!</p>
+                        <p>you haven't read anything at all, get reading!</p>
                       }
 
                     </div>

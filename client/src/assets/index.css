@@ -524,3 +524,7 @@ code {
   color: #fff;
   border: 1px solid #9c9c9d !important;
 }
+
+.btn.disabled, .btn:disabled, fieldset:disabled .btn {
+  color: #fff;
+}

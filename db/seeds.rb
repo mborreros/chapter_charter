@@ -37,10 +37,10 @@ puts "Seeding journey test data 🌐"
 random_date = Date.new(2022, 9, 27)
 completion_date = random_date.next_month
   # creating active journeys
-  Journey.create!(book_id: 1, user_id: 1, start_date: Date.new(2022, 10, 01).to_fs(:db), end_date: nil, manually_completed: false)
-  Journey.create!(book_id: 2, user_id: 2, start_date: Date.new(2022, 10, 30).to_fs(:db), end_date: nil, manually_completed: false)
-  Journey.create!(book_id: 3, user_id: 3, start_date: Date.new(2022, 11, 01).to_fs(:db), end_date: nil, manually_completed: false)
-  Journey.create!(book_id: 4, user_id: 5, start_date: Date.new(2022, 10, 01).to_fs(:db), end_date: nil, manually_completed: false)
+  Journey.create!(book_id: 1, user_id: 1, start_date: Date.new(2022, 10, 01).to_fs(:db), end_date: nil, manually_completed: false, completed: false)
+  Journey.create!(book_id: 2, user_id: 2, start_date: Date.new(2022, 10, 30).to_fs(:db), end_date: nil, manually_completed: false, completed: false)
+  Journey.create!(book_id: 3, user_id: 3, start_date: Date.new(2022, 11, 01).to_fs(:db), end_date: nil, manually_completed: false, completed: false)
+  Journey.create!(book_id: 4, user_id: 5, start_date: Date.new(2022, 10, 01).to_fs(:db), end_date: nil, manually_completed: false, completed: false)
 puts "Finished journey test data 🌐✨"
 
 puts "Seeding challenge test data 🧩"
