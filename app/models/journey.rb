@@ -4,6 +4,7 @@ class Journey < ApplicationRecord
   belongs_to :book
 
   has_many :journey_entries, dependent: :destroy
+  has_many :challenge_entries, through: :journey_entries
 
   validates :book_id, presence: true
   validates :user_id, presence: true

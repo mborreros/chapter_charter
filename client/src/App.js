@@ -92,7 +92,7 @@ function App() {
         <Route path="/journeys/:id" element={<BasePage journeys={journeys} setJourneys={setJourneys} handleServerError={handleServerError} />} />
 
         <Route exact path="/challenges" element={<BasePage challenges={challenges} setChallenges={setChallenges} user={user} handleServerError={handleServerError} />} />
-        <Route path="/challenges/:id" element={<BasePage challenges={challenges} setChallenges={setChallenges} handleServerError={handleServerError} />} />
+        <Route path="/challenges/:id" element={<BasePage challenges={challenges} setChallenges={setChallenges} handleServerError={handleServerError} journeys={journeys} />} />
 
         <Route exact path="/accounts" element={<BasePage user={user} setUser={setUser} handleServerError={handleServerError} />} />
 

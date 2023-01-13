@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { ThemeProvider } from './context/theme_context';
+// import { FilterContext } from './context/filter_contents_contex';
 import reportWebVitals from './assets/reportWebVitals';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,7 +15,9 @@ root.render(
   <BrowserRouter>
     <React.StrictMode>
       <ThemeProvider>
-        <App />
+        {/* <FilterContext> */}
+          <App />
+        {/* </FilterContext> */}
       </ThemeProvider>
     </React.StrictMode>
   </BrowserRouter>

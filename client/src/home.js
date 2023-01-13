@@ -292,7 +292,7 @@ function Home({ user, journeys, challenges }) {
 
               <div className='row align-items-stretch mb-5'>
                 <div className='col-sm-3'>
-                  <Link to="/journeys">
+                  <Link to="/journeys" state={"active"}>
                     <div className="journey-overview-card  card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
                       <div className="card-header pt-5">
                         <div className="card-title d-flex flex-column">
@@ -302,7 +302,7 @@ function Home({ user, journeys, challenges }) {
                       </div>
                     </div>
                   </Link>
-                  <Link to="/journeys">
+                  <Link to="/journeys" state={"complete"}>
                     <div className="completed-journey-overview-card  card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end mb-5 mb-xl-10">
                       <div className="card-header pt-5">
                         <div className="card-title d-flex flex-column">
@@ -403,7 +403,7 @@ function Home({ user, journeys, challenges }) {
                   </div>
                 </div>
                 <div className='col-sm-3'>
-                  <Link to="/challenges">
+                  <Link to="/challenges" state={"active"}>
                     <div className="challenge-overview-card card card-flush mb-5 mb-xl-10">
                       <div className="card-header pt-5">
                         <div className="card-title d-flex flex-column">
@@ -413,7 +413,7 @@ function Home({ user, journeys, challenges }) {
                       </div>
                     </div>
                   </Link>
-                  <Link to="/challenges">
+                  <Link to="/challenges" state={"future"}>
                     <div className="future-challenge-overview-card card card-flush mb-5 mb-xl-10">
                       {/* <!--begin::Header--> */}
                       <div className="card-header pt-5">
@@ -425,7 +425,7 @@ function Home({ user, journeys, challenges }) {
                       {/* <!--end::Header--> */}
                     </div>
                   </Link>
-                  <Link to="/challenges">
+                  <Link to="/challenges" state={"successful"}>
                     <div className="successful-challenge-overview-card card card-flush">
                       {/* <!--begin::Header--> */}
                       <div className="card-header pt-5">

@@ -4,5 +4,6 @@ class JourneyEntrySerializer < ActiveModel::Serializer
   belongs_to :journey
   has_one :user, through: :journey
   has_one :book, through: :journey
+  has_many :challenge_entries
   
 end

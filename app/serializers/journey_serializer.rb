@@ -8,6 +8,8 @@ class JourneySerializer < ActiveModel::Serializer
     object.journey_entries.order(created_at: :desc)
   end
 
+  has_many :challenge_entries, through: :journey_entries
+
   def current_progress
     if self.object.manually_completed
       100

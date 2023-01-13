@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import ToggleButton from 'react-bootstrap/ToggleButton';
@@ -6,7 +6,9 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
 function ChallengeCards({ challenges, setChallenges, user, handleServerError }) {
 
-  const [challengeFilter, setChallengeFilter] = useState("all")
+  let filteredView = useLocation()
+
+  const [challengeFilter, setChallengeFilter] = useState(filteredView.state || "all")
   const [typeFilter, setTypeFilter] = useState("all")
 
   useEffect(() => {
@@ -43,6 +45,9 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
           return null
         }
       })
+      break;
+    case "successful":
+      filteredChallenges = challenges?.filter(challenge => challenge.successful === true)
       break;
     default:
       filteredChallenges = challenges
@@ -138,6 +143,9 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
               </ToggleButton>
               <ToggleButton size="sm" id="challenge-sort-toggle-challenge-future" variant='outline-secondary' name="challenge-toggle-challenge-future" value="future">
                 future
+              </ToggleButton>
+              <ToggleButton size="sm" id="challenge-sort-toggle-challenge-successful" variant='outline-secondary' name="challenge-toggle-challenge-successful" value="successful">
+                successful
               </ToggleButton>
             </ToggleButtonGroup>
 

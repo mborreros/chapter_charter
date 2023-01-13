@@ -164,7 +164,7 @@ function BasePage({
       pageSubHeader = `A way to introduce some personal competition and motivation into your reading journeys. Use the button to create a new challenge ranging from a number of books to complete within a month to reading a certain number of books by your favorite author.`
       break;
     case "challenge-detail":
-      pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleServerError={handleServerError} />
+      pageContent = <ChallengeDetail selectedChallenge={selectedChallenge} setSelectedChallenge={setSelectedChallenge} challenges={challenges} setChallenges={setChallenges} collections={collections} setCollections={setCollections} handleServerError={handleServerError} journeys={journeys}/>
       pageTitle = selectedChallenge?.name + " Challenge"
       buttonText = "This button needs to be removed"
       pageSubHeader = `A detailed view of your reading Challenge. From this page you can: view the books that have counted towards your Challenge progress, see your Challenge status, and delete the Challenge.`

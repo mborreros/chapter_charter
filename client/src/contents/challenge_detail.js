@@ -1,11 +1,12 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 import moment from 'moment'
 
 import defaultBook from "../assets/img/generic_book.png";
 
-function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, setChallenges, collections, setCollections, handleServerError }) {
+function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, setChallenges, collections, setCollections, handleServerError, journeys }) {
 
   function handleChallengeDelete(e) {
     let collectionId = selectedChallenge.category === "collection_id" ? selectedChallenge.category_identifier : false
@@ -43,10 +44,13 @@ function ChallengeDetail({ selectedChallenge, setSelectedChallenge, challenges, 
 
   let bookProgressList
   bookProgressList = selectedChallenge?.books?.map((book) => {
+    let thisJourneyId = journeys.filter(journey => journey.book.id === book.id)
     return (
       <div className="d-flex align-items-center mb-7" key={book.id}>
         <div className="collection-page-book-icon me-5">
-          <img src={book.cover_img ? book.cover_img.replace("S.jpg", "L.jpg") : defaultBook} className="" alt="" />
+          <Link to={`/journeys/${thisJourneyId[0].id}`}>
+            <img src={book.cover_img ? book.cover_img.replace("S.jpg", "L.jpg") : defaultBook} className="" alt="" />
+          </Link>
         </div>
 
         <div className="flex-grow-1 text-capitalize">

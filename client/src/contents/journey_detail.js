@@ -1,6 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 
+import ToolTip from '../utilities/tool_tip';
+
 import { faGenderless, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -57,7 +59,21 @@ function JourneyDetail({ selectedJourney, handleJourneyEntryDelete, findSelected
 
   // creating reading log plot points
   let journeyEntryItems
+  let challengeEntries = selectedJourney?.challenge_entries
+
   journeyEntryItems = selectedJourney?.journey_entries?.map((journey_entry) => {
+    let isChallengeRelated = false
+    challengeEntries.filter(challengeEntry => {
+      if (challengeEntry.journey_entry_id == journey_entry.id) {
+        isChallengeRelated = true
+      }})
+    let challengeToolTipText = ""
+    if (challengeEntries.length > 1) {
+      challengeToolTipText = challengeEntries.length + " Challenges"
+    } else {
+      challengeToolTipText = "a Challenge"
+    }
+    
     return (
       <div className='timeline-item align-items-center' key={journey_entry.id}>
         {/* begin::Label */}
@@ -73,6 +89,9 @@ function JourneyDetail({ selectedJourney, handleJourneyEntryDelete, findSelected
         {/* begin::Text */}
         <div className='fw-mormal timeline-content text-gray-800 ps-3'>
           {moment(journey_entry.created_at).calendar()}
+          {isChallengeRelated ? 
+          <span className='ps-3'><ToolTip placement="right" icon="flag" message={`This Journey completion was logged towards ${challengeToolTipText}!`}/></span> : 
+          null}
           <span>
             <button id={journey_entry.id} className={'btn btn-active-text-danger btn-sm py-1 align-baseline ' + (areEntriesEditable && selectedJourney.current_progress !== 100 ? "" : "d-none")} onClick={(e) => handleJourneyEntryDelete(e)}>
               <FontAwesomeIcon icon="fa-solid fa-xmark" />

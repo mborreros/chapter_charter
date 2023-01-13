@@ -6,13 +6,15 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import { useLocation } from 'react-router-dom'
 import { useState } from 'react';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
 function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation }) {
 
-  const [journeyFilter, setJourneyFilter] = useState("all")
+  let filteredView = useLocation()
+  const [journeyFilter, setJourneyFilter] = useState(filteredView.state || "all")
 
   useEffect(() => {
     document.title = "Journeys"
