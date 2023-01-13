@@ -99,6 +99,7 @@ function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation 
   })
 
   return (
+    journeys?.length > 0 ?
     <div id="kt_app_content_container" className="app-container container-xxl">
       <div className="row mb-6">
         <div className="col d-flex justify-content-start">
@@ -118,7 +119,14 @@ function JourneyCards({ journeys, handleShow, setSelectedJourney, cardAnimation 
       <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
         {journeyCards}
       </div>
+    </div> : 
+    <div id="kt_app_content_container" className="app-container container-xxl pt-10 mt-10">
+    <div className='row'>
+      <div className='col-12 d-flex justify-content-center'>
+        <span className='fs-5'><em>you do not have any reading journeys yet, use the button above to get started! ✨ </em></span>
+      </div>
     </div>
+  </div>
   )
 }
 export default JourneyCards

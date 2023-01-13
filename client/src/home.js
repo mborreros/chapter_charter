@@ -328,7 +328,7 @@ function Home({ user, journeys, challenges }) {
                             data={bookLineGraphData}
                             options={bookLineGraphOptions}
                           /> :
-                          <p>you have not completed any journeys, it's reading time!</p>
+                          <p><em>you have not completed any journeys, it's reading time!</em></p>
                       }
                     </div>
                   </div>
@@ -350,7 +350,7 @@ function Home({ user, journeys, challenges }) {
                           data={pieChartData}
                           options={pieChartOptions}
                         /> :
-                        <p className='pb-5'>you have not completed any journeys, hit the books!</p>}
+                        <p className='pb-5'><em>you have not completed any journeys, hit the books!</em></p>}
                     </div>
                   </div>
                 </div>
@@ -375,7 +375,7 @@ function Home({ user, journeys, challenges }) {
                           data={challengeCategoryBarGraphData}
                           options={challengeCategoryBarGraphOptions}
                         /> :
-                        <p className='pb-5'>you do not have any challenges, challenge yourself!</p>
+                        <p className='pb-5'><em>you do not have any challenges, challenge yourself!</em></p>
                       }
                     </div>
                   </div>
@@ -396,7 +396,7 @@ function Home({ user, journeys, challenges }) {
                           data={barChartData}
                           options={authorBarChartOptions}
                         /> :
-                        <p>you haven't read anything at all, get reading!</p>
+                        <p><em>you haven't read anything at all, get reading!</em></p>
                       }
 
                     </div>

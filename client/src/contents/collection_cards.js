@@ -87,26 +87,34 @@ function CollectionCards({ collections }) {
   })
 
   return (
-    <div id="kt_app_content_container" className="app-container container-xxl">
-      <div className="row mb-6">
-        <div className="col d-flex justify-content-start">
-          <ToggleButtonGroup type="radio" name="journey-sort-toggle-options" defaultValue={collectionFilter} onChange={e => setCollectionFilter(e)}>
-            <ToggleButton size="sm" id="collection-sort-toggle-all" variant='outline-secondary' name="collection-toggle-all" value="all">
-              all
-            </ToggleButton>
-            <ToggleButton size="sm" id="collection-sort-toggle-challenge-locked" variant='outline-secondary' name="collection-toggle-challenge-locked" value="challenge-locked">
-              linked to challenges
-            </ToggleButton>
-            <ToggleButton size="sm" id="collection-sort-toggle-challenge-unlocked" variant='outline-secondary' name="collection-toggle-challenge-locked" value="challenge-unlocked">
-              not linked to challenges
-            </ToggleButton>
-          </ToggleButtonGroup>
+    collections?.length > 0 ?
+      <div id="kt_app_content_container" className="app-container container-xxl">
+        <div className="row mb-6">
+          <div className="col d-flex justify-content-start">
+            <ToggleButtonGroup type="radio" name="journey-sort-toggle-options" defaultValue={collectionFilter} onChange={e => setCollectionFilter(e)}>
+              <ToggleButton size="sm" id="collection-sort-toggle-all" variant='outline-secondary' name="collection-toggle-all" value="all">
+                all
+              </ToggleButton>
+              <ToggleButton size="sm" id="collection-sort-toggle-challenge-locked" variant='outline-secondary' name="collection-toggle-challenge-locked" value="challenge-locked">
+                linked to challenges
+              </ToggleButton>
+              <ToggleButton size="sm" id="collection-sort-toggle-challenge-unlocked" variant='outline-secondary' name="collection-toggle-challenge-locked" value="challenge-unlocked">
+                not linked to challenges
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+        </div>
+        <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
+          {collectionCards}
+        </div>
+      </div> :
+      <div id="kt_app_content_container" className="app-container container-xxl pt-10 mt-10">
+        <div className='row'>
+          <div className='col-12 d-flex justify-content-center'>
+            <span className='fs-5'><em>you have not created any collections yet, use the button above to get started! ✨ </em></span>
+          </div>
         </div>
       </div>
-      <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
-        {collectionCards}
-      </div>
-    </div>
   )
 }
 export default CollectionCards

@@ -21,7 +21,6 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
         .then(user_challenges => setChallenges(user_challenges))
         .catch(error => console.log(error))
     }
-    // eslint-disable-next-line
   }, [user]);
 
   let filteredChallenges, filteredChallengeByType
@@ -126,48 +125,56 @@ function ChallengeCards({ challenges, setChallenges, user, handleServerError }) 
   })
 
   return (
-    <div id="kt_app_content_container" className="app-container container-xxl">
-      <div className="row mb-6">
-        <div className="col d-flex justify-content-start">
-          <ToggleButtonGroup type="radio" name="challenge-sort-toggle-options" defaultValue={challengeFilter} onChange={e => setChallengeFilter(e)}>
-            <ToggleButton size="sm" id="challenge-sort-toggle-all" variant='outline-secondary' name="challenge-toggle-all" value="all">
-              all
-            </ToggleButton>
-            <ToggleButton size="sm" id="challenge-sort-toggle-active" variant='outline-secondary' name="challenge-toggle-active" value="active">
-              active
-            </ToggleButton>
-            <ToggleButton size="sm" id="challenge-sort-toggle-challenge-future" variant='outline-secondary' name="challenge-toggle-challenge-future" value="future">
-              future
-            </ToggleButton>
-          </ToggleButtonGroup>
+    challenges?.length > 0 ?
+      <div id="kt_app_content_container" className="app-container container-xxl">
+        <div className="row mb-6">
+          <div className="col d-flex justify-content-start">
+            <ToggleButtonGroup type="radio" name="challenge-sort-toggle-options" defaultValue={challengeFilter} onChange={e => setChallengeFilter(e)}>
+              <ToggleButton size="sm" id="challenge-sort-toggle-all" variant='outline-secondary' name="challenge-toggle-all" value="all">
+                all
+              </ToggleButton>
+              <ToggleButton size="sm" id="challenge-sort-toggle-active" variant='outline-secondary' name="challenge-toggle-active" value="active">
+                active
+              </ToggleButton>
+              <ToggleButton size="sm" id="challenge-sort-toggle-challenge-future" variant='outline-secondary' name="challenge-toggle-challenge-future" value="future">
+                future
+              </ToggleButton>
+            </ToggleButtonGroup>
 
-          <ToggleButtonGroup type="radio" name="challenge-type-toggle-options" defaultValue={typeFilter} onChange={e => setTypeFilter(e)} className="ms-6">
-            <ToggleButton size="sm" id="challenge-type-label" variant='outline-secondary' name="challenge-type-label" value="label" disabled className='text-gray-900'>
-              categories:
-            </ToggleButton>
-            <ToggleButton size="sm" id="challenge-type-toggle-all" variant='outline-secondary' name="challenge-type-toggle-all" value="all">
-              all
-            </ToggleButton>
-            <ToggleButton size="sm" id="challenge-type-toggle-duration" variant='outline-secondary' name="challenge-type-toggle-duration" value="duration">
-              duration
-            </ToggleButton>
-            <ToggleButton size="sm" id="challenge-type-toggle-challenge-author" variant='outline-secondary' name="challenge-type-toggle-author" value="author">
-              author
-            </ToggleButton>
-            <ToggleButton size="sm" id="challenge-type-toggle-challenge-collection" variant='outline-secondary' name="challenge-type-toggle-collection" value="collection">
-              collection
-            </ToggleButton>
-            <ToggleButton size="sm" id="challenge-type-toggle-challenge-genre" variant='outline-secondary' name="challenge-type-toggle-genre" value="genre">
-              genre
-            </ToggleButton>
-          </ToggleButtonGroup>
+            <ToggleButtonGroup type="radio" name="challenge-type-toggle-options" defaultValue={typeFilter} onChange={e => setTypeFilter(e)} className="ms-6">
+              <ToggleButton size="sm" id="challenge-type-label" variant='outline-secondary' name="challenge-type-label" value="label" disabled className='text-gray-900'>
+                categories:
+              </ToggleButton>
+              <ToggleButton size="sm" id="challenge-type-toggle-all" variant='outline-secondary' name="challenge-type-toggle-all" value="all">
+                all
+              </ToggleButton>
+              <ToggleButton size="sm" id="challenge-type-toggle-duration" variant='outline-secondary' name="challenge-type-toggle-duration" value="duration">
+                duration
+              </ToggleButton>
+              <ToggleButton size="sm" id="challenge-type-toggle-challenge-author" variant='outline-secondary' name="challenge-type-toggle-author" value="author">
+                author
+              </ToggleButton>
+              <ToggleButton size="sm" id="challenge-type-toggle-challenge-collection" variant='outline-secondary' name="challenge-type-toggle-collection" value="collection">
+                collection
+              </ToggleButton>
+              <ToggleButton size="sm" id="challenge-type-toggle-challenge-genre" variant='outline-secondary' name="challenge-type-toggle-genre" value="genre">
+                genre
+              </ToggleButton>
+            </ToggleButtonGroup>
 
+          </div>
+        </div>
+        <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
+          {challengeCards}
+        </div>
+      </div> :
+      <div id="kt_app_content_container" className="app-container container-xxl pt-10 mt-10">
+        <div className='row'>
+          <div className='col-12 d-flex justify-content-center'>
+            <span className='fs-5'><em>you have not created any challenges yet, use the button above to get started! ✨ </em></span>
+          </div>
         </div>
       </div>
-      <div className="row g-5 g-xl-10 mb-5 mb-xl-10 align-items-stretch">
-        {challengeCards}
-      </div>
-    </div>
   )
 }
 export default ChallengeCards
