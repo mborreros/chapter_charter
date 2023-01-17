@@ -11,7 +11,7 @@ In Chapter Charter, users are given more freedom with how they choose to challen
 
 ## Demo
 
-[Interactive Demo](https://chapter-charter-app.onrender.com) availble 
+[Interactive Demo](https://chapter-charter-app.onrender.com) available 
 
 Full Demo (click to view video)
 
