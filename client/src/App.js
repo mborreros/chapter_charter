@@ -22,8 +22,6 @@ function App() {
 
     if (!response.ok) {
       if (response.status == 422) {
-        // console.log("within the 422 error handler")
-        // statusMessage = await response.json()
         throw await response.json()
       } else {
         toast.error("There was an error with the request \n" + statusMessage)
@@ -106,4 +104,3 @@ function App() {
 }
 
 export default App;
-// export { App, ThemeContext };

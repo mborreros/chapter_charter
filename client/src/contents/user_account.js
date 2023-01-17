@@ -40,7 +40,6 @@ function Account({ user, setUser, handleServerError }) {
     if (user) {
       resetFormValuesToUser(user)
     }
-    // eslint-disable-next-line
   }, [user])
 
   const [isAccountEditable, setIsAccountEditable] = useState(false)
